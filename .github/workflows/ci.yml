@@ -34,10 +34,10 @@ jobs:
         run: nci
 
       - name: Lint
-        run: nr -C packages/demo-lib lint
+        run: nr -C packages/objecs lint
 
       - name: Build
-        run: nr -C packages/demo-lib build
+        run: nr -C packages/objecs build
 
       - name: Test
-        run: nr -C packages/demo-lib test --run
+        run: nr -C packages/objecs test --run
