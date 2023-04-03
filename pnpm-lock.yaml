@@ -5,7 +5,7 @@ importers:
   packages/js-consumer:
     dependencies:
       objecs:
-        specifier: workspace:^0.1.0
+        specifier: workspace:^0.0.0
         version: link:../objecs
     devDependencies:
       '@types/mocha':
