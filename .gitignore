@@ -1,0 +1,8 @@
+.cache
+node_modules
+dist
+coverage
+*.log
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json

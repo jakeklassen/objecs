@@ -1,0 +1,72 @@
+{
+  "name": "objecs",
+  "version": "0.1.0",
+  "description": "ECS",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jakeklassen/objecs.git"
+  },
+  "scripts": {
+    "postdocs": "cp jekyll.config.yml docs/config.yml && touch docs/.nojekyll",
+    "lint": "eslint src --ext .js,.ts --config .eslintrc.cjs",
+    "prebuild": "npm run clean",
+    "build": "npm run lint && tsup src --format cjs,esm --dts-resolve",
+    "build:watch": "nodemon --exec 'npm run build || exit 1'",
+    "prepublishOnly": "nr build",
+    "release": "bumpp --commit --push --tag && pnpm publish",
+    "test": "vitest",
+    "pretest:coverage": "npm run clean",
+    "test:coverage": "vitest run --coverage",
+    "clean": "rimraf dist"
+  },
+  "author": "Jake Klassen <jklassendev@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "gamedev",
+    "ecs",
+    "entity component system",
+    "typescript"
+  ],
+  "devDependencies": {
+    "@antfu/ni": "0.21.2",
+    "@types/benchmark": "^2.1.2",
+    "@types/eslint": "^8.37.0",
+    "@types/node": "^18.15.11",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "benchmark": "^2.1.4",
+    "bumpp": "9.1.0",
+    "eslint": "^8.37.0",
+    "eslint-config-prettier": "^8.8.0",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.7",
+    "rimraf": "^4.4.1",
+    "typescript": "^5.0.3",
+    "vite": "4.2.1",
+    "vitest": "^0.29.8"
+  },
+  "dependencies": {
+    "tsup": "^6.7.0",
+    "type-fest": "3.7.2"
+  }
+}
