@@ -4,6 +4,8 @@ Object ECS.
 
 Checkout the demos [site] and [folder].
 
+The featured demo is the [shmup demo] (Cherry Bomb), a port of the [Lazy Devs](https://www.youtube.com/@LazyDevs) pico-8 game.
+
 ## Tools
 
 - [changelogithub]
@@ -28,4 +30,5 @@ Checkout the demos [site] and [folder].
 [conventional commits]: https://www.conventionalcommits.org/en/v1.0.0/
 [folder]: https://github.com/jakeklassen/objecs/tree/main/packages/examples/src/demos
 [miniplex]: https://www.npmjs.com/package/miniplex
+[shmup demo]: https://objecs.netlify.app/src/demos/shmup/
 [site]: https://objecs.netlify.app/
