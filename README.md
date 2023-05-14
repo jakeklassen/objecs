@@ -1,6 +1,8 @@
 # objECS
 
-Object ECS
+Object ECS.
+
+Checkout the [examples].
 
 ## Tools
 
@@ -24,4 +26,5 @@ Object ECS
 [bumpp]: https://www.npmjs.com/package/bumpp
 [changelogithub]: https://github.com/antfu/changelogithub
 [conventional commits]: https://www.conventionalcommits.org/en/v1.0.0/
+[examples]: https://github.com/jakeklassen/objecs/tree/main/packages/examples
 [miniplex]: https://www.npmjs.com/package/miniplex
