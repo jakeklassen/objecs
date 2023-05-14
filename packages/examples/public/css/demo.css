@@ -1,0 +1,37 @@
+html,
+body {
+  background-color: #1a1d21;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+#container {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#wrapper {
+  position: relative;
+  margin: auto;
+}
+
+#status {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1em;
+  /* common monospace font */
+  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  /* pleasing off white color */
+  color: #cacaca;
+  z-index: 2;
+}
+
+.hidden {
+  display: none;
+}

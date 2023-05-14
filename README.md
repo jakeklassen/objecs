@@ -17,6 +17,11 @@ Object ECS
 - When you're ready to publish, create a github release and the workflow will take over.
   - This will use [changelogithub] to generate a changelog and publish to NPM.
 
+## Kudos
+
+- [miniplex]
+
 [bumpp]: https://www.npmjs.com/package/bumpp
 [changelogithub]: https://github.com/antfu/changelogithub
 [conventional commits]: https://www.conventionalcommits.org/en/v1.0.0/
+[miniplex]: https://www.npmjs.com/package/miniplex

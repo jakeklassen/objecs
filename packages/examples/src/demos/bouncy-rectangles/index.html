@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demos - Bouncy Rectangles</title>
+
+    <script src="/js/feather.min.js" defer></script>
+    <link rel="stylesheet" href="/css/demo.css" />
+
+    <style>
+      canvas {
+        background-color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="status">
+        <a href="/"><span data-feather="home" id="home"></span></a>
+        <a
+          href="https://github.com/jakeklassen/objecs/tree/main/packages/examples/src/demos/bouncy-rectangles"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><span data-feather="code" id="code"></span
+        ></a>
+      </div>
+
+      <div id="wrapper">
+        <canvas id="canvas" width="640" height="480"></canvas>
+      </div>
+    </div>
+
+    <script src="/js/feather-init.js"></script>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

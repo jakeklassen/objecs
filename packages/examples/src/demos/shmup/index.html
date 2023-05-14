@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="https://fav.farm/🕹️" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A short wave Shmup" />
+    <title>Demos - Shmup (Cherry Bomb)</title>
+
+    <script src="/js/feather.min.js" defer></script>
+
+    <link rel="stylesheet" href="/css/demo.css" />
+
+    <style>
+      canvas {
+        background-color: black;
+        margin: auto;
+        padding: 0;
+        display: block;
+        image-rendering: pixelated;
+        transform: scale(4);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="status">
+        <a href="/"><span data-feather="home" id="home"></span></a>
+        <a
+          href="https://github.com/jakeklassen/objecs/tree/main/packages/examples/src/demos/shmup"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><span data-feather="code" id="code"></span
+        ></a>
+        <span data-feather="volume-x" class="hidden" id="sound-off"></span>
+        <span data-feather="volume-2" id="sound-on"></span>
+        <span data-feather="video" class="hidden" id="recording-on"></span>
+        <span data-feather="video-off" id="recording-off"></span>
+      </div>
+
+      <div id="wrapper">
+        <canvas id="canvas" width="128" height="128"></canvas>
+      </div>
+    </div>
+
+    <script src="/js/feather-init.js"></script>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
