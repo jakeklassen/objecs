@@ -2,7 +2,7 @@
 
 Object ECS.
 
-Checkout the [demos] folder.
+Checkout the demos [site] and [folder].
 
 ## Tools
 
@@ -26,5 +26,6 @@ Checkout the [demos] folder.
 [bumpp]: https://www.npmjs.com/package/bumpp
 [changelogithub]: https://github.com/antfu/changelogithub
 [conventional commits]: https://www.conventionalcommits.org/en/v1.0.0/
-[demos]: https://github.com/jakeklassen/objecs/tree/main/packages/examples/src/demos
+[folder]: https://github.com/jakeklassen/objecs/tree/main/packages/examples/src/demos
 [miniplex]: https://www.npmjs.com/package/miniplex
+[site]: https://objecs.netlify.app/
