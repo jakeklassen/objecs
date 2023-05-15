@@ -6,6 +6,8 @@ Checkout the demos [site] and [folder].
 
 The featured demo is the [shmup demo] (Cherry Bomb), a port of the [Lazy Devs](https://www.youtube.com/@LazyDevs) pico-8 game.
 
+[shmup-demo.webm](https://github.com/jakeklassen/objecs/assets/1383068/994302b7-7b98-4b46-b785-fd0fd183ffdc)
+
 ## Tools
 
 - [changelogithub]
