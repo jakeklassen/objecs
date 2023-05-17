@@ -18,7 +18,7 @@
   "dependencies": {
     "@tweakpane/core": "1.1.8",
     "color": "4.2.3",
-    "dot-path-value": "0.0.9",
+    "dot-path-value": "0.0.10",
     "fast-xml-parser": "4.2.2",
     "file-saver": "2.0.5",
     "gameinput": "0.0.8",
