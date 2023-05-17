@@ -36,8 +36,8 @@ export function playerPickupCollisionEventSystemFactory({
           track = 'extra-life';
           message = '1UP!';
         } else {
-          gameState.score += 500;
-          message = '500';
+          gameState.score += 5000;
+          message = '5000';
         }
       }
 
