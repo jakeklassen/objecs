@@ -9,6 +9,10 @@
       "path": "packages/objecs"
     },
     {
+      "name": "📦 ecs-benchmark",
+      "path": "packages/ecs-benchmark"
+    },
+    {
       "name": "📦 examples",
       "path": "packages/examples"
     }
