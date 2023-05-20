@@ -1,5 +1,5 @@
-import { Entity } from '../entity.ts';
+import { Entity } from "../entity.ts";
 
-export function ballTagFactory(): NonNullable<Entity['ballTag']> {
-  return true;
+export function ballTagFactory(): NonNullable<Entity["ballTag"]> {
+	return true;
 }

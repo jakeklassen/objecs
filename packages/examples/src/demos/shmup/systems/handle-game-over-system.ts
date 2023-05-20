@@ -1,27 +1,27 @@
-import { World } from 'objecs';
-import { Entity } from '../entity.ts';
-import { GameEvent } from '../game-events.ts';
-import { Scene } from '../scene.ts';
+import { World } from "objecs";
+import { Entity } from "../entity.ts";
+import { GameEvent } from "../game-events.ts";
+import { Scene } from "../scene.ts";
 
 export function handleGameOverSystemFactory({
-  scene,
-  world,
+	scene,
+	world,
 }: {
-  scene: Scene;
-  world: World<Entity>;
+	scene: Scene;
+	world: World<Entity>;
 }) {
-  const events = world.archetype('eventGameOver');
+	const events = world.archetype("eventGameOver");
 
-  return () => {
-    if (events.entities.size === 0) {
-      return;
-    }
+	return () => {
+		if (events.entities.size === 0) {
+			return;
+		}
 
-    // cleanup
-    for (const entity of events.entities) {
-      world.deleteEntity(entity);
-    }
+		// cleanup
+		for (const entity of events.entities) {
+			world.deleteEntity(entity);
+		}
 
-    scene.emit(GameEvent.GameOver);
-  };
+		scene.emit(GameEvent.GameOver);
+	};
 }

@@ -1,37 +1,40 @@
 {
-  "name": "examples",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "@types/color": "3.0.3",
-    "@types/file-saver": "2.0.5",
-    "@types/wicg-file-system-access": "2020.9.6",
-    "typescript": "5.0.4",
-    "vite": "^4.3.8"
-  },
-  "dependencies": {
-    "@tweakpane/core": "1.1.8",
-    "color": "4.2.3",
-    "dot-path-value": "0.0.10",
-    "fast-xml-parser": "4.2.2",
-    "file-saver": "2.0.5",
-    "gameinput": "0.0.8",
-    "jszip": "3.10.1",
-    "just-group-by": "2.2.0",
-    "just-random": "3.2.0",
-    "just-random-integer": "4.2.0",
-    "just-safe-get": "4.2.0",
-    "just-safe-set": "4.2.1",
-    "just-shuffle": "4.2.0",
-    "objecs": "workspace:*",
-    "sharp": "0.32.1",
-    "tweakpane": "3.1.9",
-    "type-fest": "3.10.0"
-  }
+	"name": "examples",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"lint": "prettier --check 'src/**/*.ts'",
+		"lint:fix": "prettier --write 'src/**/*.ts'",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@types/color": "3.0.3",
+		"@types/file-saver": "2.0.5",
+		"@types/wicg-file-system-access": "2020.9.6",
+		"prettier": "^2.8.8",
+		"typescript": "5.0.4",
+		"vite": "^4.3.8"
+	},
+	"dependencies": {
+		"@tweakpane/core": "1.1.8",
+		"color": "4.2.3",
+		"dot-path-value": "0.0.10",
+		"fast-xml-parser": "4.2.2",
+		"file-saver": "2.0.5",
+		"gameinput": "0.0.8",
+		"jszip": "3.10.1",
+		"just-group-by": "2.2.0",
+		"just-random": "3.2.0",
+		"just-random-integer": "4.2.0",
+		"just-safe-get": "4.2.0",
+		"just-safe-set": "4.2.1",
+		"just-shuffle": "4.2.0",
+		"objecs": "workspace:*",
+		"sharp": "0.32.1",
+		"tweakpane": "3.1.9",
+		"type-fest": "3.10.0"
+	}
 }

@@ -19,6 +19,7 @@
     "baseUrl": ".",
     "types": ["@types/wicg-file-system-access"],
     "allowImportingTsExtensions": true,
+    "noErrorTruncation": true,
     "paths": {
       "#/*": ["src/*"],
       "#/assets/*": ["assets/*"]

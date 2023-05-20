@@ -1,2 +1,2 @@
 export const rndFromList = <T>(list: T[]): T =>
-  list[Math.floor(Math.random() * list.length)];
+	list[Math.floor(Math.random() * list.length)];

@@ -1,46 +1,46 @@
-import { World } from 'objecs';
-import { Entity } from '../entity.ts';
+import { World } from "objecs";
+import { Entity } from "../entity.ts";
 
 export function spriteAnimationSystemFactory({
-  world,
+	world,
 }: {
-  world: World<Entity>;
+	world: World<Entity>;
 }) {
-  const spriteAnimatables = world.archetype('spriteAnimation', 'sprite');
+	const spriteAnimatables = world.archetype("spriteAnimation", "sprite");
 
-  return function spriteAnimationSystem(dt: number) {
-    for (const entity of spriteAnimatables.entities) {
-      const { spriteAnimation, sprite } = entity;
+	return function spriteAnimationSystem(dt: number) {
+		for (const entity of spriteAnimatables.entities) {
+			const { spriteAnimation, sprite } = entity;
 
-      if (spriteAnimation.finished && !spriteAnimation.loop) {
-        world.removeEntityComponents(entity, 'spriteAnimation');
+			if (spriteAnimation.finished && !spriteAnimation.loop) {
+				world.removeEntityComponents(entity, "spriteAnimation");
 
-        continue;
-      }
+				continue;
+			}
 
-      spriteAnimation.delta += dt;
+			spriteAnimation.delta += dt;
 
-      if (spriteAnimation.delta >= spriteAnimation.frameRate) {
-        spriteAnimation.delta = 0;
+			if (spriteAnimation.delta >= spriteAnimation.frameRate) {
+				spriteAnimation.delta = 0;
 
-        spriteAnimation.currentFrame =
-          (spriteAnimation.currentFrame + 1) %
-          spriteAnimation.frameSequence.length;
+				spriteAnimation.currentFrame =
+					(spriteAnimation.currentFrame + 1) %
+					spriteAnimation.frameSequence.length;
 
-        const frameIndex =
-          spriteAnimation.frameSequence[spriteAnimation.currentFrame];
+				const frameIndex =
+					spriteAnimation.frameSequence[spriteAnimation.currentFrame];
 
-        const frame = spriteAnimation.frames[frameIndex];
+				const frame = spriteAnimation.frames[frameIndex];
 
-        sprite.frame = frame;
+				sprite.frame = frame;
 
-        if (
-          spriteAnimation.currentFrame ===
-          spriteAnimation.frameSequence.length - 1
-        ) {
-          spriteAnimation.finished = true;
-        }
-      }
-    }
-  };
+				if (
+					spriteAnimation.currentFrame ===
+					spriteAnimation.frameSequence.length - 1
+				) {
+					spriteAnimation.finished = true;
+				}
+			}
+		}
+	};
 }

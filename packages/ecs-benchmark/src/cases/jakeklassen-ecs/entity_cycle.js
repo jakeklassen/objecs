@@ -3,45 +3,45 @@
 import { Component, World } from "@jakeklassen/ecs";
 
 class A extends Component {
-  a = 1;
+	a = 1;
 
-  constructor(a = 1) {
-    super();
+	constructor(a = 1) {
+		super();
 
-    this.a = a;
-  }
+		this.a = a;
+	}
 }
 
 class B extends Component {
-  b = 1;
+	b = 1;
 
-  constructor(b = 1) {
-    super();
+	constructor(b = 1) {
+		super();
 
-    this.b = b;
-  }
+		this.b = b;
+	}
 }
 
 /**
  * @param {number} count
  */
 export default (count) => {
-  const ecs = new World();
+	const ecs = new World();
 
-  for (let i = 0; i < count; i++) {
-    ecs.addEntityComponents(ecs.createEntity(), new A());
-  }
+	for (let i = 0; i < count; i++) {
+		ecs.addEntityComponents(ecs.createEntity(), new A());
+	}
 
-  const withA = ecs.view(A);
-  const withB = ecs.view(B);
+	const withA = ecs.view(A);
+	const withB = ecs.view(B);
 
-  return () => {
-    for (const [] of withA) {
-      ecs.addEntityComponents(ecs.createEntity(), new B());
-    }
+	return () => {
+		for (const [] of withA) {
+			ecs.addEntityComponents(ecs.createEntity(), new B());
+		}
 
-    for (const [entity] of withB) {
-      ecs.deleteEntity(entity);
-    }
-  };
+		for (const [entity] of withB) {
+			ecs.deleteEntity(entity);
+		}
+	};
 };

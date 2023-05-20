@@ -1,26 +1,26 @@
 import { World } from "picoes";
 
 function Box(value = 0) {
-  this.value = value;
+	this.value = value;
 }
 
 export default (count) => {
-  let world = new World();
+	let world = new World();
 
-  world.component("a", Box);
-  world.component("b", Box);
+	world.component("a", Box);
+	world.component("b", Box);
 
-  for (let i = 0; i < count; i++) {
-    world.entity().set("a", i);
-  }
+	for (let i = 0; i < count; i++) {
+		world.entity().set("a", i);
+	}
 
-  return () => {
-    world.each("a", (a) => {
-      world.entity().set("b", a.value);
-    });
+	return () => {
+		world.each("a", (a) => {
+			world.entity().set("b", a.value);
+		});
 
-    world.each("b", (_, entity) => {
-      entity.destroy();
-    });
-  };
+		world.each("b", (_, entity) => {
+			entity.destroy();
+		});
+	};
 };

@@ -1,43 +1,43 @@
-import { TextBuffer, TextBufferFont } from '#/lib/pixel-text/text-buffer.ts';
-import { World } from 'objecs';
-import { Entity } from '../entity.ts';
+import { TextBuffer, TextBufferFont } from "#/lib/pixel-text/text-buffer.ts";
+import { World } from "objecs";
+import { Entity } from "../entity.ts";
 
 export function textSystemFactory({
-  fontCache,
-  textCache,
-  world,
+	fontCache,
+	textCache,
+	world,
 }: {
-  fontCache: Map<string, TextBufferFont>;
-  textCache: Map<Entity, TextBuffer>;
-  world: World<Entity>;
+	fontCache: Map<string, TextBufferFont>;
+	textCache: Map<Entity, TextBuffer>;
+	world: World<Entity>;
 }) {
-  const entities = world.archetype('text', 'transform');
+	const entities = world.archetype("text", "transform");
 
-  return function textSystem() {
-    for (const entity of entities.entities) {
-      const { text, transform } = entity;
+	return function textSystem() {
+		for (const entity of entities.entities) {
+			const { text, transform } = entity;
 
-      // Register this text entity if it hasn't been registered yet
-      if (!textCache.has(entity)) {
-        const font = fontCache.get(text.font);
+			// Register this text entity if it hasn't been registered yet
+			if (!textCache.has(entity)) {
+				const font = fontCache.get(text.font);
 
-        if (font == null) {
-          throw new Error(`Font ${text.font} not found`);
-        }
+				if (font == null) {
+					throw new Error(`Font ${text.font} not found`);
+				}
 
-        const textBuffer = new TextBuffer({
-          color: text.color,
-          font,
-          text: text.message,
-        });
+				const textBuffer = new TextBuffer({
+					color: text.color,
+					font,
+					text: text.message,
+				});
 
-        if (text.align === 'center') {
-          transform.position.x =
-            transform.position.x - textBuffer.renderable.width / 2;
-        }
+				if (text.align === "center") {
+					transform.position.x =
+						transform.position.x - textBuffer.renderable.width / 2;
+				}
 
-        textCache.set(entity, textBuffer);
-      }
-    }
-  };
+				textCache.set(entity, textBuffer);
+			}
+		}
+	};
 }

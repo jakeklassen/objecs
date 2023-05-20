@@ -1,28 +1,28 @@
-import { obtainCanvasAndContext2d } from '#/lib/dom';
-import pico8FontImageUrl from './assets/font/pico-8_regular_5.png';
-import pico8FontXmlUrl from './assets/font/pico-8_regular_5.xml?url';
-import '../../style.css';
-import { loadFont } from '#/lib/pixel-text/load-font.ts';
-import { Renderer } from '#/lib/pixel-text/renderer.ts';
-import { TextBuffer } from '#/lib/pixel-text/text-buffer.ts';
+import { obtainCanvasAndContext2d } from "#/lib/dom";
+import pico8FontImageUrl from "./assets/font/pico-8_regular_5.png";
+import pico8FontXmlUrl from "./assets/font/pico-8_regular_5.xml?url";
+import "../../style.css";
+import { loadFont } from "#/lib/pixel-text/load-font.ts";
+import { Renderer } from "#/lib/pixel-text/renderer.ts";
+import { TextBuffer } from "#/lib/pixel-text/text-buffer.ts";
 
-const { canvas, context } = obtainCanvasAndContext2d('#canvas');
+const { canvas, context } = obtainCanvasAndContext2d("#canvas");
 
 context.imageSmoothingEnabled = false;
 
 const picoFont = await loadFont(pico8FontImageUrl, pico8FontXmlUrl);
 const textRenderer = new Renderer({
-  font: picoFont,
-  canvas,
+	font: picoFont,
+	canvas,
 });
 
 const textElement = new TextBuffer({
-  font: picoFont,
-  text: 'sup',
+	font: picoFont,
+	text: "sup",
 });
 
-textElement.updateText('sup', {
-  color: 'green',
+textElement.updateText("sup", {
+	color: "green",
 });
 
 const TARGET_FPS = 60;
@@ -34,23 +34,23 @@ let deltaTimeAccumulator = 0;
  * The game loop.
  */
 const frame = (hrt: DOMHighResTimeStamp) => {
-  context.clearRect(0, 0, canvas.width, canvas.height);
+	context.clearRect(0, 0, canvas.width, canvas.height);
 
-  deltaTimeAccumulator += Math.min(1000, hrt - last);
+	deltaTimeAccumulator += Math.min(1000, hrt - last);
 
-  while (deltaTimeAccumulator >= STEP) {
-    deltaTimeAccumulator -= STEP;
-  }
+	while (deltaTimeAccumulator >= STEP) {
+		deltaTimeAccumulator -= STEP;
+	}
 
-  // textRenderer.draw(0, 0, 'Hello, world!');
-  textRenderer.draw(0, 10, 'Score: 1231', { color: '#FFA300' });
+	// textRenderer.draw(0, 0, 'Hello, world!');
+	textRenderer.draw(0, 10, "Score: 1231", { color: "#FFA300" });
 
-  textElement.updateText(`HRT: ${hrt}`);
-  context.drawImage(textElement.renderable, 0, 0);
+	textElement.updateText(`HRT: ${hrt}`);
+	context.drawImage(textElement.renderable, 0, 0);
 
-  last = hrt;
+	last = hrt;
 
-  requestAnimationFrame(frame);
+	requestAnimationFrame(frame);
 };
 
 // Start the game loop.

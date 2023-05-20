@@ -1,52 +1,52 @@
-import { World } from 'objecs';
-import { Entity } from '../entity.ts';
+import { World } from "objecs";
+import { Entity } from "../entity.ts";
 
 type BoundToViewportSystemFactoryOptions = {
-  viewport: { width: number; height: number };
-  world: World<Entity>;
+	viewport: { width: number; height: number };
+	world: World<Entity>;
 };
 
 /**
  * Factory for system that keeps entities within the viewport.
  */
 export function boundToViewportSystemFactory({
-  viewport,
-  world,
+	viewport,
+	world,
 }: BoundToViewportSystemFactoryOptions) {
-  const boundToViewport = world.archetype(
-    'boundToViewport',
-    'boxCollider',
-    'transform',
-  );
+	const boundToViewport = world.archetype(
+		"boundToViewport",
+		"boxCollider",
+		"transform",
+	);
 
-  /**
-   * This system keeps entities within the viewport.
-   */
-  return function boundToViewportSystem() {
-    for (const entity of boundToViewport.entities) {
-      if (
-        entity.transform.position.x + entity.boxCollider.offsetX >
-        viewport.width - entity.boxCollider.width
-      ) {
-        entity.transform.position.x =
-          viewport.width -
-          entity.boxCollider.width -
-          entity.boxCollider.offsetX;
-      } else if (entity.transform.position.x + entity.boxCollider.offsetX < 0) {
-        entity.transform.position.x = -entity.boxCollider.offsetX;
-      }
+	/**
+	 * This system keeps entities within the viewport.
+	 */
+	return function boundToViewportSystem() {
+		for (const entity of boundToViewport.entities) {
+			if (
+				entity.transform.position.x + entity.boxCollider.offsetX >
+				viewport.width - entity.boxCollider.width
+			) {
+				entity.transform.position.x =
+					viewport.width -
+					entity.boxCollider.width -
+					entity.boxCollider.offsetX;
+			} else if (entity.transform.position.x + entity.boxCollider.offsetX < 0) {
+				entity.transform.position.x = -entity.boxCollider.offsetX;
+			}
 
-      if (
-        entity.transform.position.y + entity.boxCollider.offsetY >
-        viewport.height - entity.boxCollider.height
-      ) {
-        entity.transform.position.y =
-          viewport.height -
-          entity.boxCollider.height -
-          entity.boxCollider.offsetY;
-      } else if (entity.transform.position.y + entity.boxCollider.offsetY < 0) {
-        entity.transform.position.y = -entity.boxCollider.offsetY;
-      }
-    }
-  };
+			if (
+				entity.transform.position.y + entity.boxCollider.offsetY >
+				viewport.height - entity.boxCollider.height
+			) {
+				entity.transform.position.y =
+					viewport.height -
+					entity.boxCollider.height -
+					entity.boxCollider.offsetY;
+			} else if (entity.transform.position.y + entity.boxCollider.offsetY < 0) {
+				entity.transform.position.y = -entity.boxCollider.offsetY;
+			}
+		}
+	};
 }

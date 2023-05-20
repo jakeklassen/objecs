@@ -1,11 +1,11 @@
 import { WorldImpl, instantiate } from "goodluck";
 
 class World extends WorldImpl {
-  A = [];
-  B = [];
-  C = [];
-  D = [];
-  E = [];
+	A = [];
+	B = [];
+	C = [];
+	D = [];
+	E = [];
 }
 
 const HAS_A = 1 << 0;
@@ -15,107 +15,107 @@ const HAS_D = 1 << 3;
 const HAS_E = 1 << 4;
 
 class A {
-  constructor(value) {
-    this.value = value;
-  }
+	constructor(value) {
+		this.value = value;
+	}
 }
 
 class B {
-  constructor(value) {
-    this.value = value;
-  }
+	constructor(value) {
+		this.value = value;
+	}
 }
 
 class C {
-  constructor(value) {
-    this.value = value;
-  }
+	constructor(value) {
+		this.value = value;
+	}
 }
 
 class D {
-  constructor(value) {
-    this.value = value;
-  }
+	constructor(value) {
+		this.value = value;
+	}
 }
 
 class E {
-  constructor(value) {
-    this.value = value;
-  }
+	constructor(value) {
+		this.value = value;
+	}
 }
 
 function a(value) {
-  return (world, entity) => {
-    world.Signature[entity] |= HAS_A;
-    world.A[entity] = new A(value);
-  };
+	return (world, entity) => {
+		world.Signature[entity] |= HAS_A;
+		world.A[entity] = new A(value);
+	};
 }
 
 function b(value) {
-  return (world, entity) => {
-    world.Signature[entity] |= HAS_B;
-    world.B[entity] = new B(value);
-  };
+	return (world, entity) => {
+		world.Signature[entity] |= HAS_B;
+		world.B[entity] = new B(value);
+	};
 }
 
 function c(value) {
-  return (world, entity) => {
-    world.Signature[entity] |= HAS_C;
-    world.C[entity] = new C(value);
-  };
+	return (world, entity) => {
+		world.Signature[entity] |= HAS_C;
+		world.C[entity] = new C(value);
+	};
 }
 
 function d(value) {
-  return (world, entity) => {
-    world.Signature[entity] |= HAS_D;
-    world.D[entity] = new D(value);
-  };
+	return (world, entity) => {
+		world.Signature[entity] |= HAS_D;
+		world.D[entity] = new D(value);
+	};
 }
 
 function e(value) {
-  return (world, entity) => {
-    world.Signature[entity] |= HAS_E;
-    world.E[entity] = new E(value);
-  };
+	return (world, entity) => {
+		world.Signature[entity] |= HAS_E;
+		world.E[entity] = new E(value);
+	};
 }
 
 export default (count) => {
-  let world = new World();
+	let world = new World();
 
-  for (let i = 0; i < count; i++) {
-    instantiate(world, [a(0), b(1)]);
-    instantiate(world, [a(0), b(1), c(2)]);
-    instantiate(world, [a(0), b(1), c(2), d(3)]);
-    instantiate(world, [a(0), b(1), c(2), e(4)]);
-  }
+	for (let i = 0; i < count; i++) {
+		instantiate(world, [a(0), b(1)]);
+		instantiate(world, [a(0), b(1), c(2)]);
+		instantiate(world, [a(0), b(1), c(2), d(3)]);
+		instantiate(world, [a(0), b(1), c(2), e(4)]);
+	}
 
-  const QUERY_AB = HAS_A | HAS_B;
-  const QUERY_CD = HAS_C | HAS_D;
-  const QUERY_CE = HAS_C | HAS_E;
+	const QUERY_AB = HAS_A | HAS_B;
+	const QUERY_CD = HAS_C | HAS_D;
+	const QUERY_CE = HAS_C | HAS_E;
 
-  return () => {
-    for (let i = 0; i < world.Signature.length; i++) {
-      if ((world.Signature[i] & QUERY_AB) === QUERY_AB) {
-        let x = world.A[i].value;
-        world.A[i].value = world.B[i].value;
-        world.B[i].value = x;
-      }
-    }
+	return () => {
+		for (let i = 0; i < world.Signature.length; i++) {
+			if ((world.Signature[i] & QUERY_AB) === QUERY_AB) {
+				let x = world.A[i].value;
+				world.A[i].value = world.B[i].value;
+				world.B[i].value = x;
+			}
+		}
 
-    for (let i = 0; i < world.Signature.length; i++) {
-      if ((world.Signature[i] & QUERY_CD) === QUERY_CD) {
-        let x = world.C[i].value;
-        world.C[i].value = world.D[i].value;
-        world.D[i].value = x;
-      }
-    }
+		for (let i = 0; i < world.Signature.length; i++) {
+			if ((world.Signature[i] & QUERY_CD) === QUERY_CD) {
+				let x = world.C[i].value;
+				world.C[i].value = world.D[i].value;
+				world.D[i].value = x;
+			}
+		}
 
-    for (let i = 0; i < world.Signature.length; i++) {
-      if ((world.Signature[i] & QUERY_CE) === QUERY_CE) {
-        let x = world.C[i].value;
-        world.C[i].value = world.E[i].value;
-        world.E[i].value = x;
-      }
-    }
-  };
+		for (let i = 0; i < world.Signature.length; i++) {
+			if ((world.Signature[i] & QUERY_CE) === QUERY_CE) {
+				let x = world.C[i].value;
+				world.C[i].value = world.E[i].value;
+				world.E[i].value = x;
+			}
+		}
+	};
 };

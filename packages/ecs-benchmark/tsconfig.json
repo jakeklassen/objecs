@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": [],
+    "allowJs": true,
+    "checkJs": true,
+    "module": "NodeNext",
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": ["src/cases/objecs/**/*.js", "src/bench.js", "src/bench_worker.js"]
+}

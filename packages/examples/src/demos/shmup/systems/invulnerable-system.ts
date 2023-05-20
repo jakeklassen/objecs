@@ -1,18 +1,18 @@
-import { World } from 'objecs';
-import { Entity } from '../entity.ts';
+import { World } from "objecs";
+import { Entity } from "../entity.ts";
 
 export function invulnerableSystemFactory({ world }: { world: World<Entity> }) {
-  const invulnerables = world.archetype('invulnerable');
+	const invulnerables = world.archetype("invulnerable");
 
-  return function invulnerableSystem(dt: number) {
-    for (const entity of invulnerables.entities) {
-      const { invulnerable } = entity;
+	return function invulnerableSystem(dt: number) {
+		for (const entity of invulnerables.entities) {
+			const { invulnerable } = entity;
 
-      invulnerable.elapsedMs += dt * 1000;
+			invulnerable.elapsedMs += dt * 1000;
 
-      if (invulnerable.elapsedMs >= invulnerable.durationMs) {
-        world.removeEntityComponents(entity, 'invulnerable');
-      }
-    }
-  };
+			if (invulnerable.elapsedMs >= invulnerable.durationMs) {
+				world.removeEntityComponents(entity, "invulnerable");
+			}
+		}
+	};
 }

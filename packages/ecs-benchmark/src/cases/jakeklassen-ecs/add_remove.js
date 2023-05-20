@@ -2,42 +2,42 @@
 import { Component, World } from "@jakeklassen/ecs";
 
 class A extends Component {
-  a = true;
+	a = true;
 
-  constructor(a = true) {
-    super();
+	constructor(a = true) {
+		super();
 
-    this.a = a;
-  }
+		this.a = a;
+	}
 }
 
 class B extends Component {
-  b = true;
+	b = true;
 
-  constructor(b = true) {
-    super();
+	constructor(b = true) {
+		super();
 
-    this.b = b;
-  }
+		this.b = b;
+	}
 }
 
 /**
  * @param {number} count
  */
 export default async (count) => {
-  const ecs = new World();
+	const ecs = new World();
 
-  for (let i = 0; i < count; i++) {
-    ecs.addEntityComponents(ecs.createEntity(), new A());
-  }
+	for (let i = 0; i < count; i++) {
+		ecs.addEntityComponents(ecs.createEntity(), new A());
+	}
 
-  return () => {
-    for (const [entity] of ecs.entities) {
-      ecs.addEntityComponents(entity, new B());
-    }
+	return () => {
+		for (const [entity] of ecs.entities) {
+			ecs.addEntityComponents(entity, new B());
+		}
 
-    for (const [entity] of ecs.entities) {
-      ecs.removeEntityComponents(entity, B);
-    }
-  };
+		for (const [entity] of ecs.entities) {
+			ecs.removeEntityComponents(entity, B);
+		}
+	};
 };

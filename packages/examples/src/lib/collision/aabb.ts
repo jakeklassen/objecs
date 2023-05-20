@@ -1,12 +1,12 @@
 type Vector2d = {
-  x: number;
-  y: number;
+	x: number;
+	y: number;
 };
 
 type AABB = {
-  position: Vector2d;
-  width: number;
-  height: number;
+	position: Vector2d;
+	width: number;
+	height: number;
 };
 
 /**
@@ -34,7 +34,7 @@ export const aabbBottom = (aabb: AABB) => aabb.position.y + aabb.height;
  * https://developer.mozilla.org/kab/docs/Games/Techniques/2D_collision_detection
  */
 export const intersects = (aabb1: AABB, aabb2: AABB) =>
-  aabbLeft(aabb1) < aabbRight(aabb2) &&
-  aabbRight(aabb1) > aabbLeft(aabb2) &&
-  aabbTop(aabb1) < aabbBottom(aabb2) &&
-  aabbBottom(aabb1) > aabbTop(aabb2);
+	aabbLeft(aabb1) < aabbRight(aabb2) &&
+	aabbRight(aabb1) > aabbLeft(aabb2) &&
+	aabbTop(aabb1) < aabbBottom(aabb2) &&
+	aabbBottom(aabb1) > aabbTop(aabb2);

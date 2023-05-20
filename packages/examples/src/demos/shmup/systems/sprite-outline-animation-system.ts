@@ -1,34 +1,34 @@
-import { World } from 'objecs';
-import { Entity } from '../entity.ts';
+import { World } from "objecs";
+import { Entity } from "../entity.ts";
 
 export function spriteOutlineAnimationSystemFactory({
-  world,
+	world,
 }: {
-  world: World<Entity>;
+	world: World<Entity>;
 }) {
-  const entities = world.archetype('spriteOutline', 'spriteOutlineAnimation');
+	const entities = world.archetype("spriteOutline", "spriteOutlineAnimation");
 
-  return function spriteOutlineAnimationSystem(dt: number) {
-    for (const entity of entities.entities) {
-      const { spriteOutline, spriteOutlineAnimation } = entity;
+	return function spriteOutlineAnimationSystem(dt: number) {
+		for (const entity of entities.entities) {
+			const { spriteOutline, spriteOutlineAnimation } = entity;
 
-      spriteOutlineAnimation.delta += dt;
+			spriteOutlineAnimation.delta += dt;
 
-      if (spriteOutlineAnimation.delta >= spriteOutlineAnimation.frameRate) {
-        spriteOutlineAnimation.delta = 0;
-        spriteOutlineAnimation.currentColorIndex =
-          (spriteOutlineAnimation.currentColorIndex + 1) %
-          spriteOutlineAnimation.colorSequence.length;
-      }
+			if (spriteOutlineAnimation.delta >= spriteOutlineAnimation.frameRate) {
+				spriteOutlineAnimation.delta = 0;
+				spriteOutlineAnimation.currentColorIndex =
+					(spriteOutlineAnimation.currentColorIndex + 1) %
+					spriteOutlineAnimation.colorSequence.length;
+			}
 
-      spriteOutlineAnimation.color =
-        spriteOutlineAnimation.colors[
-          spriteOutlineAnimation.colorSequence[
-            spriteOutlineAnimation.currentColorIndex
-          ]
-        ];
+			spriteOutlineAnimation.color =
+				spriteOutlineAnimation.colors[
+					spriteOutlineAnimation.colorSequence[
+						spriteOutlineAnimation.currentColorIndex
+					]
+				];
 
-      spriteOutline.color = spriteOutlineAnimation.color;
-    }
-  };
+			spriteOutline.color = spriteOutlineAnimation.color;
+		}
+	};
 }

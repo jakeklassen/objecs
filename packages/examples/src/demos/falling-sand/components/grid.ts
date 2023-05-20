@@ -1,13 +1,13 @@
-import { Entity } from '../entity.ts';
+import { Entity } from "../entity.ts";
 
 export function gridFactory(
-  width: number,
-  height: number,
-  entityGrid: Entity[],
+	width: number,
+	height: number,
+	entityGrid: Entity[],
 ) {
-  return {
-    width,
-    height,
-    entities: entityGrid,
-  };
+	return {
+		width,
+		height,
+		entities: entityGrid,
+	};
 }

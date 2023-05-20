@@ -1,11 +1,11 @@
 export function gameOverRenderingSystemFactory({
-  context,
-  imageData,
+	context,
+	imageData,
 }: {
-  context: CanvasRenderingContext2D;
-  imageData: ImageData;
+	context: CanvasRenderingContext2D;
+	imageData: ImageData;
 }) {
-  return function gameOverRenderingSystem() {
-    context.putImageData(imageData, 0, 0);
-  };
+	return function gameOverRenderingSystem() {
+		context.putImageData(imageData, 0, 0);
+	};
 }

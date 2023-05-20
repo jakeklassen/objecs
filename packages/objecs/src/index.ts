@@ -1,1 +1,1 @@
-export * from './world.js';
+export * from "./world.js";

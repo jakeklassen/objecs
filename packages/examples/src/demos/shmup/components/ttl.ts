@@ -1,12 +1,12 @@
-import { SetRequired } from 'type-fest';
-import { Entity } from '../entity.ts';
+import { SetRequired } from "type-fest";
+import { Entity } from "../entity.ts";
 
 export function ttlFactory(
-  opts: SetRequired<Partial<NonNullable<Entity['ttl']>>, 'durationMs'>,
-): NonNullable<Entity['ttl']> {
-  return {
-    durationMs: opts.durationMs,
-    elapsedMs: opts.elapsedMs ?? 0,
-    onComplete: opts.onComplete ?? 'entity:destroy',
-  };
+	opts: SetRequired<Partial<NonNullable<Entity["ttl"]>>, "durationMs">,
+): NonNullable<Entity["ttl"]> {
+	return {
+		durationMs: opts.durationMs,
+		elapsedMs: opts.elapsedMs ?? 0,
+		onComplete: opts.onComplete ?? "entity:destroy",
+	};
 }

@@ -1,18 +1,18 @@
-import { SetRequired } from 'type-fest';
-import { Entity } from '../entity.ts';
+import { SetRequired } from "type-fest";
+import { Entity } from "../entity.ts";
 
 export function assertEnityHas<T extends Entity>(
-  entity: T,
-  ...components: Array<keyof T>
+	entity: T,
+	...components: Array<keyof T>
 ): entity is SetRequired<T, (typeof components)[number]> {
-  return components.every((component) => component in entity);
+	return components.every((component) => component in entity);
 }
 
 export function assertEnityHasOrThrow<T extends Entity>(
-  entity: T,
-  ...components: Array<keyof T>
+	entity: T,
+	...components: Array<keyof T>
 ): asserts entity is SetRequired<T, (typeof components)[number]> {
-  if (!assertEnityHas(entity, ...components)) {
-    throw new Error(`Entity is missing components: ${components.join(', ')}`);
-  }
+	if (!assertEnityHas(entity, ...components)) {
+		throw new Error(`Entity is missing components: ${components.join(", ")}`);
+	}
 }

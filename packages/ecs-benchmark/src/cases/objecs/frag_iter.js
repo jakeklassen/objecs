@@ -1,31 +1,36 @@
-// @ts-check
 import { World } from "objecs";
+
+/**
+ * @typedef {Object} Entity
+ * @property {number} [Z]
+ * @property {number} [Data]
+ */
 
 /**
  * @param {number} count
  */
 export default (count) => {
-  /**
-   * @type {World<{ Z?: number, Data?: number }>}
-   */
-  const ecs = new World();
+	/**
+	 * @type {World<Entity>}
+	 */
+	const ecs = new World();
 
-  Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ").forEach((component) => {
-    for (let i = 0; i < count; i++) {
-      ecs.createEntity({ [component]: 1, Data: 1 });
-    }
-  });
+	Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ").forEach((component) => {
+		for (let i = 0; i < count; i++) {
+			ecs.createEntity({ [component]: 1, Data: 1 });
+		}
+	});
 
-  const withZ = ecs.archetype("Z");
-  const withData = ecs.archetype("Data");
+	const withZ = ecs.archetype("Z");
+	const withData = ecs.archetype("Data");
 
-  return () => {
-    for (const entity of withZ.entities) {
-      entity.Z *= 2;
-    }
+	return () => {
+		for (const entity of withZ.entities) {
+			entity.Z *= 2;
+		}
 
-    for (const entity of withData.entities) {
-      entity.Data *= 2;
-    }
-  };
+		for (const entity of withData.entities) {
+			entity.Data *= 2;
+		}
+	};
 };
