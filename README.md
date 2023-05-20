@@ -8,6 +8,10 @@ The featured demo is the [shmup demo] (Cherry Bomb), a port of the [Lazy Devs](h
 
 [shmup-demo.webm](https://github.com/jakeklassen/objecs/assets/1383068/994302b7-7b98-4b46-b785-fd0fd183ffdc)
 
+## Benchmarks
+
+You can run some benchmarks by running `pnpm --filter ecs-benchmark start`.
+
 ## Tools
 
 - [changelogithub]

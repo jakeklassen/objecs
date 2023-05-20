@@ -1,4 +1,5 @@
 {
+	"name": "ecs-benchmark",
 	"private": true,
 	"type": "module",
 	"scripts": {

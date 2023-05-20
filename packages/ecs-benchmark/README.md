@@ -1,5 +1,7 @@
 # ECS benchmark comparison
 
+> Local fork of https://github.com/noctjs/ecs-benchmark
+
 A suite of benchmarks designed to test and compare JavaScript ECS library performance across a variety of challenging circumstances.
 
 **SoA implementations**
