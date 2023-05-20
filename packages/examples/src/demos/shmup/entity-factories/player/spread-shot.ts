@@ -13,12 +13,14 @@ import { SpriteSheet } from "../../spritesheet.ts";
 export function spreadShot({
 	count,
 	player,
+	playerThruster,
 	speed,
 	world,
 }: {
 	count: number;
-	speed: number;
 	player: SetRequired<Entity, "tagPlayer" | "transform">;
+	playerThruster: SetRequired<Entity, "tagPlayerThruster">;
+	speed: number;
 	world: World<Entity>;
 }) {
 	// Spawn two muzzle flashes for a slightly better centered look
@@ -121,6 +123,14 @@ export function spreadShot({
 		elapsedMs: 0,
 	});
 
+	// Flash thruster sprite
+	world.addEntityComponents(playerThruster, "flash", {
+		alpha: 1,
+		color: Pico8Colors.Color7,
+		durationMs: 100,
+		elapsedMs: 0,
+	});
+
 	// Invulnerability
 	world.addEntityComponents(player, "invulnerable", {
 		durationMs: 1000,
@@ -129,6 +139,18 @@ export function spreadShot({
 
 	world.addEntityComponents(player, "tweens", [
 		...(player.tweens ?? []),
+		tweenFactory("sprite.opacity", {
+			duration: 100,
+			easing: Easing.Linear,
+			from: 1,
+			to: 0,
+			maxIterations: 10,
+			yoyo: true,
+		}),
+	]);
+
+	world.addEntityComponents(playerThruster, "tweens", [
+		...(playerThruster.tweens ?? []),
 		tweenFactory("sprite.opacity", {
 			duration: 100,
 			easing: Easing.Linear,
