@@ -2,7 +2,7 @@ import { World } from "objecs";
 import { Entity } from "../entity.js";
 
 /**
- * Move entities relative to their parent.
+ * Position entities relative to their parent.
  */
 export function localTransformSystemFactory({
 	world,
