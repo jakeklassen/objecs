@@ -2,6 +2,7 @@ import { AudioManager } from "#/lib/audio-manager.ts";
 import { Easing } from "#/lib/tween.ts";
 import { Path, PathValue } from "dot-path-value";
 import { Config } from "./config.ts";
+import { SetRequired } from "type-fest";
 
 type AnimationDetails = {
 	name: string;
@@ -280,6 +281,7 @@ export type Entity = {
 		durationMs: number;
 		elapsedMs: number;
 	};
+	localTransform?: Transform;
 	muzzleFlash?: {
 		color: string;
 		durationMs: number;
@@ -287,6 +289,7 @@ export type Entity = {
 		initialSize: number;
 		size: number;
 	};
+	parent?: SetRequired<Entity, "transform">;
 	particle?: Particle;
 	shockwave?: Shockwave;
 	sprite?: Sprite;
@@ -329,9 +332,6 @@ export type Entity = {
 		message: string;
 	};
 	textBlinkAnimation?: TextBlinkAnimation;
-	trackPlayer?: {
-		offset?: Vector2d;
-	};
 	transform?: Transform;
 	tweens?: Tweens[];
 	velocity?: Vector2d;

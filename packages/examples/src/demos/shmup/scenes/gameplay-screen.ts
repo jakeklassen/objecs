@@ -53,7 +53,7 @@ import { textRenderingSystemFactory } from "../systems/text-rendering-system.ts"
 import { textSystemFactory } from "../systems/text-system.ts";
 import { timeToLiveSystemFactory } from "../systems/time-to-live-system.ts";
 import { timerSystemFactory } from "../systems/timer-system.ts";
-import { trackPlayerSystemFactory } from "../systems/track-player-system.ts";
+import { localTransformSystemFactory } from "../systems/local-transform-system.ts";
 import { triggerEnemyAttackEventSystemFactory } from "../systems/trigger-enemy-attack-event-system.ts";
 import { triggerEnemyFireEventSystemFactory } from "../systems/trigger-enemy-fire-event-system.ts";
 import { triggerGameOverSystemFactory } from "../systems/trigger-game-over-system.ts";
@@ -152,7 +152,7 @@ export class GameplayScreen extends Scene {
 			movementSystemFactory({ world: this.world }),
 			particleSystemFactory({ world: this.world }),
 			shockwaveSystemFactory({ world: this.world }),
-			trackPlayerSystemFactory({ world: this.world }),
+			localTransformSystemFactory({ world: this.world }),
 			boundToViewportSystemFactory({
 				world: this.world,
 				viewport: {
@@ -332,12 +332,13 @@ export class GameplayScreen extends Scene {
 
 		// Player thruster
 		this.world.createEntity({
-			trackPlayer: {
-				offset: {
+			localTransform: transformFactory({
+				position: {
 					x: 0,
 					y: SpriteSheet.player.idle.height,
 				},
-			},
+			}),
+			parent: player,
 			transform: {
 				position: {
 					x: player.transform.position.x,
