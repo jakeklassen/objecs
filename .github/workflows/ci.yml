@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node: ['18.x', '20.x']
+        node: ['16.x', '18.x', '20.x']
         os: [ubuntu-latest]
 
     steps:
@@ -26,18 +26,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-
-      - name: Setup
-        run: npm i -g @antfu/ni
+      
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 8.6.0
 
       - name: Install
-        run: nci
+        run: pnpm i
 
       - name: Lint
-        run: nr -C packages/objecs lint
+        run: pnpm --filter objecs lint
 
       - name: Build
-        run: nr -C packages/objecs build
+        run: pnpm --filter objecs build
 
       - name: Test
-        run: nr -C packages/objecs test --run
+        run: pnpm --filter objecs test --run
