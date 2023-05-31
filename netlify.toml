@@ -1,4 +1,4 @@
 [build]
   publish = "packages/examples/dist"
 
-  command = "pnpm --version; pnpm install && pnpm --filter objecs build && pnpm --filter examples build"
+  command = "pnpm --version; pnpm install --no-frozen-lockfile && pnpm --filter objecs build && pnpm --filter examples build"
