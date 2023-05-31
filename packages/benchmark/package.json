@@ -1,0 +1,28 @@
+{
+	"name": "benchmark",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"lint": "prettier --check 'src/**/*.ts'",
+		"lint:fix": "prettier --write 'src/**/*.ts'",
+		"start": "tsx src/bench.ts"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/benchmark": "^2.1.2",
+		"@types/node": "^20.2.5",
+		"tsx": "^3.12.7",
+		"typescript": "5.0.4"
+	},
+	"dependencies": {
+		"@thi.ng/bench": "3.2.11",
+		"benchmark": "^2.1.4",
+		"miniplex": "1.0.0",
+		"objecs": "workspace:*",
+		"type-fest": "3.11.1"
+	}
+}
