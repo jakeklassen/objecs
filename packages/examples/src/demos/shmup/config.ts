@@ -15,7 +15,7 @@ export const config = {
 				startingHealth: 3,
 			},
 			redFlameGuy: {
-				id: 1,
+				id: 2,
 				score: 200,
 				startingHealth: 2,
 			},
