@@ -1,4 +1,5 @@
 import { loadImage } from "#/lib/asset-loader.ts";
+import { fillCircle } from "#/lib/canvas.ts";
 import { obtainCanvas2dContext } from "#/lib/dom.ts";
 import { rnd } from "#/lib/math.ts";
 import { World } from "objecs";
@@ -774,5 +775,69 @@ export class Content {
 		window.open(blobUrl, "_blank");
 
 		return explosionSheets;
+	}
+
+	public static generateParticleSpriteSheet(maxRadius = 32) {
+		const canvas = document.createElement("canvas");
+		const context = obtainCanvas2dContext(canvas);
+
+		canvas.width = Array.from({ length: maxRadius }, (_, i) => i + 1).reduce(
+			(_acc, r) => r ** 2,
+			0,
+		);
+		canvas.height = 128;
+		context.imageSmoothingEnabled = false;
+
+		for (let r = 1; r < maxRadius; r++) {
+			fillCircle(context, r + r ** 2, canvas.height / 2, r, "#ffffff");
+		}
+
+		// Prep for popup
+		const outputCanvas = document.createElement("canvas");
+		const outputContext = obtainCanvas2dContext(outputCanvas);
+
+		outputCanvas.width = canvas.width;
+		outputCanvas.height = canvas.height;
+		outputContext.imageSmoothingEnabled = false;
+
+		outputContext.clearRect(0, 0, outputCanvas.width, outputCanvas.height);
+		// outputContext.fillStyle = Pico8Colors.Color0;
+		// outputContext.fillRect(0, 0, outputCanvas.width, outputCanvas.height);
+
+		outputContext.drawImage(
+			canvas,
+			0,
+			0,
+			canvas.width,
+			canvas.height,
+			0,
+			0,
+			canvas.width,
+			canvas.height,
+		);
+
+		const contentType = "image/png";
+
+		const byteCharacters = atob(
+			outputCanvas.toDataURL().substr(`data:${contentType};base64,`.length),
+		);
+		const byteArrays = [];
+
+		for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
+			const slice = byteCharacters.slice(offset, offset + 1024);
+
+			const byteNumbers = new Array(slice.length);
+			for (let i = 0; i < slice.length; i++) {
+				byteNumbers[i] = slice.charCodeAt(i);
+			}
+
+			const byteArray = new Uint8Array(byteNumbers);
+
+			byteArrays.push(byteArray);
+		}
+		const blob = new Blob(byteArrays, { type: contentType });
+		const blobUrl = URL.createObjectURL(blob);
+
+		window.open(blobUrl, "_blank");
 	}
 }
