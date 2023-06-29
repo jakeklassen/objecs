@@ -16,7 +16,7 @@
 		"@types/benchmark": "^2.1.2",
 		"@types/node": "^20.3.2",
 		"tsx": "^3.12.7",
-		"typescript": "5.1.5"
+		"typescript": "5.1.6"
 	},
 	"dependencies": {
 		"@thi.ng/bench": "3.4.0",
