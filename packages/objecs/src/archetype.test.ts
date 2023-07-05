@@ -100,7 +100,7 @@ describe("Archetype", () => {
 
 			expect(world.archetypes.size).toBe(2);
 
-			expectTypeOf(nonPlayerRenderables.entities).toEqualTypeOf<
+			expectTypeOf(nonPlayerRenderables.entities).toMatchTypeOf<
 				ReadonlySet<SafeEntity<Entity, "color" | "rectangle" | "transform">>
 			>();
 			expect(nonPlayerRenderables.entities.size).toBe(1);

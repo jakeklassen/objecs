@@ -94,19 +94,19 @@ export class Archetype<
 	 * @param components Components that should **not** be present on the entity
 	 * @returns
 	 */
-	without<Without extends Array<Exclude<keyof Entity, Components[number]>>>(
-		...components: Without
+	without<Component extends keyof Entity>(
+		...components: Component[]
 	): Archetype<
 		SafeEntity<
-			Omit<Entity, Without[number]>,
+			Omit<Entity, (typeof components)[number]>,
 			Exclude<Components[number], (typeof components)[number]>
 		>,
-		Array<Exclude<Components[number], Without[number]>>
+		Array<Exclude<Components[number], (typeof components)[number]>>
 	> {
 		const entities = new Set<
 			SafeEntity<
-				Omit<Entity, Without[number]>,
-				Exclude<Components[number], Without[number]>
+				Omit<Entity, (typeof components)[number]>,
+				Exclude<Components[number], (typeof components)[number]>
 			>
 		>();
 
@@ -124,10 +124,10 @@ export class Archetype<
 
 		const archetype = new Archetype<
 			SafeEntity<
-				Omit<Entity, Without[number]>,
+				Omit<Entity, (typeof components)[number]>,
 				Exclude<Components[number], (typeof components)[number]>
 			>,
-			Array<Exclude<Components[number], Without[number]>>
+			Array<Exclude<Components[number], (typeof components)[number]>>
 		>({
 			entities,
 			world: this.#world as any,
