@@ -6,12 +6,12 @@ export default async (count) => {
 
 	Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ").forEach((component) => {
 		for (let i = 0; i < count; i++) {
-			ecs.createEntity({ [component]: 1, Data: 1 });
+			ecs.add({ [component]: 1, Data: 1 });
 		}
 	});
 
-	const withZ = ecs.archetype("Z");
-	const withData = ecs.archetype("Data");
+	const withZ = ecs.with("Z");
+	const withData = ecs.with("Data");
 
 	return () => {
 		for (const entity of withZ.entities) {

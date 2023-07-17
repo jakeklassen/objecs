@@ -5,24 +5,24 @@ export default async (count) => {
 	const ecs = new World();
 
 	for (let i = 0; i < count; i++) {
-		ecs.createEntity({ A: 1, B: 1 });
+		ecs.add({ A: 1, B: 1 });
 	}
 
 	for (let i = 0; i < count; i++) {
-		ecs.createEntity({ A: 1, B: 1, C: 1 });
+		ecs.add({ A: 1, B: 1, C: 1 });
 	}
 
 	for (let i = 0; i < count; i++) {
-		ecs.createEntity({ A: 1, B: 1, C: 1, D: 1 });
+		ecs.add({ A: 1, B: 1, C: 1, D: 1 });
 	}
 
 	for (let i = 0; i < count; i++) {
-		ecs.createEntity({ A: 1, B: 1, C: 1, E: 1 });
+		ecs.add({ A: 1, B: 1, C: 1, E: 1 });
 	}
 
-	const withAB = ecs.archetype("A", "B");
-	const withCD = ecs.archetype("C", "D");
-	const withCE = ecs.archetype("C", "E");
+	const withAB = ecs.with("A", "B");
+	const withCD = ecs.with("C", "D");
+	const withCE = ecs.with("C", "E");
 
 	return () => {
 		for (const entity of withAB.entities) {

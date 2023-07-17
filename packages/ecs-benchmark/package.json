@@ -8,7 +8,7 @@
 		"lint:fix": "prettier --write 'src/**/*.js'"
 	},
 	"dependencies": {
-		"@jakeklassen/ecs": "4.0.0",
+		"@jakeklassen/ecs": "4.0.2",
 		"@javelin/ecs": "0.22.0",
 		"@lastolivegames/becsy": "0.8.4",
 		"bitecs": "0.3.38",
@@ -16,7 +16,7 @@
 		"geotic": "4.3.2",
 		"goodluck": "7.0.0",
 		"harmony-ecs": "0.0.12",
-		"miniplex": "^1.0.0",
+		"miniplex": "^2.0.0",
 		"objecs": "workspace:*",
 		"perform-ecs": "0.7.8",
 		"picoes": "1.1.0",
