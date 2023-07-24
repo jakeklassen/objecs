@@ -49,10 +49,10 @@
 		"typescript"
 	],
 	"devDependencies": {
-		"@antfu/ni": "0.21.4",
+		"@antfu/ni": "0.21.5",
 		"@types/benchmark": "^2.1.2",
 		"@types/eslint": "^8.44.0",
-		"@types/node": "^20.4.2",
+		"@types/node": "^20.4.4",
 		"@typescript-eslint/eslint-plugin": "^6.1.0",
 		"@typescript-eslint/parser": "^6.1.0",
 		"benchmark": "^2.1.4",
@@ -64,7 +64,7 @@
 		"prettier": "^3.0.0",
 		"rimraf": "^5.0.1",
 		"typescript": "^5.1.6",
-		"vite": "4.4.4",
+		"vite": "4.4.6",
 		"vitest": "0.33.0"
 	},
 	"dependencies": {
