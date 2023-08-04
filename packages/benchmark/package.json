@@ -14,12 +14,12 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@types/benchmark": "^2.1.2",
-		"@types/node": "^20.4.6",
+		"@types/node": "^20.4.7",
 		"tsx": "^3.12.7",
 		"typescript": "5.1.6"
 	},
 	"dependencies": {
-		"@thi.ng/bench": "3.4.0",
+		"@thi.ng/bench": "3.4.1",
 		"benchmark": "^2.1.4",
 		"miniplex": "2.0.0",
 		"objecs": "workspace:*",

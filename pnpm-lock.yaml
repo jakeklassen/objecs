@@ -11,8 +11,8 @@ importers:
   packages/benchmark:
     dependencies:
       '@thi.ng/bench':
-        specifier: 3.4.0
-        version: 3.4.0
+        specifier: 3.4.1
+        version: 3.4.1
       benchmark:
         specifier: ^2.1.4
         version: 2.1.4
@@ -30,8 +30,8 @@ importers:
         specifier: ^2.1.2
         version: 2.1.2
       '@types/node':
-        specifier: ^20.4.6
-        version: 20.4.6
+        specifier: ^20.4.7
+        version: 20.4.7
       tsx:
         specifier: ^3.12.7
         version: 3.12.7
@@ -91,8 +91,8 @@ importers:
         version: 2.1.2
     devDependencies:
       '@types/node':
-        specifier: ^20.4.6
-        version: 20.4.6
+        specifier: ^20.4.7
+        version: 20.4.7
       prettier:
         specifier: ^3.0.1
         version: 3.0.1
@@ -186,8 +186,8 @@ importers:
         specifier: ^8.44.1
         version: 8.44.1
       '@types/node':
-        specifier: ^20.4.6
-        version: 20.4.6
+        specifier: ^20.4.7
+        version: 20.4.7
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.2.1
         version: 6.2.1(@typescript-eslint/parser@6.2.1)(eslint@8.46.0)(typescript@5.1.6)
@@ -226,7 +226,7 @@ importers:
         version: 5.1.6
       vite:
         specifier: 4.4.8
-        version: 4.4.8(@types/node@20.4.6)
+        version: 4.4.8(@types/node@20.4.7)
       vitest:
         specifier: 0.34.1
         version: 0.34.1
@@ -1027,16 +1027,16 @@ packages:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
     dev: true
 
-  /@thi.ng/api@8.8.2:
-    resolution: {integrity: sha512-kJCBKhHEYv/gSnbrCGnEgoAX/9bRmVSttQ0GVqQIdJlW3IFlgtz3kz357zcYNQ8mB6cY87e0XxJY3VdbYsgiyQ==}
+  /@thi.ng/api@8.9.0:
+    resolution: {integrity: sha512-Bf9V0OGhm/8FNVEaZPjHKDXfYtCfRE7RYM3pvv807XGZBOochbPcWhL+2U6FqHKIIZyV8bgA7X4s5nASWc5a2A==}
     engines: {node: '>=12.7'}
     dev: false
 
-  /@thi.ng/bench@3.4.0:
-    resolution: {integrity: sha512-eY28lsU/7mxV2KrPebo5DTKMDslWDNTcKNNomNcJMKfdDSPmb5Mb7InqekPuv8K2iAC1EVghFBHCi/lIO22qFg==}
+  /@thi.ng/bench@3.4.1:
+    resolution: {integrity: sha512-2yBqupIo7NRL33jw+3M35JOWiIcqjKP9ToW0BNnMkEeVwLdJvZScr6Yl2IXMZGyllFSrRN4EIu6iUGcGSErQeQ==}
     engines: {node: '>=12.7'}
     dependencies:
-      '@thi.ng/api': 8.8.2
+      '@thi.ng/api': 8.9.0
     dev: false
 
   /@tweakpane/core@1.1.9:
@@ -1094,6 +1094,10 @@ packages:
 
   /@types/node@20.4.6:
     resolution: {integrity: sha512-q0RkvNgMweWWIvSMDiXhflGUKMdIxBo2M2tYM/0kEGDueQByFzK4KZAgu5YHGFNxziTlppNpTIBcqHQAxlfHdA==}
+    dev: true
+
+  /@types/node@20.4.7:
+    resolution: {integrity: sha512-bUBrPjEry2QUTsnuEjzjbS7voGWCc30W0qzgMf90GPeDGFRakvrz47ju+oqDAKCXLUCe39u57/ORMl/O/04/9g==}
     dev: true
 
   /@types/semver@7.5.0:
@@ -3743,7 +3747,7 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: false
 
-  /vite-node@0.34.1(@types/node@20.4.6):
+  /vite-node@0.34.1(@types/node@20.4.7):
     resolution: {integrity: sha512-odAZAL9xFMuAg8aWd7nSPT+hU8u2r9gU3LRm9QKjxBEF2rRdWpMuqkrkjvyVQEdNFiBctqr2Gg4uJYizm5Le6w==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -3753,7 +3757,7 @@ packages:
       mlly: 1.4.0
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 4.4.8(@types/node@20.4.6)
+      vite: 4.4.8(@types/node@20.4.7)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -3801,6 +3805,42 @@ packages:
       fsevents: 2.3.2
     dev: true
 
+  /vite@4.4.8(@types/node@20.4.7):
+    resolution: {integrity: sha512-LONawOUUjxQridNWGQlNizfKH89qPigK36XhMI7COMGztz8KNY0JHim7/xDd71CZwGT4HtSRgI7Hy+RlhG0Gvg==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      '@types/node': 20.4.7
+      esbuild: 0.18.17
+      postcss: 8.4.27
+      rollup: 3.27.0
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
   /vitest@0.34.1:
     resolution: {integrity: sha512-G1PzuBEq9A75XSU88yO5G4vPT20UovbC/2osB2KEuV/FisSIIsw7m5y2xMdB7RsAGHAfg2lPmp2qKr3KWliVlQ==}
     engines: {node: '>=v14.18.0'}
@@ -3834,7 +3874,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.5
       '@types/chai-subset': 1.3.3
-      '@types/node': 20.4.6
+      '@types/node': 20.4.7
       '@vitest/expect': 0.34.1
       '@vitest/runner': 0.34.1
       '@vitest/snapshot': 0.34.1
@@ -3853,8 +3893,8 @@ packages:
       strip-literal: 1.3.0
       tinybench: 2.5.0
       tinypool: 0.7.0
-      vite: 4.4.8(@types/node@20.4.6)
-      vite-node: 0.34.1(@types/node@20.4.6)
+      vite: 4.4.8(@types/node@20.4.7)
+      vite-node: 0.34.1(@types/node@20.4.7)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
