@@ -14,7 +14,7 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@types/benchmark": "^2.1.2",
-		"@types/node": "^20.4.7",
+		"@types/node": "^20.4.8",
 		"tsx": "^3.12.7",
 		"typescript": "5.1.6"
 	},
@@ -23,6 +23,6 @@
 		"benchmark": "^2.1.4",
 		"miniplex": "2.0.0",
 		"objecs": "workspace:*",
-		"type-fest": "4.1.0"
+		"type-fest": "4.2.0"
 	}
 }

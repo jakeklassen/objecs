@@ -23,15 +23,15 @@ importers:
         specifier: workspace:*
         version: link:../objecs
       type-fest:
-        specifier: 4.1.0
-        version: 4.1.0
+        specifier: 4.2.0
+        version: 4.2.0
     devDependencies:
       '@types/benchmark':
         specifier: ^2.1.2
         version: 2.1.2
       '@types/node':
-        specifier: ^20.4.7
-        version: 20.4.7
+        specifier: ^20.4.8
+        version: 20.4.8
       tsx:
         specifier: ^3.12.7
         version: 3.12.7
@@ -91,8 +91,8 @@ importers:
         version: 2.1.2
     devDependencies:
       '@types/node':
-        specifier: ^20.4.7
-        version: 20.4.7
+        specifier: ^20.4.8
+        version: 20.4.8
       prettier:
         specifier: ^3.0.1
         version: 3.0.1
@@ -100,8 +100,8 @@ importers:
   packages/examples:
     dependencies:
       '@tweakpane/core':
-        specifier: 1.1.9
-        version: 1.1.9
+        specifier: 2.0.0
+        version: 2.0.0
       color:
         specifier: 4.2.3
         version: 4.2.3
@@ -145,11 +145,11 @@ importers:
         specifier: 0.32.4
         version: 0.32.4
       tweakpane:
-        specifier: 3.1.10
-        version: 3.1.10
+        specifier: 4.0.0
+        version: 4.0.0
       type-fest:
-        specifier: 4.1.0
-        version: 4.1.0
+        specifier: 4.2.0
+        version: 4.2.0
     devDependencies:
       '@types/color':
         specifier: 3.0.3
@@ -167,8 +167,8 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
       vite:
-        specifier: ^4.4.8
-        version: 4.4.8
+        specifier: ^4.4.9
+        version: 4.4.9(@types/node@20.4.8)
 
   packages/objecs:
     dependencies:
@@ -1017,8 +1017,8 @@ packages:
       '@thi.ng/api': 8.9.0
     dev: false
 
-  /@tweakpane/core@1.1.9:
-    resolution: {integrity: sha512-9tq+KAhaqPiOgsFyLPAz1IMXkVfhRqxGzAgy1ps3As6o3W7XjnU7sev6OlD/Z+Pzw8uZVMukkSHf2e0uCU6u0A==}
+  /@tweakpane/core@2.0.0:
+    resolution: {integrity: sha512-reIUN8bj+YuB/PyhcqPAMuV3/t2P6iHPlR73++xwx+vW2RZ2LRYhXvcs+3VgbubTjyLOiek6a4T5rsbHwOPKqw==}
     dev: false
 
   /@types/benchmark@2.1.2:
@@ -1068,10 +1068,6 @@ packages:
 
   /@types/json-schema@7.0.12:
     resolution: {integrity: sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==}
-    dev: true
-
-  /@types/node@20.4.7:
-    resolution: {integrity: sha512-bUBrPjEry2QUTsnuEjzjbS7voGWCc30W0qzgMf90GPeDGFRakvrz47ju+oqDAKCXLUCe39u57/ORMl/O/04/9g==}
     dev: true
 
   /@types/node@20.4.8:
@@ -3086,14 +3082,6 @@ packages:
       glob: 10.2.5
     dev: true
 
-  /rollup@3.27.0:
-    resolution: {integrity: sha512-aOltLCrYZ0FhJDm7fCqwTjIUEVjWjcydKBV/Zeid6Mn8BWgDCUBBWT5beM5ieForYNo/1ZHuGJdka26kvQ3Gzg==}
-    engines: {node: '>=14.18.0', npm: '>=8.0.0'}
-    hasBin: true
-    optionalDependencies:
-      fsevents: 2.3.2
-    dev: true
-
   /rollup@3.27.1:
     resolution: {integrity: sha512-tXNDFwOkN6C2w5Blj1g6ForKeFw6c1mDu5jxoeDO3/pmYjgt+8yvIFjKzH5FQUq70OKZBkOt0zzv0THXL7vwzQ==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
@@ -3633,8 +3621,8 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /tweakpane@3.1.10:
-    resolution: {integrity: sha512-rqwnl/pUa7+inhI2E9ayGTqqP0EPOOn/wVvSWjZsRbZUItzNShny7pzwL3hVlaN4m9t/aZhsP0aFQ9U5VVR2VQ==}
+  /tweakpane@4.0.0:
+    resolution: {integrity: sha512-U1kbExuRj921my8EX7VHq+ajYoIIzlE7+4P94CtHkBBLw0ggq8ktyY6cUCHb/lOKrTUS7N0OKY1HawBcX4vecA==}
     dev: false
 
   /type-check@0.4.0:
@@ -3666,11 +3654,6 @@ packages:
   /type-fest@3.12.0:
     resolution: {integrity: sha512-qj9wWsnFvVEMUDbESiilKeXeHL7FwwiFcogfhfyjmvT968RXSvnl23f1JOClTHYItsi7o501C/7qVllscUP3oA==}
     engines: {node: '>=14.16'}
-    dev: false
-
-  /type-fest@4.1.0:
-    resolution: {integrity: sha512-VJGJVepayd8OWavP+rgXt4i3bfLk+tSomTV7r4mca2XD/oTCWnkJlNkpXavkxdmtU2aKdAmFGeHvoQutOVHCZg==}
-    engines: {node: '>=16'}
     dev: false
 
   /type-fest@4.2.0:
@@ -3738,41 +3721,6 @@ packages:
       - sugarss
       - supports-color
       - terser
-    dev: true
-
-  /vite@4.4.8:
-    resolution: {integrity: sha512-LONawOUUjxQridNWGQlNizfKH89qPigK36XhMI7COMGztz8KNY0JHim7/xDd71CZwGT4HtSRgI7Hy+RlhG0Gvg==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': '>= 14'
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      esbuild: 0.18.17
-      postcss: 8.4.27
-      rollup: 3.27.0
-    optionalDependencies:
-      fsevents: 2.3.2
     dev: true
 
   /vite@4.4.9(@types/node@20.4.8):
