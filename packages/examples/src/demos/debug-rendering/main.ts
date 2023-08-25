@@ -31,7 +31,7 @@ const PARAMS = {
 };
 
 const pane = new Pane();
-const debugInput = pane.addInput(PARAMS, "debug");
+const debugInput = pane.addBinding(PARAMS, "debug");
 
 debugInput.on("change", (event) => {
 	config.debug = event.value;
