@@ -14,8 +14,8 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@types/benchmark": "^2.1.2",
-		"@types/node": "^20.5.7",
-		"tsx": "^3.12.7",
+		"@types/node": "^20.6.1",
+		"tsx": "^3.12.10",
 		"typescript": "5.2.2"
 	},
 	"dependencies": {
