@@ -11,12 +11,12 @@
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@types/color": "3.0.5",
+		"@types/color": "3.0.6",
 		"@types/file-saver": "2.0.7",
-		"@types/wicg-file-system-access": "2023.10.2",
-		"prettier": "^3.0.3",
-		"typescript": "5.2.2",
-		"vite": "^4.5.0"
+		"@types/wicg-file-system-access": "2023.10.4",
+		"prettier": "^3.1.0",
+		"typescript": "5.3.2",
+		"vite": "^5.0.2"
 	},
 	"dependencies": {
 		"@tweakpane/core": "2.0.1",
@@ -35,6 +35,6 @@
 		"objecs": "workspace:*",
 		"sharp": "0.32.6",
 		"tweakpane": "4.0.1",
-		"type-fest": "4.6.0"
+		"type-fest": "4.8.2"
 	}
 }
