@@ -49,12 +49,12 @@
 		"typescript"
 	],
 	"devDependencies": {
-		"@antfu/ni": "0.21.10",
+		"@antfu/ni": "0.21.12",
 		"@types/benchmark": "^2.1.5",
 		"@types/eslint": "^8.44.7",
 		"@types/node": "^20.10.0",
-		"@typescript-eslint/eslint-plugin": "^6.12.0",
-		"@typescript-eslint/parser": "^6.12.0",
+		"@typescript-eslint/eslint-plugin": "^6.13.0",
+		"@typescript-eslint/parser": "^6.13.0",
 		"benchmark": "^2.1.4",
 		"bumpp": "9.2.0",
 		"eslint": "^8.54.0",
