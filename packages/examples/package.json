@@ -16,7 +16,7 @@
 		"@types/wicg-file-system-access": "2023.10.4",
 		"prettier": "^3.1.0",
 		"typescript": "5.3.2",
-		"vite": "^5.0.2"
+		"vite": "^5.0.5"
 	},
 	"dependencies": {
 		"@tweakpane/core": "2.0.1",
@@ -33,8 +33,8 @@
 		"just-safe-set": "4.2.1",
 		"just-shuffle": "4.2.0",
 		"objecs": "workspace:*",
-		"sharp": "0.32.6",
+		"sharp": "0.33.0",
 		"tweakpane": "4.0.1",
-		"type-fest": "4.8.2"
+		"type-fest": "4.8.3"
 	}
 }
