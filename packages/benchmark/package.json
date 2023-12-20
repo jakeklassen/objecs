@@ -15,11 +15,11 @@
 	"devDependencies": {
 		"@types/benchmark": "^2.1.5",
 		"@types/node": "^20.10.5",
-		"tsx": "^4.6.2",
+		"tsx": "^4.7.0",
 		"typescript": "5.3.3"
 	},
 	"dependencies": {
-		"@thi.ng/bench": "3.4.15",
+		"@thi.ng/bench": "3.4.16",
 		"benchmark": "^2.1.4",
 		"miniplex": "2.0.0",
 		"objecs": "workspace:*",
