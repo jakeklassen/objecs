@@ -19,7 +19,7 @@
 		"vite": "^5.0.10"
 	},
 	"dependencies": {
-		"@tweakpane/core": "2.0.2",
+		"@tweakpane/core": "2.0.3",
 		"color": "4.2.3",
 		"dot-path-value": "0.0.10",
 		"fast-xml-parser": "4.3.2",
@@ -34,7 +34,7 @@
 		"just-shuffle": "4.2.0",
 		"objecs": "workspace:*",
 		"sharp": "0.33.1",
-		"tweakpane": "4.0.2",
+		"tweakpane": "4.0.3",
 		"type-fest": "4.8.3"
 	}
 }
