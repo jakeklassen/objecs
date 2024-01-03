@@ -51,10 +51,10 @@
 	"devDependencies": {
 		"@antfu/ni": "0.21.12",
 		"@types/benchmark": "^2.1.5",
-		"@types/eslint": "^8.56.0",
+		"@types/eslint": "^8.56.1",
 		"@types/node": "^20.10.6",
-		"@typescript-eslint/eslint-plugin": "^6.16.0",
-		"@typescript-eslint/parser": "^6.16.0",
+		"@typescript-eslint/eslint-plugin": "^6.17.0",
+		"@typescript-eslint/parser": "^6.17.0",
 		"benchmark": "^2.1.4",
 		"bumpp": "9.2.1",
 		"eslint": "^8.56.0",
