@@ -14,7 +14,7 @@
 		"@types/color": "3.0.6",
 		"@types/file-saver": "2.0.7",
 		"@types/wicg-file-system-access": "2023.10.4",
-		"prettier": "^3.1.1",
+		"prettier": "^3.2.2",
 		"typescript": "5.3.3",
 		"vite": "^5.0.11"
 	},
@@ -33,7 +33,7 @@
 		"just-safe-set": "4.2.1",
 		"just-shuffle": "4.2.0",
 		"objecs": "workspace:*",
-		"sharp": "0.33.1",
+		"sharp": "0.33.2",
 		"tweakpane": "4.0.3",
 		"type-fest": "4.9.0"
 	}
