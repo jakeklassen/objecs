@@ -14,9 +14,9 @@
 		"@types/color": "3.0.6",
 		"@types/file-saver": "2.0.7",
 		"@types/wicg-file-system-access": "2023.10.4",
-		"prettier": "^3.2.2",
+		"prettier": "^3.2.4",
 		"typescript": "5.3.3",
-		"vite": "^5.0.11"
+		"vite": "^5.0.12"
 	},
 	"dependencies": {
 		"@tweakpane/core": "2.0.3",
