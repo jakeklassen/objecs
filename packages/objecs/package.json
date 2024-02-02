@@ -52,9 +52,9 @@
 		"@antfu/ni": "0.21.12",
 		"@types/benchmark": "^2.1.5",
 		"@types/eslint": "^8.56.2",
-		"@types/node": "^20.11.7",
-		"@typescript-eslint/eslint-plugin": "^6.19.1",
-		"@typescript-eslint/parser": "^6.19.1",
+		"@types/node": "^20.11.16",
+		"@typescript-eslint/eslint-plugin": "^6.20.0",
+		"@typescript-eslint/parser": "^6.20.0",
 		"benchmark": "^2.1.4",
 		"bumpp": "9.3.0",
 		"eslint": "^8.56.0",
@@ -66,9 +66,9 @@
 		"tsup": "^8.0.1",
 		"typescript": "^5.3.3",
 		"vite": "5.0.12",
-		"vitest": "1.2.1"
+		"vitest": "1.2.2"
 	},
 	"dependencies": {
-		"type-fest": "4.10.1"
+		"type-fest": "4.10.2"
 	}
 }

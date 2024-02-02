@@ -14,15 +14,15 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@types/benchmark": "^2.1.5",
-		"@types/node": "^20.11.7",
+		"@types/node": "^20.11.16",
 		"tsx": "^4.7.0",
 		"typescript": "5.3.3"
 	},
 	"dependencies": {
-		"@thi.ng/bench": "3.4.19",
+		"@thi.ng/bench": "3.4.24",
 		"benchmark": "^2.1.4",
 		"miniplex": "2.0.0",
 		"objecs": "workspace:*",
-		"type-fest": "4.10.1"
+		"type-fest": "4.10.2"
 	}
 }
