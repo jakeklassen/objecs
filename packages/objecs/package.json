@@ -51,8 +51,8 @@
 	"devDependencies": {
 		"@antfu/ni": "0.21.12",
 		"@types/benchmark": "^2.1.5",
-		"@types/eslint": "^8.56.3",
-		"@types/node": "^20.11.20",
+		"@types/eslint": "^8.56.4",
+		"@types/node": "^20.11.21",
 		"@typescript-eslint/eslint-plugin": "^7.1.0",
 		"@typescript-eslint/parser": "^7.1.0",
 		"benchmark": "^2.1.4",
