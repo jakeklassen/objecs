@@ -19,7 +19,7 @@
 		"typescript": "5.3.3"
 	},
 	"dependencies": {
-		"@thi.ng/bench": "3.4.29",
+		"@thi.ng/bench": "3.4.30",
 		"benchmark": "^2.1.4",
 		"miniplex": "2.0.0",
 		"objecs": "workspace:*",
