@@ -11,8 +11,8 @@ importers:
   packages/benchmark:
     dependencies:
       '@thi.ng/bench':
-        specifier: 3.4.30
-        version: 3.4.30
+        specifier: 3.4.31
+        version: 3.4.31
       benchmark:
         specifier: ^2.1.4
         version: 2.1.4
@@ -1338,8 +1338,8 @@ packages:
     engines: {node: '>=18'}
     dev: false
 
-  /@thi.ng/bench@3.4.30:
-    resolution: {integrity: sha512-oArmH1d7OZv9JnkiHN9ENS0waSvTTnARfjbMRUD7nbmNWIB7wef/V0RI3cwqmFJCvCImlq+s1QcKoooqmKfQZQ==}
+  /@thi.ng/bench@3.4.31:
+    resolution: {integrity: sha512-ZFQZm1IMyQstk+lN7E7UODNwt9lSl86X0TtUu8Ek2NxSUbiX1RTgNSCBQrnGpvMZFl5X45ggGiSC96M85arVsA==}
     engines: {node: '>=18'}
     dependencies:
       '@thi.ng/api': 8.9.27
