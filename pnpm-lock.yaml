@@ -11,8 +11,8 @@ importers:
   packages/benchmark:
     dependencies:
       '@thi.ng/bench':
-        specifier: 3.4.31
-        version: 3.4.31
+        specifier: 3.4.32
+        version: 3.4.32
       benchmark:
         specifier: ^2.1.4
         version: 2.1.4
@@ -1295,16 +1295,16 @@ packages:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
     dev: true
 
-  /@thi.ng/api@8.9.27:
-    resolution: {integrity: sha512-1aVTRA4G+MbYvHlLVk/xECCeBQbvtlT08zdZELGXHr55FqPA8M23Asv+ExtOBm7BX+BMpfOvOCFNK406hWcDKA==}
+  /@thi.ng/api@8.9.28:
+    resolution: {integrity: sha512-NnuvYo7RarYOaV2K/BigayB00XdAf1ZmMZ6uTkNAFru/Kv7NkipJT1DsvuF8y/XAacGxtXPUj1uV8tSgzaUxdA==}
     engines: {node: '>=18'}
     dev: false
 
-  /@thi.ng/bench@3.4.31:
-    resolution: {integrity: sha512-ZFQZm1IMyQstk+lN7E7UODNwt9lSl86X0TtUu8Ek2NxSUbiX1RTgNSCBQrnGpvMZFl5X45ggGiSC96M85arVsA==}
+  /@thi.ng/bench@3.4.32:
+    resolution: {integrity: sha512-fECHWMGiHM/pJvbdzXmZF4ult06KSx2VpkmiO4YTTk736WnEbdTOspiEw8Ab1rh1beHC4OTVCyIOObGYqRQm0g==}
     engines: {node: '>=18'}
     dependencies:
-      '@thi.ng/api': 8.9.27
+      '@thi.ng/api': 8.9.28
     dev: false
 
   /@tweakpane/core@2.0.3:
