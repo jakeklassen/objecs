@@ -332,6 +332,9 @@ export type Entity = {
 		message: string;
 	};
 	textBlinkAnimation?: TextBlinkAnimation;
+	trackPlayer?: {
+		offset: Vector2d;
+	};
 	transform?: Transform;
 	tweens?: Tweens[];
 	velocity?: Vector2d;

@@ -157,8 +157,8 @@ export function playerSystemFactory({
 					},
 					transform: {
 						position: {
-							x: player.transform.position.x + 3,
-							y: player.transform.position.y - 2,
+							x: player.transform.position.x,
+							y: player.transform.position.y,
 						},
 						rotation: 0,
 						scale: {
@@ -184,8 +184,8 @@ export function playerSystemFactory({
 					},
 					transform: {
 						position: {
-							x: player.transform.position.x + 4,
-							y: player.transform.position.y - 2,
+							x: player.transform.position.x,
+							y: player.transform.position.y,
 						},
 						rotation: 0,
 						scale: {
