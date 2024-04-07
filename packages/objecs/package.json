@@ -52,7 +52,7 @@
 		"@antfu/ni": "0.21.12",
 		"@types/benchmark": "^2.1.5",
 		"@types/eslint": "^8.56.7",
-		"@types/node": "^20.12.4",
+		"@types/node": "^20.12.5",
 		"@typescript-eslint/eslint-plugin": "^7.5.0",
 		"@typescript-eslint/parser": "^7.5.0",
 		"benchmark": "^2.1.4",
