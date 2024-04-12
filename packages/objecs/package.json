@@ -51,8 +51,8 @@
 	"devDependencies": {
 		"@antfu/ni": "0.21.12",
 		"@types/benchmark": "^2.1.5",
-		"@types/eslint": "^8.56.7",
-		"@types/node": "^20.12.5",
+		"@types/eslint": "^8.56.9",
+		"@types/node": "^20.12.7",
 		"@typescript-eslint/eslint-plugin": "^7.6.0",
 		"@typescript-eslint/parser": "^7.6.0",
 		"benchmark": "^2.1.4",
@@ -64,9 +64,9 @@
 		"prettier": "^3.2.5",
 		"rimraf": "^5.0.5",
 		"tsup": "^8.0.2",
-		"typescript": "^5.4.4",
+		"typescript": "^5.4.5",
 		"vite": "5.2.8",
-		"vitest": "1.4.0"
+		"vitest": "1.5.0"
 	},
 	"dependencies": {
 		"type-fest": "4.15.0"
