@@ -76,7 +76,7 @@ export function playerProjectileBossCollisionEventSystemFactory({
 									(event.projectile.transform?.position.y ?? 0) +
 									(event.projectile.sprite?.frame.height ?? 0) / 2,
 							},
-					  }
+						}
 					: undefined,
 				world,
 			});

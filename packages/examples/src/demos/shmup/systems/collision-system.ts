@@ -86,36 +86,36 @@ export function collisionSystemFactory({
 				const player = entity.tagPlayer
 					? entity
 					: otherEntity.tagPlayer
-					? otherEntity
-					: null;
+						? otherEntity
+						: null;
 
 				const pickup = entity.tagPickup
 					? entity
 					: otherEntity.tagPickup
-					? otherEntity
-					: null;
+						? otherEntity
+						: null;
 
 				const enemy =
 					entity.tagEnemy || entity.tagBoss
 						? entity
 						: otherEntity.tagEnemy || otherEntity.tagBoss
-						? otherEntity
-						: null;
+							? otherEntity
+							: null;
 
 				const playerBullet =
 					entity.tagBullet || entity.tagBigBullet || entity.tagBomb
 						? entity
 						: otherEntity.tagBullet ||
-						  otherEntity.tagBigBullet ||
-						  otherEntity.tagBomb
-						? otherEntity
-						: null;
+							  otherEntity.tagBigBullet ||
+							  otherEntity.tagBomb
+							? otherEntity
+							: null;
 
 				const enemyBullet = entity.tagEnemyBullet
 					? entity
 					: otherEntity.tagEnemyBullet
-					? otherEntity
-					: null;
+						? otherEntity
+						: null;
 
 				if (playerBullet != null && enemy != null) {
 					let damage = config.entities.player.projectiles.bullet.damage;

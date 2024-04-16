@@ -35,29 +35,35 @@ export async function loadFont(imgUrl: string, xmlUrl: string) {
 
 	//  Error handling at some point
 
-	const characters = xmlObject.Font.Char.reduce((obj, item) => {
-		const code = item.code;
+	const characters = xmlObject.Font.Char.reduce(
+		(obj, item) => {
+			const code = item.code;
 
-		const width = parseInt(item.width, 10);
-		const rect = item.rect.split(" ").map((i) => parseInt(i, 10));
+			const width = parseInt(item.width, 10);
+			const rect = item.rect.split(" ").map((i) => parseInt(i, 10));
 
-		const offset = item.offset.split(" ").map((i) => parseInt(i, 10));
+			const offset = item.offset.split(" ").map((i) => parseInt(i, 10));
 
-		return {
-			...obj,
-			[code]: {
-				code,
-				// x,
-				// y,
-				width,
-				// height,
-				offset,
-				// offsetX,
-				// offsetY,
-				rect,
-			},
-		};
-	}, {} as Record<string, { code: string; offset: number[]; rect: number[]; width: number }>);
+			return {
+				...obj,
+				[code]: {
+					code,
+					// x,
+					// y,
+					width,
+					// height,
+					offset,
+					// offsetX,
+					// offsetY,
+					rect,
+				},
+			};
+		},
+		{} as Record<
+			string,
+			{ code: string; offset: number[]; rect: number[]; width: number }
+		>,
+	);
 
 	// console.log(xmlObject);
 
