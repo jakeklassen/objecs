@@ -52,7 +52,7 @@
 		"@antfu/ni": "0.21.12",
 		"@types/benchmark": "^2.1.5",
 		"@types/eslint": "^8.56.10",
-		"@types/node": "^20.12.7",
+		"@types/node": "^20.12.11",
 		"@typescript-eslint/eslint-plugin": "^7.8.0",
 		"@typescript-eslint/parser": "^7.8.0",
 		"benchmark": "^2.1.4",
@@ -65,10 +65,10 @@
 		"rimraf": "^5.0.5",
 		"tsup": "^8.0.2",
 		"typescript": "^5.4.5",
-		"vite": "5.2.10",
-		"vitest": "1.5.3"
+		"vite": "5.2.11",
+		"vitest": "1.6.0"
 	},
 	"dependencies": {
-		"type-fest": "4.18.1"
+		"type-fest": "4.18.2"
 	}
 }
