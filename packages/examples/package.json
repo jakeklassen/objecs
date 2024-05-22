@@ -22,7 +22,7 @@
 		"@tweakpane/core": "2.0.3",
 		"color": "4.2.3",
 		"dot-path-value": "0.0.10",
-		"fast-xml-parser": "4.3.6",
+		"fast-xml-parser": "4.4.0",
 		"file-saver": "2.0.5",
 		"gameinput": "0.0.9",
 		"jszip": "3.10.1",
@@ -33,7 +33,7 @@
 		"just-safe-set": "4.2.1",
 		"just-shuffle": "4.2.0",
 		"objecs": "workspace:*",
-		"sharp": "0.33.3",
+		"sharp": "0.33.4",
 		"tweakpane": "4.0.3",
 		"type-fest": "4.18.2"
 	}
