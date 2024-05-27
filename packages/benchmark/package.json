@@ -23,6 +23,6 @@
 		"benchmark": "^2.1.4",
 		"miniplex": "2.0.0",
 		"objecs": "workspace:*",
-		"type-fest": "4.18.2"
+		"type-fest": "4.18.3"
 	}
 }
