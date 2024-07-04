@@ -1,6 +1,6 @@
 {
-	"name": "objecs",
-	"version": "0.0.23",
+	"name": "ecs",
+	"version": "0.0.1",
 	"description": "ECS",
 	"type": "module",
 	"main": "./dist/index.cjs",
@@ -24,7 +24,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/jakeklassen/objecs.git"
+		"url": "https://github.com/jakeklassen/ecs.git"
 	},
 	"scripts": {
 		"postdocs": "cp jekyll.config.yml docs/config.yml && touch docs/.nojekyll",
@@ -64,6 +64,7 @@
 		"prettier": "^3.3.2",
 		"rimraf": "^5.0.7",
 		"tsup": "^8.1.0",
+		"tsx": "^4.15.7",
 		"typescript": "^5.5.2",
 		"vite": "5.3.1",
 		"vitest": "1.6.0"

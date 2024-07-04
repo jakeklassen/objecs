@@ -23,6 +23,7 @@ const LIBRARIES = [
 	{ kind: OBJ, name: "uecs" },
 	{ kind: OBJ, name: "jakeklassen-ecs" },
 	{ kind: OBJ, name: "objecs" },
+	{ kind: OBJ, name: "ecs" },
 ];
 
 const BENCHMARKS = {
