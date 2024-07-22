@@ -19,10 +19,10 @@
 		"typescript": "5.5.3"
 	},
 	"dependencies": {
-		"@thi.ng/bench": "3.5.12",
+		"@thi.ng/bench": "3.5.13",
 		"benchmark": "^2.1.4",
 		"miniplex": "2.0.0",
 		"objecs": "workspace:*",
-		"type-fest": "4.22.1"
+		"type-fest": "4.23.0"
 	}
 }
