@@ -49,14 +49,14 @@
 		"typescript"
 	],
 	"devDependencies": {
-		"@antfu/ni": "0.22.0",
+		"@antfu/ni": "0.22.1",
 		"@types/benchmark": "^2.1.5",
 		"@types/eslint": "^8.56.10",
-		"@types/node": "^22.1.0",
+		"@types/node": "^22.2.0",
 		"@typescript-eslint/eslint-plugin": "^7.17.0",
 		"@typescript-eslint/parser": "^7.17.0",
 		"benchmark": "^2.1.4",
-		"bumpp": "9.4.2",
+		"bumpp": "9.5.1",
 		"eslint": "^8.57.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-prettier": "5.2.1",
@@ -65,10 +65,10 @@
 		"rimraf": "^6.0.1",
 		"tsup": "^8.2.4",
 		"typescript": "^5.5.4",
-		"vite": "5.3.5",
+		"vite": "5.4.0",
 		"vitest": "2.0.5"
 	},
 	"dependencies": {
-		"type-fest": "4.23.0"
+		"type-fest": "4.24.0"
 	}
 }
