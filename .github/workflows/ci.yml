@@ -40,5 +40,8 @@ jobs:
       - name: Build
         run: pnpm --filter objecs build
 
+      - name: Check Exports
+        run: pnpm --filter objecs check-exports
+
       - name: Test
         run: pnpm --filter objecs test -- --run
