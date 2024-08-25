@@ -273,9 +273,7 @@ describe("World", () => {
 
 			renderSystem();
 
-			entity.color;
 			world.removeEntityComponents(entity, "color");
-			entity.color;
 
 			renderSystem();
 		});
