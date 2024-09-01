@@ -44,14 +44,14 @@
 		"typescript"
 	],
 	"devDependencies": {
-		"@antfu/ni": "0.22.4",
+		"@antfu/ni": "0.23.0",
 		"@arethetypeswrong/cli": "0.15.4",
 		"@eslint/js": "9.9.1",
 		"@types/benchmark": "^2.1.5",
 		"@types/eslint": "^9.6.1",
 		"@types/eslint__eslintrc": "2.1.2",
 		"@types/eslint__js": "8.42.3",
-		"@types/node": "^22.5.0",
+		"@types/node": "^22.5.2",
 		"@typescript-eslint/eslint-plugin": "^8.3.0",
 		"@typescript-eslint/parser": "^8.3.0",
 		"benchmark": "^2.1.4",
@@ -70,6 +70,6 @@
 		"vitest": "2.0.5"
 	},
 	"dependencies": {
-		"type-fest": "4.25.0"
+		"type-fest": "4.26.0"
 	}
 }
