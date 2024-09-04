@@ -16,13 +16,13 @@
 		"@types/wicg-file-system-access": "2023.10.5",
 		"prettier": "^3.3.3",
 		"typescript": "5.5.4",
-		"vite": "^5.4.2"
+		"vite": "^5.4.3"
 	},
 	"dependencies": {
 		"@tweakpane/core": "2.0.4",
 		"color": "4.2.3",
 		"dot-path-value": "0.0.10",
-		"fast-xml-parser": "4.4.1",
+		"fast-xml-parser": "4.5.0",
 		"file-saver": "2.0.5",
 		"gameinput": "0.0.9",
 		"jszip": "3.10.1",

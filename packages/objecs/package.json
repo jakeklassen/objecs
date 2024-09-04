@@ -51,9 +51,9 @@
 		"@types/eslint": "^9.6.1",
 		"@types/eslint__eslintrc": "2.1.2",
 		"@types/eslint__js": "8.42.3",
-		"@types/node": "^22.5.2",
-		"@typescript-eslint/eslint-plugin": "^8.3.0",
-		"@typescript-eslint/parser": "^8.3.0",
+		"@types/node": "^22.5.3",
+		"@typescript-eslint/eslint-plugin": "^8.4.0",
+		"@typescript-eslint/parser": "^8.4.0",
 		"benchmark": "^2.1.4",
 		"bumpp": "9.5.2",
 		"eslint": "^9.9.1",
@@ -66,7 +66,7 @@
 		"rimraf": "^6.0.1",
 		"tsup": "^8.2.4",
 		"typescript": "^5.5.4",
-		"vite": "5.4.2",
+		"vite": "5.4.3",
 		"vitest": "2.0.5"
 	},
 	"dependencies": {
