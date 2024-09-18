@@ -45,7 +45,7 @@
 	],
 	"devDependencies": {
 		"@antfu/ni": "0.23.0",
-		"@arethetypeswrong/cli": "0.16.2",
+		"@arethetypeswrong/cli": "0.16.4",
 		"@eslint/js": "9.10.0",
 		"@types/benchmark": "^2.1.5",
 		"@types/eslint": "^9.6.1",
@@ -61,10 +61,10 @@
 		"eslint-plugin-depend": "0.11.0",
 		"eslint-plugin-prettier": "5.2.1",
 		"globals": "15.9.0",
-		"nodemon": "^3.1.4",
+		"nodemon": "^3.1.5",
 		"prettier": "^3.3.3",
 		"rimraf": "^6.0.1",
-		"tsup": "^8.2.4",
+		"tsup": "^8.3.0",
 		"typescript": "^5.6.2",
 		"vite": "5.4.6",
 		"vitest": "2.1.1"
