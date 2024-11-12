@@ -16,10 +16,10 @@
 		"@types/wicg-file-system-access": "2023.10.5",
 		"prettier": "^3.3.3",
 		"typescript": "5.6.3",
-		"vite": "^5.4.10"
+		"vite": "^5.4.11"
 	},
 	"dependencies": {
-		"@tweakpane/core": "2.0.4",
+		"@tweakpane/core": "2.0.5",
 		"color": "4.2.3",
 		"dot-path-value": "0.0.11",
 		"fast-xml-parser": "4.5.0",
@@ -34,7 +34,7 @@
 		"just-shuffle": "4.2.0",
 		"objecs": "workspace:*",
 		"sharp": "0.33.5",
-		"tweakpane": "4.0.4",
+		"tweakpane": "4.0.5",
 		"type-fest": "4.26.1"
 	}
 }
