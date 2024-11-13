@@ -29,7 +29,7 @@
 		"build:watch": "nodemon --exec 'npm run build || exit 1'",
 		"prepublishOnly": "nr build",
 		"release": "bumpp --commit --push --tag && pnpm publish",
-		"test": "vitest --run",
+		"test": "vitest",
 		"pretest:coverage": "npm run clean",
 		"test:coverage": "vitest run --coverage",
 		"clean": "rimraf dist",
