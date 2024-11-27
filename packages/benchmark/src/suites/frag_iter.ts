@@ -1,6 +1,7 @@
-import Benchmark from "benchmark";
-import { World } from "objecs";
-import { Split } from "type-fest";
+import * as miniplex from "miniplex";
+import { bench, run, summary } from "mitata";
+import * as objecs from "objecs";
+import type { Split } from "type-fest";
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" as const;
 
@@ -14,31 +15,53 @@ type Entity = {
 
 const count = 100;
 
-const ecs = new World<Entity>();
+summary(() => {
+	{
+		const world = new objecs.World<Entity>();
 
-Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ").forEach((component: keyof Entity) => {
-	for (let i = 0; i < count; i++) {
-		// @ts-ignore
-		ecs.createEntity({ [component]: 1, Data: 1 });
+		Array.from(ALPHABET).forEach((component) => {
+			for (let i = 0; i < count; i++) {
+				world.createEntity({ [component]: 1, Data: 1 });
+			}
+		});
+
+		const withZ = world.archetype("Z");
+		const withData = world.archetype("Data");
+
+		bench("frag_iter [objecs]", () => {
+			for (const entity of withZ.entities) {
+				entity.Z *= 2;
+			}
+
+			for (const entity of withData.entities) {
+				entity.Data *= 2;
+			}
+		});
+	}
+
+	{
+		const world = new miniplex.World<Entity>();
+
+		Array.from(ALPHABET).forEach((component) => {
+			for (let i = 0; i < count; i++) {
+				// @ts-ignore
+				world.add({ [component]: 1, Data: 1 });
+			}
+		});
+
+		const withZ = world.with("Z");
+		const withData = world.with("Data");
+
+		bench("frag_iter [miniplex]", () => {
+			for (const entity of withZ.entities) {
+				entity.Z *= 2;
+			}
+
+			for (const entity of withData.entities) {
+				entity.Data *= 2;
+			}
+		});
 	}
 });
 
-const withZ = ecs.archetype("Z");
-const withData = ecs.archetype("Data");
-
-const suite = new Benchmark.Suite();
-
-suite
-	.add("frag_iter", () => {
-		for (const entity of withZ.entities) {
-			entity.Z *= 2;
-		}
-
-		for (const entity of withData.entities) {
-			entity.Data *= 2;
-		}
-	})
-	.on("cycle", (event: Benchmark.Event) => {
-		console.log(String(event.target));
-	})
-	.run({ async: true });
+await run();

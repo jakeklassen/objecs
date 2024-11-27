@@ -6,6 +6,8 @@
 		"checkJs": true,
 		"module": "NodeNext",
 		"noEmit": true,
+		"strict": true,
+		"verbatimModuleSyntax": true,
 		"types": ["node"]
 	},
 	"include": ["src/**/*"]

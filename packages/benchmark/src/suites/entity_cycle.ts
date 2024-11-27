@@ -1,5 +1,6 @@
-import { World } from "objecs";
-import Benchmark from "benchmark";
+import * as miniplex from "miniplex";
+import { bench, run, summary } from "mitata";
+import * as objecs from "objecs";
 
 type Entity = {
 	A?: number;
@@ -8,28 +9,52 @@ type Entity = {
 
 const count = 1_000;
 
-const ecs = new World<Entity>();
+summary(() => {
+	{
+		const world = new objecs.World<Entity>();
 
-for (let i = 0; i < count; i++) {
-	ecs.createEntity({ A: 1 });
-}
-
-const withA = ecs.archetype("A");
-const withB = ecs.archetype("B");
-
-const suite = new Benchmark.Suite();
-
-suite
-	.add("entity_cycle", () => {
-		for (const _entity of withA.entities) {
-			ecs.createEntity({ B: 1 });
+		for (let i = 0; i < count; i++) {
+			world.createEntity({
+				A: 1,
+			});
 		}
 
-		for (const entity of withB.entities) {
-			ecs.deleteEntity(entity);
+		const withA = world.archetype("A");
+		const withB = world.archetype("B");
+
+		bench("entity_cycle [objecs]", () => {
+			for (const _entity of withA.entities) {
+				world.createEntity({ B: 1 });
+			}
+
+			for (const entity of withB.entities) {
+				world.deleteEntity(entity);
+			}
+		});
+	}
+
+	{
+		const world = new miniplex.World<Entity>();
+
+		for (let i = 0; i < count; i++) {
+			world.add({
+				A: 1,
+			});
 		}
-	})
-	.on("cycle", (event: Benchmark.Event) => {
-		console.log(String(event.target));
-	})
-	.run({ async: true });
+
+		const withA = world.with("A");
+		const withB = world.with("B");
+
+		bench("entity_cycle [miniplex]", () => {
+			for (const _entity of withA.entities) {
+				world.add({ B: 1 });
+			}
+
+			for (const entity of withB.entities) {
+				world.remove(entity);
+			}
+		});
+	}
+});
+
+await run();
