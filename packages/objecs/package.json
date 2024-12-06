@@ -1,6 +1,6 @@
 {
 	"name": "objecs",
-	"version": "0.0.25",
+	"version": "0.0.26",
 	"description": "ECS",
 	"type": "module",
 	"main": "./dist/index.cjs",
