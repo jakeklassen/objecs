@@ -19,11 +19,11 @@
 		"typescript": "5.7.2"
 	},
 	"dependencies": {
-		"@thi.ng/bench": "3.6.6",
+		"@thi.ng/bench": "3.6.7",
 		"benchmark": "^2.1.4",
 		"miniplex": "2.0.0",
-		"mitata": "1.0.20",
+		"mitata": "1.0.21",
 		"objecs": "workspace:*",
-		"type-fest": "4.30.0"
+		"type-fest": "4.30.1"
 	}
 }
