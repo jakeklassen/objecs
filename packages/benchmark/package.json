@@ -16,14 +16,14 @@
 		"@types/benchmark": "^2.1.5",
 		"@types/node": "^22.10.5",
 		"tsx": "^4.19.2",
-		"typescript": "5.7.2"
+		"typescript": "5.7.3"
 	},
 	"dependencies": {
 		"@thi.ng/bench": "3.6.9",
 		"benchmark": "^2.1.4",
 		"miniplex": "2.0.0",
-		"mitata": "1.0.26",
+		"mitata": "1.0.28",
 		"objecs": "workspace:*",
-		"type-fest": "4.31.0"
+		"type-fest": "4.32.0"
 	}
 }
