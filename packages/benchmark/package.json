@@ -22,7 +22,7 @@
 		"@thi.ng/bench": "3.6.9",
 		"benchmark": "^2.1.4",
 		"miniplex": "2.0.0",
-		"mitata": "1.0.28",
+		"mitata": "1.0.30",
 		"objecs": "workspace:*",
 		"type-fest": "4.32.0"
 	}
