@@ -14,15 +14,15 @@
 		"@types/color": "4.2.0",
 		"@types/file-saver": "2.0.7",
 		"@types/wicg-file-system-access": "2023.10.5",
-		"prettier": "^3.5.0",
-		"typescript": "5.7.3",
-		"vite": "^6.1.0"
+		"prettier": "^3.5.2",
+		"typescript": "5.8.2",
+		"vite": "^6.2.0"
 	},
 	"dependencies": {
 		"@tweakpane/core": "2.0.5",
-		"color": "4.2.3",
+		"color": "5.0.0",
 		"dot-path-value": "0.0.11",
-		"fast-xml-parser": "4.5.1",
+		"fast-xml-parser": "5.0.8",
 		"file-saver": "2.0.5",
 		"gameinput": "0.0.9",
 		"jszip": "3.10.1",
@@ -35,6 +35,6 @@
 		"objecs": "workspace:*",
 		"sharp": "0.33.5",
 		"tweakpane": "4.0.5",
-		"type-fest": "4.34.1"
+		"type-fest": "4.36.0"
 	}
 }
