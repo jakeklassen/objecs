@@ -50,9 +50,9 @@
 		"@eslint/js": "9.21.0",
 		"@types/benchmark": "^2.1.5",
 		"@types/eslint": "^9.6.1",
-		"@types/node": "^22.13.8",
-		"@typescript-eslint/eslint-plugin": "^8.25.0",
-		"@typescript-eslint/parser": "^8.25.0",
+		"@types/node": "^22.13.9",
+		"@typescript-eslint/eslint-plugin": "^8.26.0",
+		"@typescript-eslint/parser": "^8.26.0",
 		"benchmark": "^2.1.4",
 		"bumpp": "10.0.3",
 		"eslint": "^9.21.0",
@@ -61,7 +61,7 @@
 		"eslint-plugin-prettier": "5.2.3",
 		"globals": "16.0.0",
 		"nodemon": "^3.1.9",
-		"prettier": "^3.5.2",
+		"prettier": "^3.5.3",
 		"rimraf": "^6.0.1",
 		"tsup": "^8.4.0",
 		"typescript": "^5.8.2",
@@ -69,6 +69,6 @@
 		"vitest": "3.0.7"
 	},
 	"dependencies": {
-		"type-fest": "4.36.0"
+		"type-fest": "4.37.0"
 	}
 }
