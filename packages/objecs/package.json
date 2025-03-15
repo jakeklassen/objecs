@@ -44,7 +44,7 @@
 		"typescript"
 	],
 	"devDependencies": {
-		"@antfu/ni": "24.1.0",
+		"@antfu/ni": "24.2.0",
 		"@arethetypeswrong/cli": "0.17.4",
 		"@eslint/eslintrc": "3.3.0",
 		"@eslint/js": "9.22.0",
@@ -54,7 +54,7 @@
 		"@typescript-eslint/eslint-plugin": "^8.26.1",
 		"@typescript-eslint/parser": "^8.26.1",
 		"benchmark": "^2.1.4",
-		"bumpp": "10.0.3",
+		"bumpp": "10.1.0",
 		"eslint": "^9.22.0",
 		"eslint-config-prettier": "^10.1.1",
 		"eslint-plugin-depend": "0.12.0",
@@ -65,7 +65,7 @@
 		"rimraf": "^6.0.1",
 		"tsup": "^8.4.0",
 		"typescript": "^5.8.2",
-		"vite": "6.2.1",
+		"vite": "6.2.2",
 		"vitest": "3.0.8"
 	},
 	"dependencies": {
