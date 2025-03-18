@@ -19,7 +19,7 @@
 		"typescript": "5.8.2"
 	},
 	"dependencies": {
-		"@thi.ng/bench": "3.6.15",
+		"@thi.ng/bench": "3.6.17",
 		"benchmark": "^2.1.4",
 		"miniplex": "2.0.0",
 		"mitata": "1.0.34",
