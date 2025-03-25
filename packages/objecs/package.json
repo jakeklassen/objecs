@@ -44,31 +44,31 @@
 		"typescript"
 	],
 	"devDependencies": {
-		"@antfu/ni": "24.2.0",
+		"@antfu/ni": "24.3.0",
 		"@arethetypeswrong/cli": "0.17.4",
-		"@eslint/eslintrc": "3.3.0",
-		"@eslint/js": "9.22.0",
+		"@eslint/eslintrc": "3.3.1",
+		"@eslint/js": "9.23.0",
 		"@types/benchmark": "^2.1.5",
 		"@types/eslint": "^9.6.1",
-		"@types/node": "^22.13.10",
-		"@typescript-eslint/eslint-plugin": "^8.26.1",
-		"@typescript-eslint/parser": "^8.26.1",
+		"@types/node": "^22.13.13",
+		"@typescript-eslint/eslint-plugin": "^8.28.0",
+		"@typescript-eslint/parser": "^8.28.0",
 		"benchmark": "^2.1.4",
 		"bumpp": "10.1.0",
-		"eslint": "^9.22.0",
+		"eslint": "^9.23.0",
 		"eslint-config-prettier": "^10.1.1",
 		"eslint-plugin-depend": "0.12.0",
-		"eslint-plugin-prettier": "5.2.3",
+		"eslint-plugin-prettier": "5.2.5",
 		"globals": "16.0.0",
 		"nodemon": "^3.1.9",
 		"prettier": "^3.5.3",
 		"rimraf": "^6.0.1",
 		"tsup": "^8.4.0",
 		"typescript": "^5.8.2",
-		"vite": "6.2.2",
+		"vite": "6.2.3",
 		"vitest": "3.0.9"
 	},
 	"dependencies": {
-		"type-fest": "4.37.0"
+		"type-fest": "4.38.0"
 	}
 }
