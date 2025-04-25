@@ -50,7 +50,7 @@
 		"@eslint/js": "9.25.1",
 		"@types/benchmark": "^2.1.5",
 		"@types/eslint": "^9.6.1",
-		"@types/node": "^22.14.1",
+		"@types/node": "^22.15.2",
 		"@typescript-eslint/eslint-plugin": "^8.31.0",
 		"@typescript-eslint/parser": "^8.31.0",
 		"benchmark": "^2.1.4",
@@ -65,7 +65,7 @@
 		"rimraf": "^6.0.1",
 		"tsup": "^8.4.0",
 		"typescript": "^5.8.3",
-		"vite": "6.3.2",
+		"vite": "6.3.3",
 		"vitest": "3.1.2"
 	},
 	"dependencies": {
