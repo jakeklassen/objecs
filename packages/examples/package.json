@@ -22,7 +22,7 @@
 		"@tweakpane/core": "2.0.5",
 		"color": "5.0.0",
 		"dot-path-value": "0.0.11",
-		"fast-xml-parser": "5.2.2",
+		"fast-xml-parser": "5.2.3",
 		"file-saver": "2.0.5",
 		"gameinput": "0.0.9",
 		"jszip": "3.10.1",
