@@ -1,5 +1,10 @@
 import { describe, expect, expectTypeOf, it } from "vitest";
-import { SafeEntity, World } from "./world.js";
+import {
+	EntityCollection,
+	ReadonlyEntityCollection,
+	SafeEntity,
+	World,
+} from "./world.js";
 import { Archetype } from "./archetype.js";
 
 type Entity = {
@@ -27,7 +32,7 @@ describe("Archetype", () => {
 			const world = new World<Entity>();
 			const archetype = new Archetype({
 				world,
-				entities: new Set<Entity>(),
+				entities: new EntityCollection<Entity>(),
 				components: ["color"],
 			});
 
@@ -36,7 +41,7 @@ describe("Archetype", () => {
 
 			expect(archetype.entities).toBeInstanceOf(Object);
 			expectTypeOf(archetype.entities).toEqualTypeOf<
-				ReadonlySet<SafeEntity<Entity, "color">>
+				ReadonlyEntityCollection<SafeEntity<Entity, "color">>
 			>();
 		});
 	});
@@ -46,7 +51,7 @@ describe("Archetype", () => {
 			const world = new World<Entity>();
 			const archetype = new Archetype({
 				world,
-				entities: new Set<Entity>(),
+				entities: new EntityCollection<Entity>(),
 				components: ["color"],
 			});
 
@@ -59,7 +64,7 @@ describe("Archetype", () => {
 			const world = new World<Entity>();
 			const archetype = new Archetype({
 				world,
-				entities: new Set<Entity>(),
+				entities: new EntityCollection<Entity>(),
 				components: ["color"],
 				without: ["tagPlayer"],
 			});
@@ -101,7 +106,9 @@ describe("Archetype", () => {
 			expect(world.archetypes.size).toBe(2);
 
 			expectTypeOf(nonPlayerRenderables.entities).toExtend<
-				ReadonlySet<SafeEntity<Entity, "color" | "rectangle" | "transform">>
+				ReadonlyEntityCollection<
+					SafeEntity<Entity, "color" | "rectangle" | "transform">
+				>
 			>();
 			expect(nonPlayerRenderables.entities.size).toBe(1);
 			expect(nonPlayerRenderables.entities.has(entity)).toBe(false);

@@ -7,22 +7,147 @@ export type SafeEntity<
 > = Entity & Required<Pick<Entity, Components>>;
 
 /**
+ * An iterable collection of entities optimized for fast iteration.
+ * Provides Set-like methods but backed by an array for performance.
+ */
+export interface ReadonlyEntityCollection<T> extends Iterable<T> {
+	readonly size: number;
+	has(value: T): boolean;
+	forEach(
+		callbackfn: (value: T, value2: T, set: ReadonlyEntityCollection<T>) => void,
+		thisArg?: unknown,
+	): void;
+	entries(): IterableIterator<[T, T]>;
+	keys(): IterableIterator<T>;
+	values(): IterableIterator<T>;
+}
+
+/**
+ * A collection backed by an array for fast iteration.
+ * Uses a Map for O(1) has() lookups.
+ */
+export class EntityCollection<T> implements ReadonlyEntityCollection<T> {
+	readonly #entities: T[] = [];
+	readonly #indices = new Map<T, number>();
+
+	get size(): number {
+		return this.#entities.length;
+	}
+
+	has(entity: T): boolean {
+		return this.#indices.has(entity);
+	}
+
+	/**
+	 * Add an entity. Returns true if added, false if already present.
+	 * @internal
+	 */
+	_add(entity: T): boolean {
+		if (this.#indices.has(entity)) {
+			return false;
+		}
+		this.#indices.set(entity, this.#entities.length);
+		this.#entities.push(entity);
+		return true;
+	}
+
+	/**
+	 * Remove an entity using swap-and-pop for O(1) removal.
+	 * Returns true if removed, false if not present.
+	 * @internal
+	 */
+	_remove(entity: T): boolean {
+		const index = this.#indices.get(entity);
+		if (index === undefined) {
+			return false;
+		}
+
+		this.#indices.delete(entity);
+		const lastIndex = this.#entities.length - 1;
+
+		if (index !== lastIndex) {
+			// Swap with last element
+			const lastEntity = this.#entities[lastIndex];
+			this.#entities[index] = lastEntity;
+			this.#indices.set(lastEntity, index);
+		}
+
+		this.#entities.pop();
+		return true;
+	}
+
+	/**
+	 * Clear all entities.
+	 * @internal
+	 */
+	_clear(): void {
+		this.#entities.length = 0;
+		this.#indices.clear();
+	}
+
+	// Use native array iteration for best performance
+	[Symbol.iterator](): IterableIterator<T> {
+		return this.#entities[Symbol.iterator]();
+	}
+
+	entries(): IterableIterator<[T, T]> {
+		const entities = this.#entities;
+		let index = 0;
+		const length = entities.length;
+
+		return {
+			next(): IteratorResult<[T, T]> {
+				if (index < length) {
+					const entity = entities[index++];
+					return { value: [entity, entity], done: false };
+				}
+				return { value: undefined, done: true } as IteratorResult<[T, T]>;
+			},
+			[Symbol.iterator]() {
+				return this;
+			},
+		};
+	}
+
+	keys(): IterableIterator<T> {
+		return this.#entities[Symbol.iterator]();
+	}
+
+	values(): IterableIterator<T> {
+		return this.#entities[Symbol.iterator]();
+	}
+
+	forEach(
+		callbackfn: (
+			value: T,
+			value2: T,
+			set: ReadonlyEntityCollection<T>,
+		) => void,
+		thisArg?: unknown,
+	): void {
+		for (const entity of this.#entities) {
+			callbackfn.call(thisArg, entity, entity, this);
+		}
+	}
+}
+
+/**
  * Container for Entities
  */
 export class World<Entity extends JsonObject> {
 	#archetypes = new Set<Archetype<Entity, Array<keyof Entity>>>();
-	#entities = new Set<Entity>();
+	#entities = new EntityCollection<Entity>();
 
 	public get archetypes(): Set<Archetype<Entity, Array<keyof Entity>>> {
 		return this.#archetypes;
 	}
 
-	public get entities(): ReadonlySet<Entity> {
+	public get entities(): ReadonlyEntityCollection<Entity> {
 		return this.#entities;
 	}
 
 	public clearEntities() {
-		this.#entities.clear();
+		this.#entities._clear();
 
 		for (const archetype of this.#archetypes) {
 			archetype.clearEntities();
@@ -35,7 +160,7 @@ export class World<Entity extends JsonObject> {
 		SafeEntity<Entity, (typeof components)[number]>,
 		typeof components
 	> {
-		const entities = new Set<Entity>();
+		const entities = new EntityCollection<Entity>();
 
 		for (const entity of this.#entities) {
 			const matchesArchetype = components.every((component) => {
@@ -43,7 +168,7 @@ export class World<Entity extends JsonObject> {
 			});
 
 			if (matchesArchetype) {
-				entities.add(entity);
+				entities._add(entity);
 			}
 		}
 
@@ -73,7 +198,7 @@ export class World<Entity extends JsonObject> {
 	public createEntity<T extends Entity>(entity?: T) {
 		const _entity = entity ?? ({} as T);
 
-		this.#entities.add(_entity);
+		this.#entities._add(_entity);
 
 		for (const archetype of this.#archetypes) {
 			archetype.addEntity(_entity);
@@ -87,7 +212,7 @@ export class World<Entity extends JsonObject> {
 			archetype.removeEntity(entity);
 		}
 
-		return this.#entities.delete(entity);
+		return this.#entities._remove(entity);
 	}
 
 	public addEntityComponents<T extends Entity, Component extends keyof Entity>(
