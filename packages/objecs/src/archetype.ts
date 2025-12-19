@@ -72,8 +72,7 @@ export class Archetype<
 	}
 
 	public addEntity(entity: Entity): this {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		if (this.#entities.has(entity as any)) {
+		if (this.#entities.has(entity)) {
 			return this;
 		}
 

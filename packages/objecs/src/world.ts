@@ -12,7 +12,11 @@ export type SafeEntity<
  */
 export interface ReadonlyEntityCollection<T> extends Iterable<T> {
 	readonly size: number;
-	has(value: T): boolean;
+	/**
+	 * Check if an entity is in the collection.
+	 * Accepts any object to allow checking membership without type narrowing.
+	 */
+	has(value: unknown): boolean;
 	forEach(
 		callbackfn: (value: T, value2: T, set: ReadonlyEntityCollection<T>) => void,
 		thisArg?: unknown,
@@ -34,8 +38,8 @@ export class EntityCollection<T> implements ReadonlyEntityCollection<T> {
 		return this.#entities.length;
 	}
 
-	has(entity: T): boolean {
-		return this.#indices.has(entity);
+	has(entity: unknown): boolean {
+		return this.#indices.has(entity as T);
 	}
 
 	/**
@@ -215,21 +219,48 @@ export class World<Entity extends JsonObject> {
 		return this.#entities._remove(entity);
 	}
 
+	/**
+	 * Add a single component to an entity.
+	 */
 	public addEntityComponents<T extends Entity, Component extends keyof Entity>(
 		entity: T,
 		component: Component,
 		value: NonNullable<Entity[Component]>,
-	): T & Record<typeof component, typeof value> {
-		const existingEntity = this.#entities.has(entity);
-
-		if (!existingEntity) {
+	): T & Record<typeof component, typeof value>;
+	/**
+	 * Add multiple components to an entity in a single operation.
+	 * More efficient than multiple single-component calls as it only
+	 * updates archetype membership once.
+	 */
+	public addEntityComponents<
+		T extends Entity,
+		Components extends { [K in keyof Entity]?: NonNullable<Entity[K]> },
+	>(
+		entity: T,
+		components: Components,
+	): T & { [K in keyof Components]: NonNullable<Components[K]> };
+	public addEntityComponents<T extends Entity>(
+		entity: T,
+		componentOrComponents: keyof Entity | Record<string, unknown>,
+		value?: unknown,
+	): T {
+		if (!this.#entities.has(entity)) {
 			throw new Error(`Entity does not exist`);
 		}
 
-		// This will update the key and value in the map
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		entity[component] = value;
+		// Single component: addEntityComponents(entity, "key", value)
+		if (typeof componentOrComponents === "string" && value !== undefined) {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			entity[componentOrComponents] = value;
+		} else {
+			// Multiple components: addEntityComponents(entity, { key: value, ... })
+			const components = componentOrComponents as Record<string, unknown>;
+			for (const key in components) {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+				(entity as any)[key] = components[key];
+			}
+		}
 
 		for (const archetype of this.#archetypes) {
 			if (archetype.matches(entity)) {
@@ -239,7 +270,7 @@ export class World<Entity extends JsonObject> {
 			}
 		}
 
-		return entity as T & Record<typeof component, typeof value>;
+		return entity;
 	}
 
 	public removeEntityComponents(
@@ -261,4 +292,5 @@ export class World<Entity extends JsonObject> {
 			}
 		}
 	}
+
 }
