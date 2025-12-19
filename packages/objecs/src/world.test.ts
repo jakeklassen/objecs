@@ -157,6 +157,50 @@ describe("World", () => {
 		it.skip("should throw if entity has been mark for deletion");
 	});
 
+	describe("addEntityComponents() with multiple components", () => {
+		it("should add multiple components at once", () => {
+			const world = new World<Entity>();
+			const entity = world.createEntity();
+
+			world.addEntityComponents(entity, {
+				color: "red",
+				rectangle: { width: 10, height: 10 },
+				velocity: { x: 5, y: 5 },
+			});
+
+			expect(entity.color).toBe("red");
+			expect(entity.rectangle).toEqual({ width: 10, height: 10 });
+			expect(entity.velocity).toEqual({ x: 5, y: 5 });
+		});
+
+		it("should update archetype membership correctly", () => {
+			const world = new World<Entity>();
+			const entity = world.createEntity();
+
+			const colorArchetype = world.archetype("color");
+			const colorRectArchetype = world.archetype("color", "rectangle");
+
+			expect(colorArchetype.entities.size).toBe(0);
+			expect(colorRectArchetype.entities.size).toBe(0);
+
+			world.addEntityComponents(entity, {
+				color: "blue",
+				rectangle: { width: 20, height: 20 },
+			});
+
+			expect(colorArchetype.entities.size).toBe(1);
+			expect(colorRectArchetype.entities.size).toBe(1);
+		});
+
+		it("should throw if entity does not exist", () => {
+			const world = new World<Entity>();
+
+			expect(() => {
+				world.addEntityComponents({}, { color: "red" });
+			}).toThrow("Entity does not exist");
+		});
+	});
+
 	describe("archetype()", () => {
 		it("should return the correct archetype", () => {
 			const world = new World<Entity>();
