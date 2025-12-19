@@ -1,5 +1,5 @@
 import { describe, expect, expectTypeOf, it } from "vitest";
-import { World } from "./world.js";
+import { ReadonlyEntityCollection, World } from "./world.js";
 
 type Entity = {
 	color?: string;
@@ -29,7 +29,9 @@ describe("World", () => {
 			world.createEntity({ color: "blue" });
 
 			expect(world.entities).toBeInstanceOf(Object);
-			expectTypeOf(world.entities).toEqualTypeOf<ReadonlySet<Entity>>();
+			expectTypeOf(world.entities).toEqualTypeOf<
+				ReadonlyEntityCollection<Entity>
+			>();
 		});
 	});
 
@@ -162,9 +164,11 @@ describe("World", () => {
 			const testTransform = { position: { x: 0, y: 0 } };
 
 			world.addEntityComponents(entity, "transform", testTransform);
-			expect(world.archetype("transform").entities).toEqual(new Set([entity]));
+			const transformArchetype = world.archetype("transform");
+			expect(transformArchetype.entities.size).toBe(1);
+			expect(transformArchetype.entities.has(entity)).toBe(true);
 
-			expect(world.archetype("color").entities).toEqual(new Set());
+			expect(world.archetype("color").entities.size).toBe(0);
 		});
 
 		it("should be updated correctly via removeEntityComponents()", () => {
@@ -172,18 +176,19 @@ describe("World", () => {
 			const entity = world.createEntity();
 			const moving = world.archetype("transform", "velocity");
 
-			expect(moving.entities).toEqual(new Set());
+			expect(moving.entities.size).toBe(0);
 
 			world.addEntityComponents(entity, "transform", {
 				position: { x: 0, y: 0 },
 			});
 			world.addEntityComponents(entity, "velocity", { x: 10, y: 10 });
 
-			expect(moving.entities).toEqual(new Set([entity]));
+			expect(moving.entities.size).toBe(1);
+			expect(moving.entities.has(entity)).toBe(true);
 
 			world.removeEntityComponents(entity, "transform");
 
-			expect(moving.entities).toEqual(new Set());
+			expect(moving.entities.size).toBe(0);
 		});
 
 		it("should not return an archetype on partial component match", () => {
@@ -237,32 +242,25 @@ describe("World", () => {
 
 				return () => {
 					if (count === 0) {
-						const iterator = renderables.entities.values();
+						const entities = [...renderables.entities];
 
-						{
-							const entity = iterator.next().value;
-							expect(entity?.color).toBe("red");
-							expect(entity?.transform).toEqual({
-								position: { x: 0, y: 0 },
-							});
-						}
+						expect(entities[0]?.color).toBe("red");
+						expect(entities[0]?.transform).toEqual({
+							position: { x: 0, y: 0 },
+						});
 
-						{
-							const entity = iterator.next().value;
-							expect(entity?.color).toBe("blue");
-							expect(entity?.transform).toEqual({
-								position: { x: 1, y: 1 },
-							});
-						}
+						expect(entities[1]?.color).toBe("blue");
+						expect(entities[1]?.transform).toEqual({
+							position: { x: 1, y: 1 },
+						});
 
 						count++;
 					} else {
 						expect(renderables.entities.size).toBe(1);
 
-						const iterator = renderables.entities.values();
-						const entity = iterator.next().value;
-						expect(entity?.color).toBe("blue");
-						expect(entity?.transform).toEqual({
+						const entities = [...renderables.entities];
+						expect(entities[0]?.color).toBe("blue");
+						expect(entities[0]?.transform).toEqual({
 							position: { x: 1, y: 1 },
 						});
 					}

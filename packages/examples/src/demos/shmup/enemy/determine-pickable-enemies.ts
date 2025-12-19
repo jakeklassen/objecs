@@ -4,8 +4,8 @@ import { Entity } from "../entity.ts";
 
 export function determinePickableEnemies<
 	T extends SetRequired<Entity, "transform">,
->(entities: ReadonlySet<T>) {
+>(entities: Iterable<T>) {
 	return sortEntitiesByPosition(
-		Array.from(entities).filter((entity) => entity.enemyState === "protect"),
+		[...entities].filter((entity) => entity.enemyState === "protect"),
 	);
 }

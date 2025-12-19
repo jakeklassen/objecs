@@ -1,5 +1,5 @@
 import { JsonObject } from "type-fest";
-import { World } from "./world.js";
+import { EntityCollection, ReadonlyEntityCollection, World } from "./world.js";
 
 type SafeEntity<
 	Entity extends JsonObject,
@@ -15,7 +15,7 @@ export class Archetype<
 	Entity extends JsonObject,
 	Components extends Array<keyof Entity>,
 > {
-	#entities = new Set<SafeEntity<Entity, Components[number]>>();
+	#entities: EntityCollection<SafeEntity<Entity, Components[number]>>;
 	#components: Components;
 	#excluding?: Array<Exclude<keyof Entity, Components[number]>>;
 	#world: World<Entity>;
@@ -27,12 +27,14 @@ export class Archetype<
 		without,
 	}: {
 		world: World<Entity>;
-		entities: Set<Entity>;
+		entities: EntityCollection<Entity>;
 		components: Components;
 		without?: Array<Exclude<keyof Entity, Components[number]>>;
 	}) {
 		this.#world = world;
-		this.#entities = entities as Set<SafeEntity<Entity, Components[number]>>;
+		this.#entities = entities as EntityCollection<
+			SafeEntity<Entity, Components[number]>
+		>;
 		this.#components = components;
 		this.#excluding = without;
 
@@ -40,7 +42,9 @@ export class Archetype<
 		world.archetypes.add(this as any);
 	}
 
-	public get entities(): ReadonlySet<SafeEntity<Entity, Components[number]>> {
+	public get entities(): ReadonlyEntityCollection<
+		SafeEntity<Entity, Components[number]>
+	> {
 		return this.#entities;
 	}
 
@@ -75,7 +79,7 @@ export class Archetype<
 
 		if (this.matches(entity)) {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			this.#entities.add(entity as any);
+			this.#entities._add(entity as any);
 		}
 
 		return this;
@@ -83,13 +87,13 @@ export class Archetype<
 
 	public removeEntity(entity: Entity): this {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		this.#entities.delete(entity as any);
+		this.#entities._remove(entity as any);
 
 		return this;
 	}
 
 	clearEntities() {
-		this.#entities.clear();
+		this.#entities._clear();
 	}
 
 	/**
@@ -107,7 +111,7 @@ export class Archetype<
 		>,
 		Array<Exclude<Components[number], (typeof components)[number]>>
 	> {
-		const entities = new Set<
+		const entities = new EntityCollection<
 			SafeEntity<
 				Omit<Entity, (typeof components)[number]>,
 				Exclude<Components[number], (typeof components)[number]>
@@ -123,7 +127,7 @@ export class Archetype<
 				continue;
 			}
 
-			entities.add(entity);
+			entities._add(entity);
 		}
 
 		const archetype = new Archetype<
