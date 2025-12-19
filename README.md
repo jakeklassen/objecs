@@ -1,40 +1,115 @@
 # objECS
 
-Object ECS.
+A lightweight, type-safe Entity Component System (ECS) for TypeScript game development.
 
-Checkout the demos [site] and [folder].
+[![npm version](https://img.shields.io/npm/v/objecs.svg)](https://www.npmjs.com/package/objecs)
+[![npm downloads](https://img.shields.io/npm/dm/objecs.svg)](https://www.npmjs.com/package/objecs)
 
-The featured demo is the [shmup demo] (Cherry Bomb), a port of the [Lazy Devs](https://www.youtube.com/@LazyDevs) pico-8 game.
+## Why objECS?
+
+- **Simple mental model** - Entities are plain JavaScript objects, components are just properties
+- **Type-safe** - Full TypeScript support with inferred types for archetype queries
+- **Tiny** - ~2KB minified with only one dependency
+- **Reactive queries** - Archetypes automatically update when entities change
+
+## Live Demos
+
+Check out the [demo site](https://objecs.netlify.app/) featuring example games and simulations built with objECS.
+
+The featured demo is [Cherry Bomb](https://objecs.netlify.app/src/demos/shmup/), a shoot-em-up game ported from [Lazy Devs](https://www.youtube.com/@LazyDevs) pico-8 tutorials.
 
 [shmup-demo.webm](https://github.com/jakeklassen/objecs/assets/1383068/994302b7-7b98-4b46-b785-fd0fd183ffdc)
 
-## Benchmarks
+[Browse demo source code](https://github.com/jakeklassen/objecs/tree/main/packages/examples/src/demos)
 
-You can run some benchmarks by running `pnpm --filter ecs-benchmark start`.
+## Quick Example
 
-## Tools
+```typescript
+import { World } from "objecs";
 
-- [changelogithub]
-  - This generates a changelog for a github release using [Conventional Commits].
-- [bumpp]
-  - Interactive version prompt.
+// Define your entity type
+type Entity = {
+	position?: { x: number; y: number };
+	velocity?: { x: number; y: number };
+	health?: number;
+	enemy?: true;
+};
 
-## How to Work
+// Create world and entities
+const world = new World<Entity>();
 
-- Develop like normal using [Conventional Commits].
-- When you're ready to push a tag, run `bumpp`.
-  - This will walk you through releasing a `tag`.
-- When you're ready to publish, create a github release and the workflow will take over.
-  - This will use [changelogithub] to generate a changelog and publish to NPM.
+world.createEntity({
+	position: { x: 100, y: 100 },
+	velocity: { x: 0, y: 0 },
+	health: 100,
+});
 
-## Kudos
+world.createEntity({
+	position: { x: 200, y: 50 },
+	velocity: { x: -50, y: 0 },
+	enemy: true,
+});
 
-- [miniplex]
+// Query entities by components
+const movables = world.archetype("position", "velocity");
 
-[bumpp]: https://www.npmjs.com/package/bumpp
-[changelogithub]: https://github.com/antfu/changelogithub
-[conventional commits]: https://www.conventionalcommits.org/en/v1.0.0/
-[folder]: https://github.com/jakeklassen/objecs/tree/main/packages/examples/src/demos
-[miniplex]: https://www.npmjs.com/package/miniplex
-[shmup demo]: https://objecs.netlify.app/src/demos/shmup/
-[site]: https://objecs.netlify.app/
+// Use in systems
+function movementSystem(dt: number) {
+	for (const entity of movables.entities) {
+		// TypeScript knows entity has position and velocity
+		entity.position.x += entity.velocity.x * dt;
+		entity.position.y += entity.velocity.y * dt;
+	}
+}
+```
+
+## Installation
+
+```bash
+npm install objecs
+```
+
+## Documentation
+
+See the [full documentation](./packages/objecs/README.md) for API reference and usage patterns.
+
+## Repository Structure
+
+This is a monorepo containing:
+
+| Package                                            | Description                         |
+| -------------------------------------------------- | ----------------------------------- |
+| [packages/objecs](./packages/objecs)               | Core ECS library (published to npm) |
+| [packages/examples](./packages/examples)           | Demo games and examples             |
+| [packages/ecs-benchmark](./packages/ecs-benchmark) | Benchmarks comparing ECS libraries  |
+
+## Development
+
+```bash
+# Install dependencies
+pnpm install
+
+# Run examples dev server
+pnpm --filter examples dev
+
+# Build the library
+pnpm --filter objecs build
+
+# Run tests
+pnpm --filter objecs test
+
+# Run benchmarks
+pnpm --filter ecs-benchmark start
+```
+
+## Contributing
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
+## Acknowledgments
+
+Inspired by [miniplex](https://www.npmjs.com/package/miniplex).
+
+## License
+
+MIT
