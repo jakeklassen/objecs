@@ -1,6 +1,9 @@
 // @ts-check
 import { World } from "miniplex";
 
+/**
+ * @param {number} count
+ */
 export default async (count) => {
 	const ecs = new World();
 
