@@ -3,9 +3,15 @@ import "../../style.css";
 import { Entity } from "./entity.ts";
 import { physicsSystemFactory } from "./systems/physics-system.ts";
 import { redneringSystemFactory } from "./systems/rendering-system.ts";
+import { obtainCanvas2dContext } from "#/lib/dom.ts";
 
-const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
-const ctx = canvas.getContext("2d")!;
+const canvas = document.querySelector<HTMLCanvasElement>("#canvas");
+
+if (!canvas) {
+	throw new Error("Canvas element not found");
+}
+
+const ctx = obtainCanvas2dContext(canvas);
 
 let dt = 0;
 let last = performance.now();

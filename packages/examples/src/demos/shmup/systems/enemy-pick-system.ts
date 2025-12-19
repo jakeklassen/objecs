@@ -21,7 +21,7 @@ export function enemyPickSystemFactory({
 	let nextFireTime = 0;
 
 	return function enemyPickSystem(dt: number) {
-		if (gameState.waveReady === false) {
+		if (!gameState.waveReady) {
 			return;
 		}
 

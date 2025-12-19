@@ -31,39 +31,38 @@ export async function loadFont(imgUrl: string, xmlUrl: string) {
 	const image = await loadImage(imgUrl);
 	const xmlString = await fetch(xmlUrl).then((response) => response.text());
 
-	const xmlObject: IXmlData = parser.parse(xmlString);
+	const xmlObject: IXmlData = parser.parse(xmlString) as IXmlData;
 
 	//  Error handling at some point
 
-	const characters = xmlObject.Font.Char.reduce(
-		(obj, item) => {
-			const code = item.code;
-
-			const width = parseInt(item.width, 10);
-			const rect = item.rect.split(" ").map((i) => parseInt(i, 10));
-
-			const offset = item.offset.split(" ").map((i) => parseInt(i, 10));
-
-			return {
-				...obj,
-				[code]: {
-					code,
-					// x,
-					// y,
-					width,
-					// height,
-					offset,
-					// offsetX,
-					// offsetY,
-					rect,
-				},
-			};
-		},
-		{} as Record<
+	const characters = xmlObject.Font.Char.reduce<
+		Record<
 			string,
 			{ code: string; offset: number[]; rect: number[]; width: number }
-		>,
-	);
+		>
+	>((obj, item) => {
+		const code = item.code;
+
+		const width = parseInt(item.width, 10);
+		const rect = item.rect.split(" ").map((i) => parseInt(i, 10));
+
+		const offset = item.offset.split(" ").map((i) => parseInt(i, 10));
+
+		return {
+			...obj,
+			[code]: {
+				code,
+				// x,
+				// y,
+				width,
+				// height,
+				offset,
+				// offsetX,
+				// offsetY,
+				rect,
+			},
+		};
+	}, {});
 
 	// console.log(xmlObject);
 

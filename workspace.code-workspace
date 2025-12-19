@@ -1,27 +1,27 @@
 {
-  "folders": [
-    {
-      "name": "✨ root",
-      "path": "."
-    },
-    {
-      "name": "📦 objecs",
-      "path": "packages/objecs"
-    },
-    {
-      "name": "📦 benchmark",
-      "path": "packages/benchmark"
-    },
-    {
-      "name": "📦 ecs-benchmark",
-      "path": "packages/ecs-benchmark"
-    },
-    {
-      "name": "📦 examples",
-      "path": "packages/examples"
-    }
-  ],
-  "settings": {
-    "typescript.preferences.importModuleSpecifierEnding": "js"
-  }
+	"folders": [
+		{
+			"name": "✨ root",
+			"path": "."
+		},
+		{
+			"name": "📦 objecs",
+			"path": "packages/objecs"
+		},
+		{
+			"name": "📦 benchmark",
+			"path": "packages/benchmark"
+		},
+		{
+			"name": "📦 ecs-benchmark",
+			"path": "packages/ecs-benchmark"
+		},
+		{
+			"name": "📦 examples",
+			"path": "packages/examples"
+		}
+	],
+	"settings": {
+		"typescript.preferences.importModuleSpecifierEnding": "js"
+	}
 }

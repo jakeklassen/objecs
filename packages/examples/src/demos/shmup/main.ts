@@ -38,7 +38,7 @@ const audioManager = new AudioManager();
 audioManager.on(AudioMangerEvent.Ready, () => {
 	console.log("🎵 audio ready");
 
-	activeScene?.emit(GameEvent.StartGame);
+	activeScene.emit(GameEvent.StartGame);
 });
 
 const picoFont = await loadFont(pico8FontImageUrl, pico8FontXmlUrl);
@@ -156,14 +156,17 @@ gameWonScene.on(GameEvent.StartGame, () => {
 let activeScene: Scene = loadingScreenScene;
 activeScene.enter();
 
-window.addEventListener("keypress", async (e: KeyboardEvent) => {
+window.addEventListener("keypress", (e: KeyboardEvent) => {
 	if (e.key === "r") {
 		if (recorder.recording) {
-			recorder.frames?.generateAsync({ type: "blob" }).then((content) => {
-				saveAs(content, `shmup-${Date.now()}.zip`);
+			recorder.frames
+				?.generateAsync({ type: "blob" })
+				.then((content) => {
+					saveAs(content, `shmup-${Date.now()}.zip`);
 
-				frameCount = 0;
-			});
+					frameCount = 0;
+				})
+				.catch(console.error);
 		}
 
 		recorder.recording = !recorder.recording;
@@ -195,8 +198,6 @@ window.addEventListener("keypress", async (e: KeyboardEvent) => {
 const TARGET_FPS = 60;
 const STEP = 1000 / TARGET_FPS;
 const dt = STEP / 1000;
-// @ts-ignore
-let variableDt = 0;
 let last = performance.now();
 let deltaTimeAccumulator = 0;
 
@@ -207,7 +208,6 @@ let frameCount = 0;
  */
 const frame = (hrt: DOMHighResTimeStamp) => {
 	deltaTimeAccumulator += Math.min(1000, hrt - last);
-	variableDt = (hrt - last) / 1000;
 	gameTime.update(hrt);
 
 	while (deltaTimeAccumulator >= STEP) {
@@ -220,7 +220,7 @@ const frame = (hrt: DOMHighResTimeStamp) => {
 		if (recorder.recording) {
 			recorder.frames?.file(
 				`frame-${frameCount++}.png`,
-				canvas.toDataURL("image/png").split(",")[1],
+				canvas.toDataURL("image/png").split(",")[1] ?? "",
 				{ base64: true },
 			);
 		}

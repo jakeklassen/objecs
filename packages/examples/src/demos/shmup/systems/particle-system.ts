@@ -26,7 +26,7 @@ function determineParticlColorFromAge(
 		if (particle.age > 5) {
 			return Pico8Colors.Color10;
 		}
-	} else if (bias === "blue") {
+	} else {
 		if (particle.age > 15) {
 			return Pico8Colors.Color1;
 		}

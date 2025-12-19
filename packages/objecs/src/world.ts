@@ -42,7 +42,7 @@ export class World<Entity extends JsonObject> {
 				return component in entity;
 			});
 
-			if (matchesArchetype === true) {
+			if (matchesArchetype) {
 				entities.add(entity);
 			}
 		}
@@ -97,8 +97,8 @@ export class World<Entity extends JsonObject> {
 	): T & Record<typeof component, typeof value> {
 		const existingEntity = this.#entities.has(entity);
 
-		if (existingEntity === false) {
-			throw new Error(`Entity ${entity} does not exist`);
+		if (!existingEntity) {
+			throw new Error(`Entity does not exist`);
 		}
 
 		// This will update the key and value in the map
@@ -117,12 +117,13 @@ export class World<Entity extends JsonObject> {
 		return entity as T & Record<typeof component, typeof value>;
 	}
 
-	public removeEntityComponents<
-		T extends Entity,
-		Component extends keyof Entity,
-	>(entity: T, ...components: Array<Component>): void {
+	public removeEntityComponents(
+		entity: Entity,
+		...components: Array<keyof Entity>
+	): void {
 		if (this.#entities.has(entity)) {
 			for (const component of components) {
+				// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 				delete entity[component];
 			}
 

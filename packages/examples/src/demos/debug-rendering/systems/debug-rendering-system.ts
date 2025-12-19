@@ -9,7 +9,7 @@ export function debugRenderingSystemFactory(
 	const debuggables = world.archetype("boxCollider", "transform");
 
 	return function debugRenderingSystem(_dt: number) {
-		if (config.debug === false) {
+		if (!config.debug) {
 			return;
 		}
 

@@ -15,7 +15,7 @@ export class Archetype<
 	Entity extends JsonObject,
 	Components extends Array<keyof Entity>,
 > {
-	#entities: Set<SafeEntity<Entity, Components[number]>> = new Set();
+	#entities = new Set<SafeEntity<Entity, Components[number]>>();
 	#components: Components;
 	#excluding?: Array<Exclude<keyof Entity, Components[number]>>;
 	#world: World<Entity>;
@@ -36,6 +36,7 @@ export class Archetype<
 		this.#components = components;
 		this.#excluding = without;
 
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		world.archetypes.add(this as any);
 	}
 
@@ -66,19 +67,22 @@ export class Archetype<
 		return matchesArchetype && !matchesExcluding;
 	}
 
-	public addEntity(entity: Entity): Archetype<Entity, Components> {
+	public addEntity(entity: Entity): this {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		if (this.#entities.has(entity as any)) {
 			return this;
 		}
 
 		if (this.matches(entity)) {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			this.#entities.add(entity as any);
 		}
 
 		return this;
 	}
 
-	public removeEntity(entity: Entity): Archetype<Entity, Components> {
+	public removeEntity(entity: Entity): this {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		this.#entities.delete(entity as any);
 
 		return this;
@@ -95,7 +99,7 @@ export class Archetype<
 	 * @returns
 	 */
 	without<Component extends keyof Entity>(
-		...components: Component[]
+		...components: Array<Component>
 	): Archetype<
 		SafeEntity<
 			Omit<Entity, (typeof components)[number]>,
@@ -119,7 +123,7 @@ export class Archetype<
 				continue;
 			}
 
-			entities.add(entity as any);
+			entities.add(entity);
 		}
 
 		const archetype = new Archetype<
@@ -130,8 +134,11 @@ export class Archetype<
 			Array<Exclude<Components[number], (typeof components)[number]>>
 		>({
 			entities,
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			world: this.#world as any,
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			components: this.#components as any,
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			without: components as any,
 		});
 

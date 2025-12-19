@@ -77,7 +77,7 @@ export function collisionSystemFactory({
 					height: otherBoxCollider.height,
 				};
 
-				if (intersects(aabb, otherAabb) === false) {
+				if (!intersects(aabb, otherAabb)) {
 					continue;
 				}
 

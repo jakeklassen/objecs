@@ -1,7 +1,6 @@
 import { easeLinear } from "#/lib/tween";
 import { World } from "objecs";
-import justSafeGet from "just-safe-get";
-import justSafeSet from "just-safe-set";
+import { getByPath, setByPath } from "dot-path-value";
 import { Entity } from "../entity.ts";
 
 export function tweenSystemFactory(world: World<Entity>) {
@@ -13,10 +12,15 @@ export function tweenSystemFactory(world: World<Entity>) {
 
 			for (let i = tweens.length - 1; i >= 0; i--) {
 				const tween = tweens[i];
+
+				if (tween == null) {
+					continue;
+				}
+
 				tween.time += dt;
 				tween.progress = tween.time / tween.duration;
 
-				const property = justSafeGet(entity, tween.property);
+				const property = getByPath(entity, tween.property);
 
 				if (property == null) {
 					throw new Error(`Property ${tween.property} not found on entity.`);
@@ -25,7 +29,7 @@ export function tweenSystemFactory(world: World<Entity>) {
 				if (tween.progress >= 1) {
 					tween.iterations++;
 					tween.completed = true;
-					justSafeSet(entity, tween.property, tween.to);
+					setByPath(entity, tween.property, tween.to);
 
 					if (
 						tween.maxIterations !== Infinity &&
@@ -37,7 +41,7 @@ export function tweenSystemFactory(world: World<Entity>) {
 						continue;
 					}
 
-					if (tween.yoyo === true) {
+					if (tween.yoyo) {
 						tween.progress = 0;
 						tween.completed = false;
 						tween.time = 0;
@@ -46,7 +50,7 @@ export function tweenSystemFactory(world: World<Entity>) {
 					}
 				}
 
-				if (tween.completed === false) {
+				if (!tween.completed) {
 					const change = easeLinear(
 						tween.time,
 						tween.from,
@@ -54,7 +58,7 @@ export function tweenSystemFactory(world: World<Entity>) {
 						tween.duration,
 					);
 
-					justSafeSet(entity, tween.property, change);
+					setByPath(entity, tween.property, change);
 				}
 			}
 		}

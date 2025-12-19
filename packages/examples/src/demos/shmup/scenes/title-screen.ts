@@ -214,7 +214,7 @@ export class TitleScreen extends Scene {
 
 		// High score text
 		const highscoreString = localStorage.getItem("highscore");
-		let highscore = parseInt(highscoreString ?? "0");
+		const highscore = parseInt(highscoreString ?? "0");
 
 		if (highscore > 0) {
 			this.world.createEntity({

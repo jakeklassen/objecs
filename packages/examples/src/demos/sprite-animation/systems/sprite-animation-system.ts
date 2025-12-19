@@ -23,7 +23,21 @@ export function spriteAnimationSystemFactory(world: World<Entity>) {
 				const frameIndex =
 					spriteAnimation.frameSequence[spriteAnimation.currentFrame];
 
+				if (frameIndex == null) {
+					console.warn(
+						`Frame index is undefined for currentFrame ${spriteAnimation.currentFrame}`,
+					);
+
+					continue;
+				}
+
 				const frame = spriteAnimation.frames[frameIndex];
+
+				if (frame == null) {
+					console.warn(`Frame is undefined for frameIndex ${frameIndex}`);
+
+					continue;
+				}
 
 				sprite.frame = frame;
 

@@ -26,9 +26,15 @@ canvas.addEventListener("mouseup", (e: MouseEvent) => {
 	mouse.down = false;
 });
 
-canvas.addEventListener("touchstart", (e) => e.preventDefault());
-canvas.addEventListener("touchend", (e) => e.preventDefault());
-canvas.addEventListener("touchmove", (e) => e.preventDefault());
+canvas.addEventListener("touchstart", (e) => {
+	e.preventDefault();
+});
+canvas.addEventListener("touchend", (e) => {
+	e.preventDefault();
+});
+canvas.addEventListener("touchmove", (e) => {
+	e.preventDefault();
+});
 
 canvas.addEventListener("mouseleave", () => {
 	mouse.down = false;
@@ -42,7 +48,9 @@ canvas.addEventListener("mousemove", (e: MouseEvent) => {
 
 const world = new World<Entity>();
 
-const entityGrid: Entity[] = new Array(canvas.width * canvas.height).fill(null);
+const entityGrid: Entity[] = new Array<Entity>(
+	canvas.width * canvas.height,
+).fill(null as unknown as Entity);
 
 // ! This is a hack because the ECS has no concept of
 // ! reversed iteration.
@@ -68,11 +76,12 @@ const mouseSystem = mouseSystemFactory(world, mouse, canvas, entityGrid);
 
 const TARGET_FPS = 60;
 const STEP = 1000 / TARGET_FPS;
-// @ts-ignore
-const dt = STEP / 1000;
+// @ts-expect-error - leaving for reference
+const _dt = STEP / 1000;
 let last = performance.now();
-// @ts-ignore
-let deltaTimeAccumulator = 0;
+
+// @ts-expect-error - leaving for reference
+const _deltaTimeAccumulator = 0;
 
 /**
  * The game loop.

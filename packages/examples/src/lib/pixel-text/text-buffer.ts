@@ -122,20 +122,20 @@ export class TextBuffer {
 		char: ITextBufferOptions["font"]["characters"][string],
 		scale: number,
 	) {
-		const offsetX = x + char.offset[0] * scale;
-		const offsetY = char.offset[1] * scale;
-		const charWidth = char.rect[2] * scale;
-		const charHeight = char.rect[3] * scale;
+		const offsetX = x + (char.offset[0] ?? 0) * scale;
+		const offsetY = (char.offset[1] ?? 0) * scale;
+		const charWidth = (char.rect[2] ?? 0) * scale;
+		const charHeight = (char.rect[3] ?? 0) * scale;
 
 		this.buffer.imageSmoothingEnabled = false;
 		this.output.imageSmoothingEnabled = false;
 
 		this.buffer.drawImage(
 			this.font.image,
-			char.rect[0],
-			char.rect[1],
-			char.rect[2],
-			char.rect[3],
+			char.rect[0] ?? 0,
+			char.rect[1] ?? 0,
+			char.rect[2] ?? 0,
+			char.rect[3] ?? 0,
 			offsetX,
 			offsetY,
 			charWidth,

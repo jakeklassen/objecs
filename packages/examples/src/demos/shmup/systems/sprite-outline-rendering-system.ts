@@ -62,7 +62,8 @@ export function spriteOutlineRenderingSystemFactory({
 				sprite.frame.height,
 			);
 
-			const cache = spriteOutlineCache.get(entity) ?? new Map();
+			const cache =
+				spriteOutlineCache.get(entity) ?? new Map<HexColor, ImageData>();
 
 			let imageData = cache.get(entity.spriteOutline.color);
 
@@ -85,7 +86,8 @@ export function spriteOutlineRenderingSystemFactory({
 					// const r = pixels[i];
 					// const g = pixels[i + 1];
 					// const b = pixels[i + 2];
-					const a = pixels[i + 3];
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					const a = pixels[i + 3]!;
 
 					// Check if the current pixel is non-transparent
 					if (a > 0) {

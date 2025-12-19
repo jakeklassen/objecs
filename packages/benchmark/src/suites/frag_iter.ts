@@ -7,9 +7,7 @@ const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" as const;
 
 type Alphabet = Split<typeof ALPHABET, "">[number];
 
-type Entity = {
-	[K in Alphabet]?: number;
-} & {
+type Entity = Partial<Record<Alphabet, number>> & {
 	Data?: number;
 };
 
@@ -44,7 +42,6 @@ summary(() => {
 
 		Array.from(ALPHABET).forEach((component) => {
 			for (let i = 0; i < count; i++) {
-				// @ts-ignore
 				world.add({ [component]: 1, Data: 1 });
 			}
 		});

@@ -12,6 +12,10 @@ export function muzzleFlashSystemFactory({ world }: { world: World<Entity> }) {
 	return function muzzleFlashSystem(dt: number) {
 		const [player] = players.entities;
 
+		if (player == null) {
+			return;
+		}
+
 		for (const entity of muzzleFlashes.entities) {
 			const { muzzleFlash, trackPlayer, transform } = entity;
 			muzzleFlash.elapsed += dt;

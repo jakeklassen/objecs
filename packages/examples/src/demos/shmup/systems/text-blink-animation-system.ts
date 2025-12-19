@@ -24,13 +24,15 @@ export function textBlinkAnimationSystemFactory({
 					textBlinkAnimation.colorSequence.length;
 			}
 
-			textBlinkAnimation.color =
-				textBlinkAnimation.colors[
-					textBlinkAnimation.colorSequence[textBlinkAnimation.currentColorIndex]
-				];
+			const colorSequence =
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				textBlinkAnimation.colorSequence[textBlinkAnimation.currentColorIndex]!;
+
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			textBlinkAnimation.color = textBlinkAnimation.colors[colorSequence]!;
 
 			const textBuffer = textCache.get(entity);
-			textBuffer?.updateText(textBuffer?.text, {
+			textBuffer?.updateText(textBuffer.text, {
 				color: textBlinkAnimation.color,
 			});
 		}

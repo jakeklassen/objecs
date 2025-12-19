@@ -13,7 +13,12 @@ import { tweenSystemFactory } from "./systems/tweens-system.ts";
 
 const ship = await loadImage(shipSpriteUrl);
 
-const canvas = document.querySelector("#canvas") as HTMLCanvasElement;
+const canvas = document.querySelector<HTMLCanvasElement>("#canvas");
+
+if (canvas == null) {
+	throw new Error("canvas element not found");
+}
+
 const ctx = canvas.getContext("2d");
 
 if (ctx == null) {

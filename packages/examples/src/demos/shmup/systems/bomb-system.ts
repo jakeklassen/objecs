@@ -21,7 +21,7 @@ export function bombSystemFactory({
 	return function bombSystem() {
 		if (
 			bombEvents.entities.size === 0 ||
-			gameState.waveReady === false ||
+			!gameState.waveReady ||
 			gameState.bombLocked
 		) {
 			return;
@@ -65,6 +65,10 @@ export function bombSystemFactory({
 		// ? Part of me _really_ wants to play a "Bombin the floor!" AVGN sample here
 
 		const [bombEvent] = bombEvents.entities;
+
+		if (bombEvent == null) {
+			throw new Error("expected bomb event to exist");
+		}
 
 		world.deleteEntity(bombEvent);
 	};

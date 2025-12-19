@@ -61,12 +61,13 @@ import { triggerGameWonSystemFactory } from "../systems/trigger-game-won-system.
 import { tweenSystemFactory } from "../systems/tweens-system.ts";
 import { waveReadyCheckSystemFactory } from "../systems/wave-ready-check-system.ts";
 import { yellowShipSystemFactory } from "../systems/yellow-ship-system.ts";
+import { obtainCanvas2dContext } from "#/lib/dom.ts";
 
 export class GameplayScreen extends Scene {
 	#areaWidth: number;
 	#areaHeight: number;
 	#bufferCanvas = document.createElement("canvas");
-	#bufferContext = this.#bufferCanvas.getContext("2d")!;
+	#bufferContext = obtainCanvas2dContext(this.#bufferCanvas);
 	#camera = { x: 0, y: 0 };
 
 	constructor(props: SceneConstructorProps) {

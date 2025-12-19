@@ -37,6 +37,10 @@ export function playerProjectileBossCollisionEventSystemFactory({
 		if (hurtTimer >= hurtDurationSeconds && bosses.entities.size === 1) {
 			const [boss] = bosses.entities;
 
+			if (boss == null) {
+				return;
+			}
+
 			hurtTimer = 0;
 
 			boss.sprite.paletteSwaps = [];

@@ -17,6 +17,7 @@ import { shockwaveSystemFactory } from "./systems/shockwave-system.ts";
 export type LoadedContent = Awaited<ReturnType<typeof Content.load>>;
 type Explosion = HTMLCanvasElement | ImageBitmap | OffscreenCanvas;
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Content {
 	public static async load({
 		explosionsSheetImageUrl,
@@ -474,7 +475,9 @@ export class Content {
 			while (world.entities.size > 0) {
 				context.clearRect(0, 0, canvas.width, canvas.height);
 
-				systems.forEach((system) => system(dt));
+				systems.forEach((system) => {
+					system(dt);
+				});
 
 				frames++;
 
@@ -538,7 +541,7 @@ export class Content {
 		const contentType = "image/png";
 
 		const byteCharacters = atob(
-			outputCanvas.toDataURL().substr(`data:${contentType};base64,`.length),
+			outputCanvas.toDataURL().substring(`data:${contentType};base64,`.length),
 		);
 		const byteArrays = [];
 
@@ -689,7 +692,9 @@ export class Content {
 			while (world.entities.size > 0) {
 				context.clearRect(0, 0, canvas.width, canvas.height);
 
-				systems.forEach((system) => system(dt));
+				systems.forEach((system) => {
+					system(dt);
+				});
 
 				frames++;
 
@@ -753,7 +758,7 @@ export class Content {
 		const contentType = "image/png";
 
 		const byteCharacters = atob(
-			outputCanvas.toDataURL().substr(`data:${contentType};base64,`.length),
+			outputCanvas.toDataURL().substring(`data:${contentType};base64,`.length),
 		);
 		const byteArrays = [];
 
@@ -819,7 +824,7 @@ export class Content {
 		const contentType = "image/png";
 
 		const byteCharacters = atob(
-			outputCanvas.toDataURL().substr(`data:${contentType};base64,`.length),
+			outputCanvas.toDataURL().substring(`data:${contentType};base64,`.length),
 		);
 		const byteArrays = [];
 

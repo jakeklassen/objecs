@@ -30,7 +30,7 @@ export function switchEnemyToAttackMode({
 		y: 1,
 	};
 
-	let boostTweenXDuration = 700;
+	const boostTweenXDuration = 700;
 	let tweenXDuration = 800;
 	let tweenXDistance = 16;
 
@@ -118,7 +118,7 @@ export function switchEnemyToAttackMode({
 	}
 
 	timer.add(new TimeSpan(2000), () => {
-		if (world.entities.has(enemy) === false) {
+		if (!world.entities.has(enemy)) {
 			return;
 		}
 

@@ -33,7 +33,10 @@ export function obtainCanvas2dContext(
 export function obtainCanvas2dContext(
 	canvas: HTMLCanvasElement | OffscreenCanvas,
 	options?: CanvasRenderingContext2DSettings,
-): CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D {
+):
+	| CanvasRenderingContext2D
+	| OffscreenCanvasRenderingContext2D
+	| RenderingContext {
 	const context = canvas.getContext("2d", options);
 
 	if (context === null) {

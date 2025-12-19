@@ -1,3 +1,5 @@
+import { obtainCanvas2dContext } from "./dom.ts";
+
 /**
  * Implementation of the PICO-8 `circfill` function
  * @param context
@@ -99,7 +101,7 @@ export function pal(
 	canvas.width = sprite.width;
 	canvas.height = sprite.height;
 
-	const context = canvas.getContext("2d")!;
+	const context = obtainCanvas2dContext(canvas);
 	context.imageSmoothingEnabled = false;
 
 	context.drawImage(sprite, 0, 0);
@@ -110,10 +112,14 @@ export function pal(
 
 	// Loop through each pixel and swap its color based on the palette
 	for (let i = 0; i < pixels.length; i += 4) {
-		const r = pixels[i];
-		const g = pixels[i + 1];
-		const b = pixels[i + 2];
-		const a = pixels[i + 3];
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const r = pixels[i]!;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const g = pixels[i + 1]!;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const b = pixels[i + 2]!;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const a = pixels[i + 3]!;
 
 		if (a === 0) {
 			// Skip transparent pixels

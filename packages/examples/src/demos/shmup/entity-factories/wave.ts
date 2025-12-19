@@ -27,6 +27,10 @@ export function spawnWave({
 	for (let y = 0; y < wave.enemies.length; y++) {
 		const line = wave.enemies[y];
 
+		if (line == null) {
+			continue;
+		}
+
 		for (let x = 0; x < 10; x++) {
 			const enemyType = line[x];
 

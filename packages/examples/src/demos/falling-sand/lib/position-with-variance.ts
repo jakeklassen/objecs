@@ -4,7 +4,7 @@ export const positionWithVariance = (
 	radius = 2,
 	probability = 1.0,
 ) => {
-	let radiusSq = radius * radius;
+	const radiusSq = radius * radius;
 
 	for (let y1 = -radius; y1 <= radius; y1++) {
 		for (let x1 = -radius; x1 <= radius; x1++) {

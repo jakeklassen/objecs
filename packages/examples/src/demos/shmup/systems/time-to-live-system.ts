@@ -21,7 +21,7 @@ export function timeToLiveSystemFactory({ world }: { world: World<Entity> }) {
 				}
 
 				if (ttl.trigger.startsWith("nextWave")) {
-					const [_event, waveString] = ttl.trigger.split(":");
+					const [_event, waveString = "0"] = ttl.trigger.split(":");
 					const wave = parseInt(waveString, 10);
 
 					world.createEntity({

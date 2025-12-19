@@ -1,3 +1,5 @@
+import { obtainCanvas2dContext } from "./dom.ts";
+
 interface CanvasRecorderOptions {
 	canvases: HTMLCanvasElement[];
 	width: number;
@@ -25,9 +27,9 @@ export class CanvasRecorder {
 	#width: number;
 	#height: number;
 	#buffer = document.createElement("canvas");
-	#context = this.#buffer.getContext("2d", {
+	#context = obtainCanvas2dContext(this.#buffer, {
 		alpha: false,
-	})!;
+	});
 
 	constructor(options: CanvasRecorderOptions) {
 		if (options.showInstructions ?? true) {
@@ -36,8 +38,8 @@ export class CanvasRecorder {
 
 		console.log(options);
 
-		this.#width = options.width ?? 256;
-		this.#height = options.height ?? 144;
+		this.#width = options.width;
+		this.#height = options.height;
 
 		this.#buffer.width = this.#width;
 		this.#buffer.height = this.#height;
@@ -59,10 +61,6 @@ export class CanvasRecorder {
 		}
 
 		this.#stream = this.#buffer.captureStream(options.frameRate);
-
-		if (this.#stream == null) {
-			throw new Error("no canvases to record");
-		}
 
 		this.#recorder = new MediaRecorder(this.#stream, mediaStreamOptions);
 
@@ -117,7 +115,9 @@ export class CanvasRecorder {
 		}
 	}
 
-	step() {}
+	step() {
+		console.warn("not implemented: CanvasRecorder.step");
+	}
 
 	stop() {
 		if (!this.#recording) {

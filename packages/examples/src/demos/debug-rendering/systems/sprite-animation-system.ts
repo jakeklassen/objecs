@@ -21,9 +21,11 @@ export function spriteAnimationSystemFactory(world: World<Entity>) {
 					spriteAnimation.frameSequence.length;
 
 				const frameIndex =
-					spriteAnimation.frameSequence[spriteAnimation.currentFrame];
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					spriteAnimation.frameSequence[spriteAnimation.currentFrame]!;
 
-				const frame = spriteAnimation.frames[frameIndex];
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				const frame = spriteAnimation.frames[frameIndex]!;
 
 				sprite.frame = frame;
 

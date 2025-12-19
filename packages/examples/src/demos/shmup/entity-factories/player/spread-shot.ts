@@ -183,8 +183,8 @@ export function spreadShot({
 
 		const transform = transformFactory({
 			position: {
-				x: player.transform.position.x ?? 0 + 3,
-				y: player.transform.position.y ?? 0 + 6,
+				x: player.transform.position.x + 3,
+				y: player.transform.position.y + 6,
 			},
 		});
 

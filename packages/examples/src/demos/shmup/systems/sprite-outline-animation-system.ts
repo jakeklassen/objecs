@@ -22,11 +22,13 @@ export function spriteOutlineAnimationSystemFactory({
 			}
 
 			spriteOutlineAnimation.color =
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				spriteOutlineAnimation.colors[
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 					spriteOutlineAnimation.colorSequence[
 						spriteOutlineAnimation.currentColorIndex
-					]
-				];
+					]!
+				]!;
 
 			spriteOutline.color = spriteOutlineAnimation.color;
 		}

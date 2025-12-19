@@ -73,12 +73,10 @@ export class Scene {
 		this.systems = [];
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	public enter() {
 		console.info("entering scene", this.constructor.name);
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	public exit() {
 		console.info("exiting scene", this.constructor.name);
 	}

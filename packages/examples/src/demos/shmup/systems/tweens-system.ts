@@ -5,10 +5,9 @@ import {
 	easeOutQuart,
 	easeOutSine,
 } from "#/lib/tween";
+import { setByPath } from "dot-path-value";
 import { World } from "objecs";
-import justSafeGet from "just-safe-get";
-import justSafeSet from "just-safe-set";
-import { Entity } from "../entity.ts";
+import { Entity, TweenableEntity } from "../entity.ts";
 
 export function tweenSystemFactory({ world }: { world: World<Entity> }) {
 	const tweened = world.archetype("tweens");
@@ -19,6 +18,10 @@ export function tweenSystemFactory({ world }: { world: World<Entity> }) {
 
 			for (let i = tweens.length - 1; i >= 0; i--) {
 				const tween = tweens[i];
+				if (tween == null) {
+					continue;
+				}
+
 				tween.time += dt;
 
 				if (tween.time < tween.delay) {
@@ -42,16 +45,10 @@ export function tweenSystemFactory({ world }: { world: World<Entity> }) {
 
 				tween.progress = tween.time / tween.duration;
 
-				const property = justSafeGet(entity, tween.property);
-
-				if (property == null) {
-					throw new Error(`Property ${tween.property} not found on entity.`);
-				}
-
 				if (tween.progress >= 1) {
 					tween.iterations++;
 					tween.completed = true;
-					justSafeSet(entity, tween.property, tween.to);
+					setByPath(entity as TweenableEntity, tween.property, tween.to);
 
 					if (tween.events.includes("end")) {
 						if (tween.yoyo && tween.iterations % 2 === 0) {
@@ -74,7 +71,7 @@ export function tweenSystemFactory({ world }: { world: World<Entity> }) {
 						continue;
 					}
 
-					if (tween.yoyo === true) {
+					if (tween.yoyo) {
 						tween.progress = 0;
 						tween.completed = false;
 						tween.time = 0;
@@ -91,7 +88,7 @@ export function tweenSystemFactory({ world }: { world: World<Entity> }) {
 					}
 				}
 
-				if (tween.completed === false) {
+				if (!tween.completed) {
 					let change = 0;
 
 					if (tween.easing === Easing.Linear) {
@@ -115,7 +112,7 @@ export function tweenSystemFactory({ world }: { world: World<Entity> }) {
 							tween.change,
 							tween.duration,
 						);
-					} else if (tween.easing === Easing.OutQuart) {
+					} else {
 						change = easeOutQuart(
 							tween.time,
 							tween.from,
@@ -124,7 +121,7 @@ export function tweenSystemFactory({ world }: { world: World<Entity> }) {
 						);
 					}
 
-					justSafeSet(entity, tween.property, change);
+					setByPath(entity as TweenableEntity, tween.property, change);
 				}
 			}
 		}

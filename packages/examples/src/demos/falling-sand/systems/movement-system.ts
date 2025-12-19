@@ -35,7 +35,7 @@ export function movementSystemFactory(
 
 				const entity = entityGrid[index];
 
-				if (entity?.empty === true) {
+				if (entity == null || entity.empty === true) {
 					continue;
 				}
 

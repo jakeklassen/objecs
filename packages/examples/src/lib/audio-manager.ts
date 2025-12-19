@@ -46,9 +46,7 @@ export class AudioManager {
 			this.#gainNode.connect(this.#audioContext.destination);
 		}
 
-		if (!this.#audioContext.state) {
-			this.#audioContext.resume();
-		}
+		await this.#audioContext.resume();
 
 		for (const [trackName, buffer] of this.#preloaded.entries()) {
 			await this.loadTrackFromBuffer(trackName, buffer);

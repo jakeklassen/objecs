@@ -8,7 +8,12 @@ import { ballMovementSystemFactory } from "./systems/ball-movement-system.ts";
 import { redneringSystemFactory } from "./systems/rendering-system.ts";
 import { obtainCanvas2dContext } from "#/lib/dom.ts";
 
-const canvas = document.querySelector("#canvas") as HTMLCanvasElement;
+const canvas = document.querySelector<HTMLCanvasElement>("#canvas");
+
+if (!canvas) {
+	throw new Error("Canvas element not found");
+}
+
 const ctx = obtainCanvas2dContext(canvas);
 
 const world = new World<Entity>();

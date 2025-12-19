@@ -35,5 +35,5 @@ export class GameTime {
 
 export const gameTime = new GameTime();
 
-// @ts-ignore
+// @ts-expect-error - attaching to window for debugging
 window.gameTime = gameTime;

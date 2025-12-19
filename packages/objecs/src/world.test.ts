@@ -139,17 +139,17 @@ describe("World", () => {
 			const entity = world.createEntity();
 			world.addEntityComponents(entity, "color", "red");
 
-			expect(() =>
-				world.removeEntityComponents(entity, "rectangle"),
-			).not.toThrow();
+			expect(() => {
+				world.removeEntityComponents(entity, "rectangle");
+			}).not.toThrow();
 		});
 
 		it("should not throw if entity does not exist and is not deleted", () => {
 			const world = new World<Entity>();
 
-			expect(() =>
-				world.removeEntityComponents({}, "color"),
-			).not.toThrowError();
+			expect(() => {
+				world.removeEntityComponents({}, "color");
+			}).not.toThrowError();
 		});
 
 		it.skip("should throw if entity has been mark for deletion");
@@ -241,16 +241,16 @@ describe("World", () => {
 
 						{
 							const entity = iterator.next().value;
-							expect(entity.color).toBe("red");
-							expect(entity.transform).toEqual({
+							expect(entity?.color).toBe("red");
+							expect(entity?.transform).toEqual({
 								position: { x: 0, y: 0 },
 							});
 						}
 
 						{
 							const entity = iterator.next().value;
-							expect(entity.color).toBe("blue");
-							expect(entity.transform).toEqual({
+							expect(entity?.color).toBe("blue");
+							expect(entity?.transform).toEqual({
 								position: { x: 1, y: 1 },
 							});
 						}
@@ -261,8 +261,8 @@ describe("World", () => {
 
 						const iterator = renderables.entities.values();
 						const entity = iterator.next().value;
-						expect(entity.color).toBe("blue");
-						expect(entity.transform).toEqual({
+						expect(entity?.color).toBe("blue");
+						expect(entity?.transform).toEqual({
 							position: { x: 1, y: 1 },
 						});
 					}

@@ -26,11 +26,11 @@ export function nextWaveEventSystemFactory({
 	const maxMaves = Object.keys(config.waves).length;
 
 	return function nextWaveEventSystem(dt: number) {
-		if (nextWaveEvents.entities.size === 0) {
+		const [entity] = nextWaveEvents.entities;
+
+		if (entity == null) {
 			return;
 		}
-
-		const [entity] = nextWaveEvents.entities;
 
 		gameState.waveReady = false;
 		gameState.wave++;

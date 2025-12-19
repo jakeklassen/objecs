@@ -59,7 +59,7 @@ export class LoadingScreen extends Scene {
 		this.world.clearEntities();
 		this.timer.clear();
 
-		if (this.audioManager.isInitialized === false) {
+		if (!this.audioManager.isInitialized) {
 			Promise.all([
 				this.audioManager.loadTrack("big-explosion", bigExplosionAudioUrl),
 				this.audioManager.loadTrack("boss-music", bossMusicAudioUrl),
@@ -88,11 +88,13 @@ export class LoadingScreen extends Scene {
 				),
 				this.audioManager.loadTrack("wave-complete", waveCompleteAudioUrl),
 				this.audioManager.loadTrack("wave-spawn", waveSpawnAudioUrl),
-			]).then(() => {
-				// At this point the tracks are `queued`. We cannot progress the
-				// audio manager until the user has interacted with the page.
-				this.#audioManagerReadyToInit = true;
-			});
+			])
+				.then(() => {
+					// At this point the tracks are `queued`. We cannot progress the
+					// audio manager until the user has interacted with the page.
+					this.#audioManagerReadyToInit = true;
+				})
+				.catch(console.error);
 		}
 
 		this.systems.push(
@@ -255,9 +257,12 @@ export class LoadingScreen extends Scene {
 			// Reset the flag so we don't try to init again.
 			this.#audioManagerReadyToInit = false;
 
-			this.audioManager.init().then(() => {
-				this.emit(GameEvent.StartGame);
-			});
+			this.audioManager
+				.init()
+				.then(() => {
+					this.emit(GameEvent.StartGame);
+				})
+				.catch(console.error);
 		}
 	}
 }

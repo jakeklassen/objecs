@@ -8,16 +8,13 @@ import { Entity } from "../entity.ts";
 import { SpriteSheet } from "../spritesheet.ts";
 import { animationDetailsFactory } from "../structures/animation-details.ts";
 
-function enemyFactory<
-	T extends Entity,
-	E extends keyof typeof SpriteSheet.enemies,
->({
+function enemyFactory<T extends Entity>({
 	components,
 	enemyName,
 	world,
 }: {
 	components: T;
-	enemyName: E;
+	enemyName: keyof typeof SpriteSheet.enemies;
 	world: World<Entity>;
 }) {
 	const enemy = SpriteSheet.enemies[enemyName];

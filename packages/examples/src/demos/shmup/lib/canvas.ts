@@ -16,9 +16,9 @@ export function convertNumberToImageSourceFactory() {
 			tintColor = "transparent",
 		}: {
 			context: CanvasRenderingContext2D;
-			characterPadding: number;
+			characterPadding?: number;
 			content: LoadedContent;
-			tintColor: string;
+			tintColor?: string;
 		},
 	): void {
 		const numberString = number.toString();

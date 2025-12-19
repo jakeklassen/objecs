@@ -82,12 +82,12 @@ export function playerEnemyCollisionEventSystemFactory({
 				transform: transformFactory({
 					position: {
 						x:
-							(player.transform?.position.x ?? 0) +
-							(player.sprite?.frame.width ?? 0) / 2 -
+							(player?.transform.position.x ?? 0) +
+							(player?.sprite?.frame.width ?? 0) / 2 -
 							playerExplosionFrameSize / 2,
 						y:
-							(player.transform?.position.y ?? 0) +
-							(player.sprite?.frame.height ?? 0) / 2 -
+							(player?.transform.position.y ?? 0) +
+							(player?.sprite?.frame.height ?? 0) / 2 -
 							playerExplosionFrameSize / 2,
 					},
 				}),

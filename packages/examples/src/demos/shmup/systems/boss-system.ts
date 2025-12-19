@@ -177,7 +177,7 @@ export function bossSystemFactory({
 		};
 	}
 
-	function phase3Factory({}: { timer: Timer }): Phase {
+	function phase3Factory(_options: { timer: Timer }): Phase {
 		const numberOfBullets = 8;
 		const phaseTime = new TimeSpan(8_000);
 		const fireTime = new TimeSpan(333, 0, true);
@@ -267,7 +267,7 @@ export function bossSystemFactory({
 		};
 	}
 
-	function phase4Factory({}: { timer: Timer }): Phase {
+	function phase4Factory(_options: { timer: Timer }): Phase {
 		const fireTime = new TimeSpan(450, 0, true);
 
 		return {
@@ -401,7 +401,7 @@ export function bossSystemFactory({
 		} else if (phase?.phase === 2) {
 			phase = phase.update({ boss, dt, nextPhase: phase3 });
 		} else if (phase?.phase === 3) {
-			phase = phase?.update({ boss, dt, nextPhase: phase4 });
+			phase = phase.update({ boss, dt, nextPhase: phase4 });
 		} else if (phase?.phase === 4) {
 			phase = phase.update({ boss, dt, nextPhase: phase1 });
 		}
