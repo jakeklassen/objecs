@@ -1,7 +1,9 @@
 // @ts-check
 import { World } from "miniplex";
 
-export default async (count) => {
+/**
+ * @param {number} count
+ */ export default async (count) => {
 	const ecs = new World();
 
 	Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ").forEach((component) => {
