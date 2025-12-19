@@ -44,9 +44,9 @@ export class EntityCollection<T> implements ReadonlyEntityCollection<T> {
 
 	/**
 	 * Add an entity. Returns true if added, false if already present.
-	 * @internal
+	 * @remarks Used internally by World and Archetype.
 	 */
-	_add(entity: T): boolean {
+	add(entity: T): boolean {
 		if (this.#indices.has(entity)) {
 			return false;
 		}
@@ -58,9 +58,9 @@ export class EntityCollection<T> implements ReadonlyEntityCollection<T> {
 	/**
 	 * Remove an entity using swap-and-pop for O(1) removal.
 	 * Returns true if removed, false if not present.
-	 * @internal
+	 * @remarks Used internally by World and Archetype.
 	 */
-	_remove(entity: T): boolean {
+	remove(entity: T): boolean {
 		const index = this.#indices.get(entity);
 		if (index === undefined) {
 			return false;
@@ -82,9 +82,9 @@ export class EntityCollection<T> implements ReadonlyEntityCollection<T> {
 
 	/**
 	 * Clear all entities.
-	 * @internal
+	 * @remarks Used internally by World and Archetype.
 	 */
-	_clear(): void {
+	clear(): void {
 		this.#entities.length = 0;
 		this.#indices.clear();
 	}
@@ -151,7 +151,7 @@ export class World<Entity extends JsonObject> {
 	}
 
 	public clearEntities() {
-		this.#entities._clear();
+		this.#entities.clear();
 
 		for (const archetype of this.#archetypes) {
 			archetype.clearEntities();
@@ -172,7 +172,7 @@ export class World<Entity extends JsonObject> {
 			});
 
 			if (matchesArchetype) {
-				entities._add(entity);
+				entities.add(entity);
 			}
 		}
 
@@ -202,7 +202,7 @@ export class World<Entity extends JsonObject> {
 	public createEntity<T extends Entity>(entity?: T) {
 		const _entity = entity ?? ({} as T);
 
-		this.#entities._add(_entity);
+		this.#entities.add(_entity);
 
 		for (const archetype of this.#archetypes) {
 			archetype.addEntity(_entity);
@@ -216,7 +216,7 @@ export class World<Entity extends JsonObject> {
 			archetype.removeEntity(entity);
 		}
 
-		return this.#entities._remove(entity);
+		return this.#entities.remove(entity);
 	}
 
 	/**
