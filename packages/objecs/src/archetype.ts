@@ -78,7 +78,7 @@ export class Archetype<
 
 		if (this.matches(entity)) {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			this.#entities._add(entity as any);
+			this.#entities.add(entity as any);
 		}
 
 		return this;
@@ -86,13 +86,13 @@ export class Archetype<
 
 	public removeEntity(entity: Entity): this {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		this.#entities._remove(entity as any);
+		this.#entities.remove(entity as any);
 
 		return this;
 	}
 
 	clearEntities() {
-		this.#entities._clear();
+		this.#entities.clear();
 	}
 
 	/**
@@ -126,7 +126,7 @@ export class Archetype<
 				continue;
 			}
 
-			entities._add(entity);
+			entities.add(entity);
 		}
 
 		const archetype = new Archetype<
