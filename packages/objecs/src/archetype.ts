@@ -39,7 +39,7 @@ export class Archetype<
 		this.#excluding = without;
 
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		world.archetypes.add(this as any);
+		world.registerArchetype(this as any);
 	}
 
 	public get entities(): ReadonlyEntityCollection<
@@ -60,12 +60,12 @@ export class Archetype<
 
 	public matches(entity: Entity): boolean {
 		const matchesArchetype = this.#components.every((component) => {
-			return component in entity;
+			return Object.hasOwn(entity, component as string);
 		});
 
 		const matchesExcluding =
 			this.#excluding?.some((component) => {
-				return component in entity;
+				return Object.hasOwn(entity, component as string);
 			}) ?? false;
 
 		return matchesArchetype && !matchesExcluding;
@@ -119,7 +119,7 @@ export class Archetype<
 
 		for (const entity of this.#entities) {
 			const matchesWithout = components.every((component) => {
-				return component in entity;
+				return Object.hasOwn(entity, component as string);
 			});
 
 			if (matchesWithout) {

@@ -13,6 +13,11 @@ export type SafeEntity<
 export interface ReadonlyEntityCollection<T> extends Iterable<T> {
 	readonly size: number;
 	/**
+	 * Direct access to the backing array without copying.
+	 * The returned array must not be mutated.
+	 */
+	readonly raw: ReadonlyArray<T>;
+	/**
 	 * Check if an entity is in the collection.
 	 * Accepts any object to allow checking membership without type narrowing.
 	 */
@@ -36,6 +41,10 @@ export class EntityCollection<T> implements ReadonlyEntityCollection<T> {
 
 	get size(): number {
 		return this.#entities.length;
+	}
+
+	get raw(): ReadonlyArray<T> {
+		return this.#entities;
 	}
 
 	has(entity: unknown): boolean {
@@ -141,9 +150,37 @@ export class EntityCollection<T> implements ReadonlyEntityCollection<T> {
 export class World<Entity extends JsonObject> {
 	#archetypes = new Set<Archetype<Entity, Array<keyof Entity>>>();
 	#entities = new EntityCollection<Entity>();
+	#componentIndex = new Map<keyof Entity, Set<Archetype<Entity, Array<keyof Entity>>>>();
 
 	public get archetypes(): Set<Archetype<Entity, Array<keyof Entity>>> {
 		return this.#archetypes;
+	}
+
+	/**
+	 * Register an archetype and index it by its components for fast lookup.
+	 * @remarks Used internally by Archetype constructor.
+	 */
+	public registerArchetype(archetype: Archetype<Entity, Array<keyof Entity>>): void {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+		this.#archetypes.add(archetype as any);
+
+		for (const component of archetype.components) {
+			let set = this.#componentIndex.get(component);
+			if (set === undefined) {
+				set = new Set();
+				this.#componentIndex.set(component, set);
+			}
+			set.add(archetype);
+		}
+
+		for (const component of archetype.excluding) {
+			let set = this.#componentIndex.get(component as keyof Entity);
+			if (set === undefined) {
+				set = new Set();
+				this.#componentIndex.set(component as keyof Entity, set);
+			}
+			set.add(archetype);
+		}
 	}
 
 	public get entities(): ReadonlyEntityCollection<Entity> {
@@ -168,7 +205,7 @@ export class World<Entity extends JsonObject> {
 
 		for (const entity of this.#entities) {
 			const matchesArchetype = components.every((component) => {
-				return component in entity;
+				return Object.hasOwn(entity, component as string);
 			});
 
 			if (matchesArchetype) {
@@ -248,21 +285,29 @@ export class World<Entity extends JsonObject> {
 			throw new Error(`Entity does not exist`);
 		}
 
+		// Collect changed keys for index lookup
+		const changedKeys: Array<keyof Entity> = [];
+
 		// Single component: addEntityComponents(entity, "key", value)
 		if (typeof componentOrComponents === "string" && value !== undefined) {
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			entity[componentOrComponents] = value;
+			changedKeys.push(componentOrComponents as keyof Entity);
 		} else {
 			// Multiple components: addEntityComponents(entity, { key: value, ... })
 			const components = componentOrComponents as Record<string, unknown>;
 			for (const key in components) {
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 				(entity as any)[key] = components[key];
+				changedKeys.push(key as keyof Entity);
 			}
 		}
 
-		for (const archetype of this.#archetypes) {
+		// Only check archetypes that reference the changed components
+		const affectedArchetypes = this.#getAffectedArchetypes(changedKeys);
+
+		for (const archetype of affectedArchetypes) {
 			if (archetype.matches(entity)) {
 				archetype.addEntity(entity);
 			} else {
@@ -271,6 +316,21 @@ export class World<Entity extends JsonObject> {
 		}
 
 		return entity;
+	}
+
+	#getAffectedArchetypes(
+		keys: Array<keyof Entity>,
+	): Set<Archetype<Entity, Array<keyof Entity>>> {
+		const result = new Set<Archetype<Entity, Array<keyof Entity>>>();
+		for (const key of keys) {
+			const archetypes = this.#componentIndex.get(key);
+			if (archetypes !== undefined) {
+				for (const archetype of archetypes) {
+					result.add(archetype);
+				}
+			}
+		}
+		return result;
 	}
 
 	public removeEntityComponents(
@@ -283,7 +343,10 @@ export class World<Entity extends JsonObject> {
 				delete entity[component];
 			}
 
-			for (const archetype of this.#archetypes) {
+			// Only check archetypes that reference the removed components
+			const affectedArchetypes = this.#getAffectedArchetypes(components);
+
+			for (const archetype of affectedArchetypes) {
 				if (archetype.matches(entity)) {
 					archetype.addEntity(entity);
 				} else {
