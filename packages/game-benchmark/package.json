@@ -1,0 +1,23 @@
+{
+	"name": "game-benchmark",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"start": "node src/index.ts",
+		"start:boids": "node src/index.ts --game boids",
+		"start:ants": "node src/index.ts --game ants",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@kmamal/sdl": "^0.11.13",
+		"canvas": "^3.2.1",
+		"miniplex": "^2.0.0",
+		"objecs": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/node": "^22.19.11",
+		"tsx": "^4.21.0",
+		"typescript": "5.9.3"
+	}
+}

@@ -17,11 +17,16 @@
 			"path": "packages/ecs-benchmark"
 		},
 		{
+			"name": "📦 game-benchmark",
+			"path": "packages/game-benchmark"
+		},
+		{
 			"name": "📦 examples",
 			"path": "packages/examples"
 		}
 	],
 	"settings": {
-		"typescript.preferences.importModuleSpecifierEnding": "js"
+		"typescript.preferences.importModuleSpecifierEnding": "js",
+		"explorer.compactFolders": false
 	}
 }
