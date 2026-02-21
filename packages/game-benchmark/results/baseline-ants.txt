@@ -1,0 +1,136 @@
+Game Benchmark - ECS Performance Testing
+========================================
+Game: ants
+Libraries: objecs, miniplex
+Duration: 10s per library
+Entity Count: 500
+Mode: comparison (headless)
+
+
+==================================================
+Running: objecs
+==================================================
+[objecs] Starting ant simulation with 500 ants...
+Spawning ants...
+Spawning food clusters...
+Created 621 entities
+Running simulation for 10 seconds...
+
+=== Profiler Report ===
+
+Frame Statistics:
+  Frames: 439
+  Avg Frame Time: 21.627ms
+  Min Frame Time: 2.730ms
+  Max Frame Time: 40.324ms
+  Avg FPS: 46.2
+
+System Timings:
+  render:
+    Calls: 439
+    Total: 9136.137ms
+    Avg: 20.811ms
+  steering:
+    Calls: 439
+    Total: 252.262ms
+    Avg: 0.575ms
+  pheromone-decay:
+    Calls: 439
+    Total: 60.538ms
+    Avg: 0.138ms
+  food-pickup:
+    Calls: 439
+    Total: 29.055ms
+    Avg: 0.066ms
+  pheromone-deposit:
+    Calls: 439
+    Total: 7.236ms
+    Avg: 0.016ms
+  movement:
+    Calls: 439
+    Total: 2.443ms
+    Avg: 0.006ms
+  nest-delivery:
+    Calls: 439
+    Total: 2.324ms
+    Avg: 0.005ms
+
+Total frames: 439
+Food collected: 20
+
+==================================================
+Running: miniplex
+==================================================
+[miniplex] Starting ant simulation with 500 ants...
+Spawning ants...
+Spawning food clusters...
+Created 621 entities
+Running simulation for 10 seconds...
+
+=== Profiler Report ===
+
+Frame Statistics:
+  Frames: 441
+  Avg Frame Time: 21.526ms
+  Min Frame Time: 2.907ms
+  Max Frame Time: 39.721ms
+  Avg FPS: 46.5
+
+System Timings:
+  render:
+    Calls: 441
+    Total: 9090.905ms
+    Avg: 20.614ms
+  steering:
+    Calls: 441
+    Total: 266.826ms
+    Avg: 0.605ms
+  food-pickup:
+    Calls: 441
+    Total: 59.236ms
+    Avg: 0.134ms
+  pheromone-decay:
+    Calls: 441
+    Total: 57.841ms
+    Avg: 0.131ms
+  pheromone-deposit:
+    Calls: 441
+    Total: 6.720ms
+    Avg: 0.015ms
+  movement:
+    Calls: 441
+    Total: 3.403ms
+    Avg: 0.008ms
+  nest-delivery:
+    Calls: 441
+    Total: 3.204ms
+    Avg: 0.007ms
+
+Total frames: 441
+Food collected: 38
+
+============================================================
+COMPARISON REPORT
+============================================================
+
+📊 Overall Performance (sorted by FPS):
+
+Library        Avg FPS   Avg Frame   Min Frame   Max Frame  Diff
+----------------------------------------------------------------------
+miniplex          46.5     21.53ms      2.91ms     39.72ms  👑 BEST
+objecs            46.2     21.63ms      2.73ms     40.32ms  0.5% slower
+
+📈 System Timings (avg ms per call):
+
+System               objecs    miniplex
+---------------------------------------
+steering             0.575*      0.605 
+movement             0.006*      0.008 
+pheromone-deposit      0.016       0.015*
+pheromone-decay      0.138       0.131*
+food-pickup          0.066*      0.134 
+nest-delivery        0.005*      0.007 
+render              20.811      20.614*
+
+* = fastest for this system
+

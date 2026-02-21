@@ -1,6 +1,10 @@
 packages:
   - packages/*
   - '!**/test/**'
+
 onlyBuiltDependencies:
+  - '@kmamal/sdl'
+  - canvas
   - esbuild
   - sharp
+  - typeslayer

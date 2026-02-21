@@ -1,0 +1,114 @@
+Game Benchmark - ECS Performance Testing
+========================================
+Game: boids
+Libraries: objecs, miniplex
+Duration: 10s per library
+Entity Count: 500
+Mode: comparison (headless)
+
+
+==================================================
+Running: objecs
+==================================================
+[objecs] Starting boids simulation with 500 boids...
+Spawning boids...
+Created 500 entities
+Running simulation for 10 seconds...
+
+=== Profiler Report ===
+
+Frame Statistics:
+  Frames: 2929
+  Avg Frame Time: 2.211ms
+  Min Frame Time: 1.807ms
+  Max Frame Time: 5.549ms
+  Avg FPS: 452.4
+
+System Timings:
+  render:
+    Calls: 2929
+    Total: 4316.982ms
+    Avg: 1.474ms
+  flocking:
+    Calls: 2929
+    Total: 1815.636ms
+    Avg: 0.620ms
+  movement:
+    Calls: 2929
+    Total: 9.923ms
+    Avg: 0.003ms
+  explosion:
+    Calls: 2929
+    Total: 5.286ms
+    Avg: 0.002ms
+  bounds:
+    Calls: 2929
+    Total: 4.783ms
+    Avg: 0.002ms
+
+Total frames: 2929
+
+==================================================
+Running: miniplex
+==================================================
+[miniplex] Starting boids simulation with 500 boids...
+Spawning boids...
+Created 500 entities
+Running simulation for 10 seconds...
+
+=== Profiler Report ===
+
+Frame Statistics:
+  Frames: 2863
+  Avg Frame Time: 2.292ms
+  Min Frame Time: 1.954ms
+  Max Frame Time: 7.171ms
+  Avg FPS: 436.4
+
+System Timings:
+  render:
+    Calls: 2863
+    Total: 4232.324ms
+    Avg: 1.478ms
+  flocking:
+    Calls: 2863
+    Total: 1866.672ms
+    Avg: 0.652ms
+  movement:
+    Calls: 2863
+    Total: 16.836ms
+    Avg: 0.006ms
+  explosion:
+    Calls: 2863
+    Total: 12.294ms
+    Avg: 0.004ms
+  bounds:
+    Calls: 2863
+    Total: 11.338ms
+    Avg: 0.004ms
+
+Total frames: 2863
+
+============================================================
+COMPARISON REPORT
+============================================================
+
+📊 Overall Performance (sorted by FPS):
+
+Library        Avg FPS   Avg Frame   Min Frame   Max Frame  Diff
+----------------------------------------------------------------------
+objecs           452.4      2.21ms      1.81ms      5.55ms  👑 BEST
+miniplex         436.4      2.29ms      1.95ms      7.17ms  3.5% slower
+
+📈 System Timings (avg ms per call):
+
+System               objecs    miniplex
+---------------------------------------
+flocking             0.620*      0.652 
+explosion            0.002*      0.004 
+movement             0.003*      0.006 
+bounds               0.002*      0.004 
+render               1.474*      1.478 
+
+* = fastest for this system
+
