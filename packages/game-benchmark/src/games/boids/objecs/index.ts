@@ -13,12 +13,14 @@ export interface BoidsGameOptions {
 	config?: Partial<BoidsConfig>;
 	duration?: number;
 	showWindow?: boolean;
+	skipRender?: boolean;
 }
 
 export async function runBoidsGame(options: BoidsGameOptions = {}) {
 	const config: BoidsConfig = { ...DEFAULT_CONFIG, ...options.config };
 	const duration = options.duration ?? 10;
 	const showWindow = options.showWindow ?? true;
+	const skipRender = options.skipRender ?? false;
 
 	console.log(
 		`[objecs] Starting boids simulation with ${config.count} boids...`,
@@ -34,8 +36,10 @@ export async function runBoidsGame(options: BoidsGameOptions = {}) {
 		  })
 		: null;
 
-	const canvas = Canvas.createCanvas(config.width, config.height);
-	const ctx = canvas.getContext("2d");
+	const canvas = skipRender
+		? null
+		: Canvas.createCanvas(config.width, config.height);
+	const ctx = canvas?.getContext("2d") ?? null;
 
 	const world = new World<Entity>();
 
@@ -76,10 +80,12 @@ export async function runBoidsGame(options: BoidsGameOptions = {}) {
 		createBoundsSystem(positionArchetype, config),
 	);
 
-	const renderSystem = profiler.profileSystem(
-		"render",
-		createRenderSystem(renderableArchetype, ctx, config),
-	);
+	const renderSystem = ctx
+		? profiler.profileSystem(
+				"render",
+				createRenderSystem(renderableArchetype, ctx, config),
+			)
+		: null;
 
 	console.log("Spawning boids...");
 	for (let i = 0; i < config.count; i++) {
@@ -141,32 +147,35 @@ export async function runBoidsGame(options: BoidsGameOptions = {}) {
 		const explosion = explosionSystem(currentTime);
 		movementSystem();
 		boundsSystem();
-		renderSystem();
 
-		// Render explosion effect
-		if (explosion) {
-			ctx.beginPath();
-			ctx.arc(explosion.x, explosion.y, explosion.radius, 0, Math.PI * 2);
-			ctx.strokeStyle = "rgba(255, 100, 50, 0.5)";
-			ctx.lineWidth = 2;
-			ctx.stroke();
+		if (!skipRender) {
+			renderSystem!();
 
-			// Inner glow
-			ctx.beginPath();
-			ctx.arc(explosion.x, explosion.y, explosion.radius * 0.3, 0, Math.PI * 2);
-			ctx.fillStyle = "rgba(255, 200, 100, 0.3)";
-			ctx.fill();
-		}
+			// Render explosion effect
+			if (explosion) {
+				ctx!.beginPath();
+				ctx!.arc(explosion.x, explosion.y, explosion.radius, 0, Math.PI * 2);
+				ctx!.strokeStyle = "rgba(255, 100, 50, 0.5)";
+				ctx!.lineWidth = 2;
+				ctx!.stroke();
 
-		if (window && !window.destroyed) {
-			const buffer = canvas.toBuffer("raw");
-			window.render(
-				config.width,
-				config.height,
-				config.width * 4,
-				"bgra32",
-				buffer,
-			);
+				// Inner glow
+				ctx!.beginPath();
+				ctx!.arc(explosion.x, explosion.y, explosion.radius * 0.3, 0, Math.PI * 2);
+				ctx!.fillStyle = "rgba(255, 200, 100, 0.3)";
+				ctx!.fill();
+			}
+
+			if (window && !window.destroyed) {
+				const buffer = canvas!.toBuffer("raw");
+				window.render(
+					config.width,
+					config.height,
+					config.width * 4,
+					"bgra32",
+					buffer,
+				);
+			}
 		}
 
 		profiler.frameEnd();

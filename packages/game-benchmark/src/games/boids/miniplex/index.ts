@@ -11,12 +11,14 @@ export interface BoidsGameOptions {
 	config?: Partial<BoidsConfig>;
 	duration?: number;
 	showWindow?: boolean;
+	skipRender?: boolean;
 }
 
 export async function runBoidsGame(options: BoidsGameOptions = {}) {
 	const config: BoidsConfig = { ...DEFAULT_CONFIG, ...options.config };
 	const duration = options.duration ?? 10;
 	const showWindow = options.showWindow ?? true;
+	const skipRender = options.skipRender ?? false;
 
 	console.log(
 		`[miniplex] Starting boids simulation with ${config.count} boids...`,
@@ -32,8 +34,10 @@ export async function runBoidsGame(options: BoidsGameOptions = {}) {
 		  })
 		: null;
 
-	const canvas = Canvas.createCanvas(config.width, config.height);
-	const ctx = canvas.getContext("2d");
+	const canvas = skipRender
+		? null
+		: Canvas.createCanvas(config.width, config.height);
+	const ctx = canvas?.getContext("2d") ?? null;
 
 	const world = new World<MiniplexEntity>();
 
@@ -281,32 +285,34 @@ export async function runBoidsGame(options: BoidsGameOptions = {}) {
 	);
 
 	// Render system
-	const renderSystem = profiler.profileSystem("render", () => {
-		ctx.fillStyle = "#000000";
-		ctx.fillRect(0, 0, config.width, config.height);
+	const renderSystem = ctx
+		? profiler.profileSystem("render", () => {
+				ctx.fillStyle = "#000000";
+				ctx.fillRect(0, 0, config.width, config.height);
 
-		for (const entity of renderables.entities) {
-			const pos = entity.position;
-			const vel = entity.velocity;
-			const sprite = entity.sprite;
+				for (const entity of renderables.entities) {
+					const pos = entity.position;
+					const vel = entity.velocity;
+					const sprite = entity.sprite;
 
-			const angle = Math.atan2(vel.y, vel.x);
+					const angle = Math.atan2(vel.y, vel.x);
 
-			ctx.save();
-			ctx.translate(pos.x, pos.y);
-			ctx.rotate(angle);
+					ctx.save();
+					ctx.translate(pos.x, pos.y);
+					ctx.rotate(angle);
 
-			ctx.fillStyle = sprite.color;
-			ctx.beginPath();
-			ctx.moveTo(sprite.size, 0);
-			ctx.lineTo(-sprite.size, -sprite.size / 2);
-			ctx.lineTo(-sprite.size, sprite.size / 2);
-			ctx.closePath();
-			ctx.fill();
+					ctx.fillStyle = sprite.color;
+					ctx.beginPath();
+					ctx.moveTo(sprite.size, 0);
+					ctx.lineTo(-sprite.size, -sprite.size / 2);
+					ctx.lineTo(-sprite.size, sprite.size / 2);
+					ctx.closePath();
+					ctx.fill();
 
-			ctx.restore();
-		}
-	});
+					ctx.restore();
+				}
+			})
+		: null;
 
 	console.log("Spawning boids...");
 	for (let i = 0; i < config.count; i++) {
@@ -368,44 +374,47 @@ export async function runBoidsGame(options: BoidsGameOptions = {}) {
 		const currentExplosion = explosionSystem(currentTime);
 		movementSystem();
 		boundsSystem();
-		renderSystem();
 
-		// Render explosion effect
-		if (currentExplosion) {
-			ctx.beginPath();
-			ctx.arc(
-				currentExplosion.x,
-				currentExplosion.y,
-				currentExplosion.radius,
-				0,
-				Math.PI * 2,
-			);
-			ctx.strokeStyle = "rgba(255, 100, 50, 0.5)";
-			ctx.lineWidth = 2;
-			ctx.stroke();
+		if (!skipRender) {
+			renderSystem!();
 
-			// Inner glow
-			ctx.beginPath();
-			ctx.arc(
-				currentExplosion.x,
-				currentExplosion.y,
-				currentExplosion.radius * 0.3,
-				0,
-				Math.PI * 2,
-			);
-			ctx.fillStyle = "rgba(255, 200, 100, 0.3)";
-			ctx.fill();
-		}
+			// Render explosion effect
+			if (currentExplosion) {
+				ctx!.beginPath();
+				ctx!.arc(
+					currentExplosion.x,
+					currentExplosion.y,
+					currentExplosion.radius,
+					0,
+					Math.PI * 2,
+				);
+				ctx!.strokeStyle = "rgba(255, 100, 50, 0.5)";
+				ctx!.lineWidth = 2;
+				ctx!.stroke();
 
-		if (window && !window.destroyed) {
-			const buffer = canvas.toBuffer("raw");
-			window.render(
-				config.width,
-				config.height,
-				config.width * 4,
-				"bgra32",
-				buffer,
-			);
+				// Inner glow
+				ctx!.beginPath();
+				ctx!.arc(
+					currentExplosion.x,
+					currentExplosion.y,
+					currentExplosion.radius * 0.3,
+					0,
+					Math.PI * 2,
+				);
+				ctx!.fillStyle = "rgba(255, 200, 100, 0.3)";
+				ctx!.fill();
+			}
+
+			if (window && !window.destroyed) {
+				const buffer = canvas!.toBuffer("raw");
+				window.render(
+					config.width,
+					config.height,
+					config.width * 4,
+					"bgra32",
+					buffer,
+				);
+			}
 		}
 
 		profiler.frameEnd();

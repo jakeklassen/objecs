@@ -13,6 +13,7 @@ export interface AntSimulationGameOptions {
 	config?: Partial<AntSimulationConfig>;
 	duration?: number;
 	showWindow?: boolean;
+	skipRender?: boolean;
 }
 
 export async function runAntSimulationGame(
@@ -21,6 +22,7 @@ export async function runAntSimulationGame(
 	const config: AntSimulationConfig = { ...DEFAULT_CONFIG, ...options.config };
 	const duration = options.duration ?? 10;
 	const showWindow = options.showWindow ?? true;
+	const skipRender = options.skipRender ?? false;
 
 	console.log(
 		`[miniplex] Starting ant simulation with ${config.antCount} ants...`,
@@ -36,8 +38,10 @@ export async function runAntSimulationGame(
 			})
 		: null;
 
-	const canvas = Canvas.createCanvas(config.width, config.height);
-	const ctx = canvas.getContext("2d");
+	const canvas = skipRender
+		? null
+		: Canvas.createCanvas(config.width, config.height);
+	const ctx = canvas?.getContext("2d") ?? null;
 
 	const world = new World<Entity>();
 
@@ -289,101 +293,103 @@ export async function runAntSimulationGame(
 	});
 
 	// Render system
-	const renderSystem = profiler.profileSystem("render", () => {
-		// Clear background
-		ctx.fillStyle = "#1a1a1a";
-		ctx.fillRect(0, 0, config.width, config.height);
+	const renderSystem = ctx
+		? profiler.profileSystem("render", () => {
+				// Clear background
+				ctx.fillStyle = "#1a1a1a";
+				ctx.fillRect(0, 0, config.width, config.height);
 
-		// Draw pheromones
-		const homeTrail = pheromoneMap.getTrailData("home");
-		const foodTrail = pheromoneMap.getTrailData("food");
-		const cellSize = config.pheromoneCellSize;
+				// Draw pheromones
+				const homeTrail = pheromoneMap.getTrailData("home");
+				const foodTrail = pheromoneMap.getTrailData("food");
+				const cellSize = config.pheromoneCellSize;
 
-		for (let y = 0; y < pheromoneMap.gridHeight; y++) {
-			for (let x = 0; x < pheromoneMap.gridWidth; x++) {
-				const idx = y * pheromoneMap.gridWidth + x;
-				const homeStrength = homeTrail[idx];
-				const foodStrength = foodTrail[idx];
+				for (let y = 0; y < pheromoneMap.gridHeight; y++) {
+					for (let x = 0; x < pheromoneMap.gridWidth; x++) {
+						const idx = y * pheromoneMap.gridWidth + x;
+						const homeStrength = homeTrail[idx];
+						const foodStrength = foodTrail[idx];
 
-				if (homeStrength > 0.01 || foodStrength > 0.01) {
-					const worldX = x * cellSize;
-					const worldY = y * cellSize;
+						if (homeStrength > 0.01 || foodStrength > 0.01) {
+							const worldX = x * cellSize;
+							const worldY = y * cellSize;
 
-					if (homeStrength > 0.01) {
-						ctx.fillStyle = `rgba(66, 135, 245, ${homeStrength * 0.5})`;
-						ctx.fillRect(worldX, worldY, cellSize, cellSize);
-					}
-					if (foodStrength > 0.01) {
-						ctx.fillStyle = `rgba(253, 33, 8, ${foodStrength * 0.5})`;
-						ctx.fillRect(worldX, worldY, cellSize, cellSize);
+							if (homeStrength > 0.01) {
+								ctx.fillStyle = `rgba(66, 135, 245, ${homeStrength * 0.5})`;
+								ctx.fillRect(worldX, worldY, cellSize, cellSize);
+							}
+							if (foodStrength > 0.01) {
+								ctx.fillStyle = `rgba(253, 33, 8, ${foodStrength * 0.5})`;
+								ctx.fillRect(worldX, worldY, cellSize, cellSize);
+							}
+						}
 					}
 				}
-			}
-		}
 
-		// Draw food
-		ctx.fillStyle = config.foodColor;
-		for (const f of foods.entities) {
-			ctx.beginPath();
-			ctx.arc(f.position.x, f.position.y, 3, 0, Math.PI * 2);
-			ctx.fill();
-		}
+				// Draw food
+				ctx.fillStyle = config.foodColor;
+				for (const f of foods.entities) {
+					ctx.beginPath();
+					ctx.arc(f.position.x, f.position.y, 3, 0, Math.PI * 2);
+					ctx.fill();
+				}
 
-		// Draw nest
-		for (const nest of nests.entities) {
-			ctx.fillStyle = config.nestColor;
-			ctx.beginPath();
-			ctx.arc(
-				nest.position.x,
-				nest.position.y,
-				nest.nest.radius,
-				0,
-				Math.PI * 2,
-			);
-			ctx.fill();
+				// Draw nest
+				for (const nest of nests.entities) {
+					ctx.fillStyle = config.nestColor;
+					ctx.beginPath();
+					ctx.arc(
+						nest.position.x,
+						nest.position.y,
+						nest.nest.radius,
+						0,
+						Math.PI * 2,
+					);
+					ctx.fill();
 
-			ctx.fillStyle = "white";
-			ctx.font = "20px monospace";
-			ctx.textAlign = "center";
-			ctx.textBaseline = "middle";
-			ctx.fillText(
-				String(nest.nest.foodCollected),
-				nest.position.x,
-				nest.position.y,
-			);
-		}
+					ctx.fillStyle = "white";
+					ctx.font = "20px monospace";
+					ctx.textAlign = "center";
+					ctx.textBaseline = "middle";
+					ctx.fillText(
+						String(nest.nest.foodCollected),
+						nest.position.x,
+						nest.position.y,
+					);
+				}
 
-		// Draw ants
-		for (const ant of ants.entities) {
-			const { x, y } = ant.position;
-			const angle = Math.atan2(ant.velocity.y, ant.velocity.x);
+				// Draw ants
+				for (const ant of ants.entities) {
+					const { x, y } = ant.position;
+					const angle = Math.atan2(ant.velocity.y, ant.velocity.x);
 
-			ctx.save();
-			ctx.translate(x, y);
-			ctx.rotate(angle);
+					ctx.save();
+					ctx.translate(x, y);
+					ctx.rotate(angle);
 
-			ctx.fillStyle = ant.ant.hasFood
-				? config.antWithFoodColor
-				: config.antColor;
-			ctx.beginPath();
-			ctx.moveTo(4, 0);
-			ctx.lineTo(-3, -2);
-			ctx.lineTo(-3, 2);
-			ctx.closePath();
-			ctx.fill();
+					ctx.fillStyle = ant.ant.hasFood
+						? config.antWithFoodColor
+						: config.antColor;
+					ctx.beginPath();
+					ctx.moveTo(4, 0);
+					ctx.lineTo(-3, -2);
+					ctx.lineTo(-3, 2);
+					ctx.closePath();
+					ctx.fill();
 
-			ctx.restore();
-		}
+					ctx.restore();
+				}
 
-		// Draw UI
-		ctx.fillStyle = "white";
-		ctx.font = "14px monospace";
-		ctx.textAlign = "left";
-		ctx.textBaseline = "top";
-		ctx.fillText(`Food collected: ${foodCollected}`, 10, 10);
-		ctx.fillText(`Ants: ${ants.entities.length}`, 10, 28);
-		ctx.fillText(`Food remaining: ${foods.entities.length}`, 10, 46);
-	});
+				// Draw UI
+				ctx.fillStyle = "white";
+				ctx.font = "14px monospace";
+				ctx.textAlign = "left";
+				ctx.textBaseline = "top";
+				ctx.fillText(`Food collected: ${foodCollected}`, 10, 10);
+				ctx.fillText(`Ants: ${ants.entities.length}`, 10, 28);
+				ctx.fillText(`Food remaining: ${foods.entities.length}`, 10, 46);
+			})
+		: null;
 
 	// Create nest at center
 	world.add({
@@ -472,17 +478,20 @@ export async function runAntSimulationGame(
 		pheromoneDecaySystem();
 		foodPickupSystem();
 		nestDeliverySystem();
-		renderSystem();
 
-		if (window && !window.destroyed) {
-			const buffer = canvas.toBuffer("raw");
-			window.render(
-				config.width,
-				config.height,
-				config.width * 4,
-				"bgra32",
-				buffer,
-			);
+		if (!skipRender) {
+			renderSystem!();
+
+			if (window && !window.destroyed) {
+				const buffer = canvas!.toBuffer("raw");
+				window.render(
+					config.width,
+					config.height,
+					config.width * 4,
+					"bgra32",
+					buffer,
+				);
+			}
 		}
 
 		profiler.frameEnd();

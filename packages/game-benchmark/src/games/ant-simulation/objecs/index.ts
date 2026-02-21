@@ -20,6 +20,7 @@ export interface AntSimulationGameOptions {
 	config?: Partial<AntSimulationConfig>;
 	duration?: number;
 	showWindow?: boolean;
+	skipRender?: boolean;
 }
 
 export async function runAntSimulationGame(
@@ -28,6 +29,7 @@ export async function runAntSimulationGame(
 	const config: AntSimulationConfig = { ...DEFAULT_CONFIG, ...options.config };
 	const duration = options.duration ?? 10;
 	const showWindow = options.showWindow ?? true;
+	const skipRender = options.skipRender ?? false;
 
 	console.log(
 		`[objecs] Starting ant simulation with ${config.antCount} ants...`,
@@ -43,8 +45,10 @@ export async function runAntSimulationGame(
 			})
 		: null;
 
-	const canvas = Canvas.createCanvas(config.width, config.height);
-	const ctx = canvas.getContext("2d");
+	const canvas = skipRender
+		? null
+		: Canvas.createCanvas(config.width, config.height);
+	const ctx = canvas?.getContext("2d") ?? null;
 
 	const world = new World<Entity>();
 
@@ -150,17 +154,19 @@ export async function runAntSimulationGame(
 		createNestDeliverySystem(antArchetype, nestArchetype, config),
 	);
 
-	const renderSystem = profiler.profileSystem(
-		"render",
-		createRenderSystem(
-			antArchetype,
-			foodArchetype,
-			nestArchetype,
-			pheromoneMap,
-			ctx,
-			config,
-		),
-	);
+	const renderSystem = ctx
+		? profiler.profileSystem(
+				"render",
+				createRenderSystem(
+					antArchetype,
+					foodArchetype,
+					nestArchetype,
+					pheromoneMap,
+					ctx,
+					config,
+				),
+			)
+		: null;
 
 	console.log(`Created ${world.entities.size} entities`);
 	console.log(
@@ -195,17 +201,20 @@ export async function runAntSimulationGame(
 		pheromoneDecaySystem();
 		foodPickupSystem();
 		foodCollected = nestDeliverySystem();
-		renderSystem(foodCollected);
 
-		if (window && !window.destroyed) {
-			const buffer = canvas.toBuffer("raw");
-			window.render(
-				config.width,
-				config.height,
-				config.width * 4,
-				"bgra32",
-				buffer,
-			);
+		if (!skipRender) {
+			renderSystem!(foodCollected);
+
+			if (window && !window.destroyed) {
+				const buffer = canvas!.toBuffer("raw");
+				window.render(
+					config.width,
+					config.height,
+					config.width * 4,
+					"bgra32",
+					buffer,
+				);
+			}
 		}
 
 		profiler.frameEnd();

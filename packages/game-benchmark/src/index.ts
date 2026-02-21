@@ -9,8 +9,13 @@ import {
 	ALL_LIBRARIES as ANT_LIBRARIES,
 	type EcsLibrary as AntEcsLibrary,
 } from "./games/ant-simulation/index.ts";
+import {
+	runMutationGame,
+	ALL_LIBRARIES as MUTATION_LIBRARIES,
+	type EcsLibrary as MutationEcsLibrary,
+} from "./games/mutation/index.ts";
 
-type GameType = "boids" | "ants";
+type GameType = "boids" | "ants" | "mutation";
 
 const { values } = parseArgs({
 	allowNegative: true,
@@ -38,6 +43,14 @@ const { values } = parseArgs({
 		headless: {
 			type: "boolean",
 		},
+		render: {
+			type: "boolean",
+		},
+		trials: {
+			type: "string",
+			short: "t",
+			default: "1",
+		},
 		help: {
 			type: "boolean",
 			default: false,
@@ -55,9 +68,11 @@ Options:
   -g, --game <name>      Game to run (default: boids)
   -l, --lib <name>       ECS library to test (can specify multiple, default: all)
   -d, --duration <secs>  Duration in seconds per library (default: 10)
-  -c, --count <num>      Entity count (default: 500 boids, 50 ants)
+  -c, --count <num>      Entity count (default: 500 boids, 50 ants, 1000 mutation)
+  -t, --trials <num>     Number of trials per library (default: 1)
       --headless         Run without window
       --no-headless      Run with window (show each lib sequentially)
+      --no-render        Skip all rendering (isolate ECS performance)
       --help             Show this help
 
 Libraries:
@@ -65,8 +80,9 @@ Libraries:
   miniplex   miniplex ECS library
 
 Games:
-  boids    Flocking simulation with separation, alignment, and cohesion
-  ants     Ant colony simulation with pheromone trails
+  boids      Flocking simulation with separation, alignment, and cohesion
+  ants       Ant colony simulation with pheromone trails
+  mutation   Component mutation stress test (add/remove components)
 
 Defaults:
   - Single library: shows window
@@ -80,6 +96,9 @@ Examples:
   pnpm start -c 1000 -d 30                      # 1000 boids, 30s per lib
   pnpm start -g ants                            # Run ant simulation
   pnpm start -g ants -c 100                     # 100 ants
+  pnpm start -g mutation                        # Run mutation benchmark
+  pnpm start --no-render -g boids -d 5          # Boids without rendering
+  pnpm start --no-render -g boids -d 5 -t 10   # 10 trials, no rendering
 `);
 	process.exit(0);
 }
@@ -87,6 +106,8 @@ Examples:
 const game = values.game as GameType;
 const duration = parseInt(values.duration, 10);
 const count = parseInt(values.count, 10);
+const trials = parseInt(values.trials, 10);
+const skipRender = values.render === false;
 
 // Get available libraries for the selected game
 function getAvailableLibraries(gameType: GameType): string[] {
@@ -95,6 +116,8 @@ function getAvailableLibraries(gameType: GameType): string[] {
 			return [...BOIDS_LIBRARIES];
 		case "ants":
 			return [...ANT_LIBRARIES];
+		case "mutation":
+			return [...MUTATION_LIBRARIES];
 		default:
 			return [];
 	}
@@ -115,8 +138,11 @@ const isComparison = libraries.length > 1;
 // - Explicit --headless: no window
 // - Explicit --no-headless: show window
 // - Not specified: headless for comparisons, window for single lib
+// - mutation game is always headless
 let showWindow: boolean;
-if (values.headless === true) {
+if (game === "mutation" || skipRender) {
+	showWindow = false;
+} else if (values.headless === true) {
 	showWindow = false;
 } else if (values.headless === false) {
 	showWindow = true;
@@ -131,17 +157,116 @@ console.log(`Game: ${game}`);
 console.log(`Libraries: ${libraries.join(", ")}`);
 console.log(`Duration: ${duration}s per library`);
 console.log(`Entity Count: ${count}`);
-console.log(`Mode: ${isComparison ? "comparison" : "single"}${showWindow ? " (with window)" : " (headless)"}`);
+console.log(
+	`Mode: ${isComparison ? "comparison" : "single"}${showWindow ? " (with window)" : " (headless)"}${skipRender ? " (no-render)" : ""}`,
+);
+if (trials > 1) {
+	console.log(`Trials: ${trials}`);
+}
 console.log("");
+
+function calcStats(values: number[]): { mean: number; stddev: number } {
+	const n = values.length;
+	if (n === 0) return { mean: 0, stddev: 0 };
+	const mean = values.reduce((a, b) => a + b, 0) / n;
+	if (n === 1) return { mean, stddev: 0 };
+	const variance =
+		values.reduce((sum, v) => sum + (v - mean) * (v - mean), 0) / (n - 1);
+	return { mean, stddev: Math.sqrt(variance) };
+}
+
+interface TrialResult {
+	avgFps: number;
+	avgFrameTime: number;
+	frameCount: number;
+	systemTimings: Map<string, number>; // system name -> avg ms per call
+}
 
 interface BenchmarkResult {
 	library: string;
-	frameCount: number;
-	avgFps: number;
-	avgFrameTime: number;
-	minFrameTime: number;
-	maxFrameTime: number;
-	systemTimings: Map<string, { avg: number; total: number }>;
+	trialCount: number;
+	fps: { mean: number; stddev: number };
+	frameTime: { mean: number; stddev: number };
+	systemTimings: Map<string, { mean: number; stddev: number }>;
+}
+
+async function runSingleTrial(
+	lib: string,
+): Promise<TrialResult> {
+	switch (game) {
+		case "boids": {
+			const result = await runBoidsGame({
+				config: { count },
+				duration,
+				showWindow,
+				skipRender,
+				library: lib as BoidsEcsLibrary,
+			});
+
+			const frameStats = result.profiler.getFrameStats();
+			const systemTimings = new Map<string, number>();
+
+			for (const [name, timing] of result.profiler.getAllTimings()) {
+				systemTimings.set(name, timing.totalTime / timing.callCount);
+			}
+
+			return {
+				avgFps: frameStats.avgFps,
+				avgFrameTime: frameStats.avgMs,
+				frameCount: result.frameCount,
+				systemTimings,
+			};
+		}
+
+		case "ants": {
+			const result = await runAntSimulationGame({
+				config: { antCount: count },
+				duration,
+				showWindow,
+				skipRender,
+				library: lib as AntEcsLibrary,
+			});
+
+			const frameStats = result.profiler.getFrameStats();
+			const systemTimings = new Map<string, number>();
+
+			for (const [name, timing] of result.profiler.getAllTimings()) {
+				systemTimings.set(name, timing.totalTime / timing.callCount);
+			}
+
+			return {
+				avgFps: frameStats.avgFps,
+				avgFrameTime: frameStats.avgMs,
+				frameCount: result.frameCount,
+				systemTimings,
+			};
+		}
+
+		case "mutation": {
+			const result = await runMutationGame({
+				config: { entityCount: count },
+				duration,
+				library: lib as MutationEcsLibrary,
+			});
+
+			const frameStats = result.profiler.getFrameStats();
+			const systemTimings = new Map<string, number>();
+
+			for (const [name, timing] of result.profiler.getAllTimings()) {
+				systemTimings.set(name, timing.totalTime / timing.callCount);
+			}
+
+			return {
+				avgFps: frameStats.avgFps,
+				avgFrameTime: frameStats.avgMs,
+				frameCount: result.frameCount,
+				systemTimings,
+			};
+		}
+
+		default:
+			throw new Error(`Unknown game: ${game}`);
+	}
 }
 
 const results: BenchmarkResult[] = [];
@@ -151,71 +276,53 @@ for (const lib of libraries) {
 	console.log(`Running: ${lib}`);
 	console.log("=".repeat(50));
 
-	switch (game) {
-		case "boids": {
-			const result = await runBoidsGame({
-				config: { count },
-				duration,
-				showWindow,
-				library: lib as BoidsEcsLibrary,
-			});
+	const trialResults: TrialResult[] = [];
 
-			const frameStats = result.profiler.getFrameStats();
-			const systemTimings = new Map<string, { avg: number; total: number }>();
-
-			for (const [name, timing] of result.profiler.getAllTimings()) {
-				systemTimings.set(name, {
-					avg: timing.totalTime / timing.callCount,
-					total: timing.totalTime,
-				});
-			}
-
-			results.push({
-				library: lib,
-				frameCount: result.frameCount,
-				avgFps: frameStats.avgFps,
-				avgFrameTime: frameStats.avgMs,
-				minFrameTime: frameStats.minMs,
-				maxFrameTime: frameStats.maxMs,
-				systemTimings,
-			});
-			break;
+	for (let trial = 0; trial < trials; trial++) {
+		if (trials > 1) {
+			console.log(`\n  Trial ${trial + 1}/${trials}:`);
 		}
 
-		case "ants": {
-			const result = await runAntSimulationGame({
-				config: { antCount: count },
-				duration,
-				showWindow,
-				library: lib as AntEcsLibrary,
-			});
+		const result = await runSingleTrial(lib);
+		trialResults.push(result);
 
-			const frameStats = result.profiler.getFrameStats();
-			const systemTimings = new Map<string, { avg: number; total: number }>();
-
-			for (const [name, timing] of result.profiler.getAllTimings()) {
-				systemTimings.set(name, {
-					avg: timing.totalTime / timing.callCount,
-					total: timing.totalTime,
-				});
-			}
-
-			results.push({
-				library: lib,
-				frameCount: result.frameCount,
-				avgFps: frameStats.avgFps,
-				avgFrameTime: frameStats.avgMs,
-				minFrameTime: frameStats.minMs,
-				maxFrameTime: frameStats.maxMs,
-				systemTimings,
-			});
-			break;
+		if (trials > 1) {
+			console.log(
+				`  => ${result.avgFps.toFixed(1)} FPS (${result.frameCount} frames)`,
+			);
 		}
-
-		default:
-			console.error(`Unknown game: ${game}`);
-			process.exit(1);
 	}
+
+	// Aggregate trial results
+	const fpsValues = trialResults.map((t) => t.avgFps);
+	const frameTimeValues = trialResults.map((t) => t.avgFrameTime);
+
+	// Collect all system names across trials
+	const allSystemNames = new Set<string>();
+	for (const trial of trialResults) {
+		for (const name of trial.systemTimings.keys()) {
+			allSystemNames.add(name);
+		}
+	}
+
+	const systemTimings = new Map<
+		string,
+		{ mean: number; stddev: number }
+	>();
+	for (const name of allSystemNames) {
+		const timingValues = trialResults
+			.map((t) => t.systemTimings.get(name))
+			.filter((v): v is number => v != null);
+		systemTimings.set(name, calcStats(timingValues));
+	}
+
+	results.push({
+		library: lib,
+		trialCount: trials,
+		fps: calcStats(fpsValues),
+		frameTime: calcStats(frameTimeValues),
+		systemTimings,
+	});
 }
 
 // Print comparison report if multiple libraries
@@ -224,35 +331,61 @@ if (results.length > 1) {
 	console.log("COMPARISON REPORT");
 	console.log("=".repeat(60));
 
+	const isMultiTrial = trials > 1;
+
 	// Sort by FPS (higher is better)
-	const sorted = [...results].sort((a, b) => b.avgFps - a.avgFps);
+	const sorted = [...results].sort((a, b) => b.fps.mean - a.fps.mean);
 	const best = sorted[0];
 
 	console.log("\n📊 Overall Performance (sorted by FPS):\n");
-	console.log(
-		"Library".padEnd(12) +
-			"Avg FPS".padStart(10) +
-			"Avg Frame".padStart(12) +
-			"Min Frame".padStart(12) +
-			"Max Frame".padStart(12) +
-			"  Diff",
-	);
-	console.log("-".repeat(70));
 
-	for (const result of sorted) {
-		const diff =
-			result === best
-				? "👑 BEST"
-				: `${(((best.avgFps - result.avgFps) / best.avgFps) * 100).toFixed(1)}% slower`;
-
+	if (isMultiTrial) {
 		console.log(
-			result.library.padEnd(12) +
-				result.avgFps.toFixed(1).padStart(10) +
-				`${result.avgFrameTime.toFixed(2)}ms`.padStart(12) +
-				`${result.minFrameTime.toFixed(2)}ms`.padStart(12) +
-				`${result.maxFrameTime.toFixed(2)}ms`.padStart(12) +
-				`  ${diff}`,
+			"Library".padEnd(12) +
+				"Avg FPS".padStart(18) +
+				"Avg Frame".padStart(18) +
+				"  Diff",
 		);
+		console.log("-".repeat(60));
+
+		for (const result of sorted) {
+			const diff =
+				result === best
+					? "👑 BEST"
+					: `${(((best.fps.mean - result.fps.mean) / best.fps.mean) * 100).toFixed(1)}% slower`;
+
+			const fpsStr = `${result.fps.mean.toFixed(1)} ± ${result.fps.stddev.toFixed(1)}`;
+			const frameStr = `${result.frameTime.mean.toFixed(2)} ± ${result.frameTime.stddev.toFixed(2)}ms`;
+
+			console.log(
+				result.library.padEnd(12) +
+					fpsStr.padStart(18) +
+					frameStr.padStart(18) +
+					`  ${diff}`,
+			);
+		}
+	} else {
+		console.log(
+			"Library".padEnd(12) +
+				"Avg FPS".padStart(10) +
+				"Avg Frame".padStart(12) +
+				"  Diff",
+		);
+		console.log("-".repeat(48));
+
+		for (const result of sorted) {
+			const diff =
+				result === best
+					? "👑 BEST"
+					: `${(((best.fps.mean - result.fps.mean) / best.fps.mean) * 100).toFixed(1)}% slower`;
+
+			console.log(
+				result.library.padEnd(12) +
+					result.fps.mean.toFixed(1).padStart(10) +
+					`${result.frameTime.mean.toFixed(2)}ms`.padStart(12) +
+					`  ${diff}`,
+			);
+		}
 	}
 
 	// System timing comparison
@@ -265,36 +398,70 @@ if (results.length > 1) {
 		}
 	}
 
-	const systemHeader =
-		"System".padEnd(15) +
-		results.map((r) => r.library.padStart(12)).join("");
-	console.log(systemHeader);
-	console.log("-".repeat(15 + results.length * 12));
+	if (isMultiTrial) {
+		const colWidth = 20;
+		const systemHeader =
+			"System".padEnd(15) +
+			results.map((r) => r.library.padStart(colWidth)).join("");
+		console.log(systemHeader);
+		console.log("-".repeat(15 + results.length * colWidth));
 
-	for (const system of allSystems) {
-		let line = system.padEnd(15);
-		let bestTime = Infinity;
-		let bestLib = "";
+		for (const system of allSystems) {
+			let line = system.padEnd(15);
+			let bestTime = Infinity;
+			let bestLib = "";
 
-		// Find best time for this system
-		for (const result of results) {
-			const timing = result.systemTimings.get(system);
-			if (timing && timing.avg < bestTime) {
-				bestTime = timing.avg;
-				bestLib = result.library;
+			for (const result of results) {
+				const timing = result.systemTimings.get(system);
+				if (timing && timing.mean < bestTime) {
+					bestTime = timing.mean;
+					bestLib = result.library;
+				}
 			}
-		}
 
-		for (const result of results) {
-			const timing = result.systemTimings.get(system);
-			if (timing) {
-				const marker = result.library === bestLib ? "*" : " ";
-				line += `${timing.avg.toFixed(3)}${marker}`.padStart(12);
-			} else {
-				line += "-".padStart(12);
+			for (const result of results) {
+				const timing = result.systemTimings.get(system);
+				if (timing) {
+					const marker = result.library === bestLib ? "*" : " ";
+					const str = `${timing.mean.toFixed(3)} ± ${timing.stddev.toFixed(3)}${marker}`;
+					line += str.padStart(colWidth);
+				} else {
+					line += "-".padStart(colWidth);
+				}
 			}
+			console.log(line);
 		}
-		console.log(line);
+	} else {
+		const systemHeader =
+			"System".padEnd(15) +
+			results.map((r) => r.library.padStart(12)).join("");
+		console.log(systemHeader);
+		console.log("-".repeat(15 + results.length * 12));
+
+		for (const system of allSystems) {
+			let line = system.padEnd(15);
+			let bestTime = Infinity;
+			let bestLib = "";
+
+			for (const result of results) {
+				const timing = result.systemTimings.get(system);
+				if (timing && timing.mean < bestTime) {
+					bestTime = timing.mean;
+					bestLib = result.library;
+				}
+			}
+
+			for (const result of results) {
+				const timing = result.systemTimings.get(system);
+				if (timing) {
+					const marker = result.library === bestLib ? "*" : " ";
+					line += `${timing.mean.toFixed(3)}${marker}`.padStart(12);
+				} else {
+					line += "-".padStart(12);
+				}
+			}
+			console.log(line);
+		}
 	}
 
 	console.log("\n* = fastest for this system");
