@@ -10,6 +10,7 @@ export interface AntSimulationGameOptions {
 	config?: Partial<AntSimulationConfig>;
 	duration?: number;
 	showWindow?: boolean;
+	skipRender?: boolean;
 	library?: EcsLibrary;
 }
 

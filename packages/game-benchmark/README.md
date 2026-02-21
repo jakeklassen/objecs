@@ -1,20 +1,21 @@
 # game-benchmark
 
-A realistic game benchmark for comparing ECS library performance using a boids flocking simulation.
+A realistic game benchmark for comparing ECS library performance using game simulations and stress tests.
 
 ## Overview
 
-Unlike micro-benchmarks that test isolated operations, this benchmark runs a complete game loop with:
+Unlike micro-benchmarks that test isolated operations, this benchmark runs complete game loops with:
 
 - Entity queries and iteration
 - Component reads and writes
 - Multiple interdependent systems
-- Real rendering (SDL2 + Canvas)
+- Real rendering (SDL2 + Canvas), or pure ECS mode with `--no-render`
+- Component mutation stress testing
 
 ## Requirements
 
 - Node.js 24+
-- SDL2 libraries installed on your system
+- SDL2 libraries installed on your system (not needed for `--no-render` or `mutation` game)
 
 ## Installation
 
@@ -44,8 +45,17 @@ pnpm start --count 2000 --duration 60 # 2000 boids, 60s per library
 # Headless single library benchmark
 pnpm start --lib objecs --headless -c 2000 -d 5
 
-# Run indefinitely (single lib only)
-pnpm start --lib objecs -d 0
+# Skip rendering to isolate ECS performance
+pnpm start --no-render -g boids -d 5
+
+# Run mutation stress test
+pnpm start -g mutation -d 5
+
+# Run multiple trials for statistical confidence
+pnpm start --no-render -g boids -d 5 -t 10
+
+# Combined: mutation benchmark with 10 trials
+pnpm start -g mutation -d 5 -t 10
 ```
 
 ## Options
@@ -55,14 +65,17 @@ pnpm start --lib objecs -d 0
 | `--game <name>` | `-g` | `boids` | Game/simulation to run |
 | `--lib <name>` | `-l` | all | ECS library to test (can specify multiple) |
 | `--duration <secs>` | `-d` | `10` | Duration in seconds per library |
-| `--count <num>` | `-c` | `500` | Entity count |
+| `--count <num>` | `-c` | `500` | Entity count (500 boids, 50 ants, 1000 mutation) |
+| `--trials <num>` | `-t` | `1` | Number of trials per library |
 | `--headless` | | | Run without window |
 | `--no-headless` | | | Run with window (each lib shown sequentially) |
+| `--no-render` | | | Skip all rendering to isolate ECS performance |
 | `--help` | | | Show help |
 
 **Window defaults:**
 - Single library → shows window
 - Multiple libraries → headless (use `--no-headless` to show windows)
+- `--no-render` and `mutation` game → always headless
 
 ## Supported Libraries
 
@@ -81,17 +94,33 @@ A flocking simulation implementing Craig Reynolds' boids algorithm:
 - **Alignment**: Steer towards average heading of nearby boids
 - **Cohesion**: Steer towards average position of nearby boids
 
-Systems profiled:
-- `flocking` - Calculates separation, alignment, and cohesion forces
-- `movement` - Applies acceleration to velocity and velocity to position
-- `bounds` - Wraps entities around screen edges (toroidal)
-- `render` - Draws boids as directional triangles
+Systems profiled: `flocking`, `explosion`, `movement`, `bounds`, `render`
+
+### ants
+
+An ant colony simulation with pheromone trails:
+
+- Ants search for food and return it to the nest
+- Pheromone trails guide other ants to food sources
+
+Systems profiled: `steering`, `movement`, `pheromone-deposit`, `pheromone-decay`, `food-pickup`, `nest-delivery`, `render`
+
+### mutation
+
+A component mutation stress test that exercises `addEntityComponents`/`removeEntityComponents` across many archetypes. Useful for validating component-index optimizations.
+
+- Creates entities with base components (`position`, `velocity`, `health`)
+- Each frame randomly adds/removes optional components (`shield`, `poisoned`, `stunned`, `buff`)
+- Iterates 20 archetypes with various `with`/`without` combinations to verify membership correctness
+- No canvas or SDL dependency — pure ECS workload
+
+Systems profiled: `mutation`, `iterate`
 
 ## Output
 
-### Comparison Mode
+### Single-Trial Comparison
 
-When running multiple libraries, a comparison report is generated:
+When running multiple libraries with a single trial (default), a comparison report is generated:
 
 ```
 ============================================================
@@ -100,20 +129,44 @@ COMPARISON REPORT
 
 📊 Overall Performance (sorted by FPS):
 
-Library       Avg FPS   Avg Frame   Min Frame   Max Frame  Diff
-----------------------------------------------------------------------
-objecs          62.3      16.05ms     14.12ms     22.45ms  👑 BEST
-miniplex        58.1      17.22ms     15.34ms     24.67ms  6.7% slower
+Library        Avg FPS   Avg Frame  Diff
+------------------------------------------------
+objecs          8512.3      0.12ms  👑 BEST
+miniplex        4804.0      0.21ms  43.6% slower
 
 📈 System Timings (avg ms per call):
 
-System              objecs    miniplex
+System               objecs    miniplex
 ---------------------------------------
-flocking           13.724*      14.102
-explosion           0.045*       0.048
-movement            0.076*       0.082
-bounds              0.021*       0.023
-render              1.872        1.845*
+mutation             0.089*      0.174
+iterate              0.027*      0.033
+
+* = fastest for this system
+```
+
+### Multi-Trial Comparison
+
+With `--trials N` (N > 1), each library runs N times and results include mean ± stddev:
+
+```
+============================================================
+COMPARISON REPORT
+============================================================
+
+📊 Overall Performance (sorted by FPS):
+
+Library                Avg FPS         Avg Frame  Diff
+------------------------------------------------------------
+objecs           1613.9 ± 78.9     0.62 ± 0.03ms  👑 BEST
+miniplex        1558.5 ± 101.2     0.64 ± 0.04ms  3.4% slower
+
+📈 System Timings (avg ms per call):
+
+System                       objecs            miniplex
+-------------------------------------------------------
+flocking             0.613 ± 0.030*      0.629 ± 0.042
+movement             0.003 ± 0.000*      0.005 ± 0.001
+bounds               0.001 ± 0.000*      0.004 ± 0.000
 
 * = fastest for this system
 ```

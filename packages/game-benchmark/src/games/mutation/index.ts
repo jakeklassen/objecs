@@ -1,20 +1,18 @@
-import { runBoidsGame as runObjecs } from "./objecs/index.ts";
-import { runBoidsGame as runMiniplex } from "./miniplex/index.ts";
-import type { BoidsConfig } from "./types.ts";
+import { runMutationGame as runObjecs } from "./objecs/index.ts";
+import { runMutationGame as runMiniplex } from "./miniplex/index.ts";
+import type { MutationConfig } from "./types.ts";
 
 export type EcsLibrary = "objecs" | "miniplex";
 
 export const ALL_LIBRARIES: EcsLibrary[] = ["objecs", "miniplex"];
 
-export interface BoidsGameOptions {
-	config?: Partial<BoidsConfig>;
+export interface MutationGameOptions {
+	config?: Partial<MutationConfig>;
 	duration?: number;
-	showWindow?: boolean;
-	skipRender?: boolean;
 	library?: EcsLibrary;
 }
 
-export async function runBoidsGame(options: BoidsGameOptions = {}) {
+export async function runMutationGame(options: MutationGameOptions = {}) {
 	const library = options.library ?? "objecs";
 
 	switch (library) {
@@ -28,4 +26,4 @@ export async function runBoidsGame(options: BoidsGameOptions = {}) {
 }
 
 export { DEFAULT_CONFIG } from "./types.ts";
-export type { BoidsConfig } from "./types.ts";
+export type { MutationConfig } from "./types.ts";
