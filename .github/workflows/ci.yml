@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node: ["20.x", "22.x", "24.x"]
+        node: ["22.x", "24.x"]
         os: [ubuntu-24.04]
 
     steps:
@@ -32,11 +32,11 @@ jobs:
       - name: Install
         run: pnpm i
 
-      - name: Lint
-        run: pnpm --filter objecs lint
-
       - name: Build
         run: pnpm --filter objecs build
+
+      - name: Lint
+        run: pnpm lint
 
       - name: Check Exports
         run: pnpm --filter objecs check-exports

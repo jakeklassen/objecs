@@ -14,8 +14,6 @@ export default defineConfig(
 			"**/public",
 			// This package mixes a lot of packages that I don't control, so ignore it.
 			"packages/ecs-benchmark/**",
-			// Benchmark packages — objecs types unresolvable without a build step
-			"packages/benchmark/**",
 			// Benchmarks intentionally use varied loop styles, non-null assertions, etc.
 			"packages/perf-proofs/**",
 		],
