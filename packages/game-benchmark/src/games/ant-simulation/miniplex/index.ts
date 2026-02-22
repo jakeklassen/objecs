@@ -66,7 +66,6 @@ export async function runAntSimulationGame(
 
 	// Steering system
 	const steeringSystem = profiler.profileSystem("steering", () => {
-		const foodList = [...foods.entities];
 		const sensorRadius = config.pheromoneCellSize * 3;
 
 		for (const ant of ants.entities) {
@@ -110,7 +109,7 @@ export async function runAntSimulationGame(
 				let closestFoodX = 0;
 				let closestFoodY = 0;
 
-				for (const f of foodList) {
+				for (const f of foods.entities) {
 					const dx = f.position.x - pos.x;
 					const dy = f.position.y - pos.y;
 					const dist = Math.sqrt(dx * dx + dy * dy);
