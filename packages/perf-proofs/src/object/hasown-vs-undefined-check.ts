@@ -7,6 +7,11 @@
  *
  * Safe because objecs uses `delete` to remove components, never sets them to
  * `undefined`, so `!== undefined` is semantically equivalent to `hasOwn`.
+ *
+ * Note: the `in` operator is included for comparison but is NOT a safe
+ * substitute — it returns true for prototype-chain properties (e.g.
+ * `"constructor" in obj` is true on any plain object), which would produce
+ * false positives if a component name shadows a prototype property.
  */
 import { run, bench, summary } from "mitata";
 

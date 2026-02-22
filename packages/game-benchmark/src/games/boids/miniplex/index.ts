@@ -50,7 +50,7 @@ export async function runBoidsGame(options: BoidsGameOptions = {}) {
 
 	// Flocking system
 	const flockingSystem = profiler.profileSystem("flocking", () => {
-		const entities = [...boids.entities];
+		const entities = boids.entities;
 		const count = entities.length;
 
 		for (let i = 0; i < count; i++) {

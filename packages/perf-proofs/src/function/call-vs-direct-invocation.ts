@@ -46,8 +46,8 @@ for (const size of [100, 1000, 10_000]) {
 			}
 		});
 
+		const thisArg = {};
 		bench(`.call(thisArg, ...) — ${size}`, () => {
-			const thisArg = {};
 			for (const e of entities) {
 				callbackWithArgs.call(thisArg, e, e, null);
 			}

@@ -103,7 +103,16 @@ Examples:
 	process.exit(0);
 }
 
+const VALID_GAMES: GameType[] = ["boids", "ants", "mutation"];
 const game = values.game as GameType;
+
+if (!VALID_GAMES.includes(game)) {
+	console.error(
+		`Unknown game: "${game}". Valid options: ${VALID_GAMES.join(", ")}`,
+	);
+	process.exit(1);
+}
+
 const duration = parseInt(values.duration, 10);
 const count = parseInt(values.count, 10);
 const trials = parseInt(values.trials, 10);

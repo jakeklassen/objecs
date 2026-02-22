@@ -79,21 +79,21 @@ for (const size of [2, 5, 8, 15]) {
 
 	// --- add + delete cycle ---
 
+	const fixedSet = new Set(items);
+	const fixedArr = [...items];
+	const sentinel = { id: 100 };
+
 	summary(() => {
 		bench(`Set add+delete — ${size} items`, () => {
-			const s = new Set(items);
-			const newItem = { id: 100 };
-			s.add(newItem);
-			s.delete(newItem);
-			return s.size;
+			fixedSet.add(sentinel);
+			fixedSet.delete(sentinel);
+			return fixedSet.size;
 		});
 
 		bench(`Array push+pop — ${size} items`, () => {
-			const a = [...items];
-			const newItem = { id: 100 };
-			a.push(newItem);
-			a.pop();
-			return a.length;
+			fixedArr.push(sentinel);
+			fixedArr.pop();
+			return fixedArr.length;
 		});
 	});
 }

@@ -16,7 +16,7 @@
 		"objecs": "workspace:*"
 	},
 	"devDependencies": {
-		"@types/node": "^22.19.11",
+		"@types/node": "^24.10.13",
 		"tsx": "^4.21.0",
 		"typescript": "5.9.3"
 	}
