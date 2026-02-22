@@ -265,7 +265,7 @@ async function runSingleTrial(
 		}
 
 		default:
-			throw new Error(`Unknown game: ${game}`);
+			throw new Error(`Unknown game: ${game as string}`);
 	}
 }
 

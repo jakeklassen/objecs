@@ -86,6 +86,28 @@ Uses [Conventional Commits](https://www.conventionalcommits.org/). For releases:
 1. Run `bumpp` to interactively create a version tag
 2. Create GitHub release to trigger publish workflow
 
+## Performance Conventions
+
+### Never use `Object.hasOwn()` for component presence checks
+
+In the core library (`packages/objecs/src/`), always use `entity[component] !== undefined` instead of `Object.hasOwn(entity, component)`.
+
+```typescript
+// WRONG — ~10% slower due to static method call overhead
+Object.hasOwn(entity, component as string)
+
+// CORRECT — V8 inline-caches simple property reads
+entity[component as string] !== undefined
+```
+
+**Why this is safe:** objecs uses `delete entity[component]` to remove components, never sets them to `undefined`. So `!== undefined` is semantically equivalent to `hasOwn` for our use case, but V8 can inline-cache property reads while `Object.hasOwn` goes through full function call machinery.
+
+**Measured impact:** +8–12% across all benchmarks (iteration, mutation, entity lifecycle).
+
+### Never set a component value to `undefined`
+
+Components must be removed via `world.removeEntityComponents(entity, 'component')` which uses `delete`. Setting a component to `undefined` would break archetype matching since the library uses `!== undefined` checks.
+
 ## Testing
 
 Tests use Vitest. Test files are colocated with source (`.test.ts` suffix).

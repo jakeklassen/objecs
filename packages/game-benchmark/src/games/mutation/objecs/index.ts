@@ -114,6 +114,7 @@ export async function runMutationGame(options: MutationGameOptions = {}) {
 				world.addEntityComponents(
 					entity,
 					comp,
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 					componentFactories[comp]()!,
 				);
 			}

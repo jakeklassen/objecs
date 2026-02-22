@@ -149,24 +149,35 @@ export async function runBoidsGame(options: BoidsGameOptions = {}) {
 		boundsSystem();
 
 		if (!skipRender) {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			renderSystem!();
 
 			// Render explosion effect
 			if (explosion) {
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				ctx!.beginPath();
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				ctx!.arc(explosion.x, explosion.y, explosion.radius, 0, Math.PI * 2);
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				ctx!.strokeStyle = "rgba(255, 100, 50, 0.5)";
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				ctx!.lineWidth = 2;
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				ctx!.stroke();
 
 				// Inner glow
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				ctx!.beginPath();
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				ctx!.arc(explosion.x, explosion.y, explosion.radius * 0.3, 0, Math.PI * 2);
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				ctx!.fillStyle = "rgba(255, 200, 100, 0.3)";
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				ctx!.fill();
 			}
 
 			if (window && !window.destroyed) {
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const buffer = canvas!.toBuffer("raw");
 				window.render(
 					config.width,
