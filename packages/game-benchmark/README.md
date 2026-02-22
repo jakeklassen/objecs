@@ -122,7 +122,7 @@ Systems profiled: `mutation`, `iterate`
 
 When running multiple libraries with a single trial (default), a comparison report is generated:
 
-```
+```text
 ============================================================
 COMPARISON REPORT
 ============================================================
@@ -148,7 +148,7 @@ iterate              0.027*      0.033
 
 With `--trials N` (N > 1), each library runs N times and results include mean ± stddev:
 
-```
+```text
 ============================================================
 COMPARISON REPORT
 ============================================================
@@ -175,7 +175,7 @@ bounds               0.001 ± 0.000*      0.004 ± 0.000
 
 After the simulation completes, a profiler report is printed:
 
-```
+```text
 === Profiler Report ===
 
 Frame Statistics:

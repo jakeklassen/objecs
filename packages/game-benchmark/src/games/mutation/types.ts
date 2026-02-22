@@ -18,3 +18,8 @@ export const DEFAULT_CONFIG: MutationConfig = {
 	entityCount: 1000,
 	mutationRate: 0.1,
 };
+
+export interface MutationGameOptions {
+	config?: Partial<MutationConfig>;
+	duration?: number;
+}

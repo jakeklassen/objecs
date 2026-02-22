@@ -1,6 +1,8 @@
 import { JsonObject } from "type-fest";
 import { EntityCollection, ReadonlyEntityCollection, World } from "./world.js";
 
+const EMPTY_EXCLUDING: ReadonlyArray<never> = [];
+
 type SafeEntity<
 	Entity extends JsonObject,
 	Components extends keyof Entity,
@@ -55,7 +57,8 @@ export class Archetype<
 	public get excluding(): Readonly<
 		Array<Exclude<keyof Entity, Components[number]>>
 	> {
-		return this.#excluding ?? [];
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+		return this.#excluding ?? (EMPTY_EXCLUDING as any);
 	}
 
 	public matches(entity: Entity): boolean {

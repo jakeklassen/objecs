@@ -136,6 +136,11 @@ function getAvailableLibraries(gameType: GameType): string[] {
 let libraries: string[];
 const availableLibraries = getAvailableLibraries(game);
 if (values.lib && values.lib.length > 0) {
+	const invalid = values.lib.filter((l) => !availableLibraries.includes(l));
+	if (invalid.length > 0) {
+		console.error(`Unknown libraries for "${game}": ${invalid.join(", ")}. Valid: ${availableLibraries.join(", ")}`);
+		process.exit(1);
+	}
 	libraries = values.lib;
 } else {
 	libraries = availableLibraries;

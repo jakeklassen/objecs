@@ -1,11 +1,6 @@
 import { World } from "objecs";
 import { Profiler } from "../../../profiler.ts";
-import { DEFAULT_CONFIG, type Entity, type MutationConfig } from "../types.ts";
-
-export interface MutationGameOptions {
-	config?: Partial<MutationConfig>;
-	duration?: number;
-}
+import { DEFAULT_CONFIG, type Entity, type MutationConfig, type MutationGameOptions } from "../types.ts";
 
 export async function runMutationGame(options: MutationGameOptions = {}) {
 	const config: MutationConfig = { ...DEFAULT_CONFIG, ...options.config };
@@ -108,7 +103,7 @@ export async function runMutationGame(options: MutationGameOptions = {}) {
 					Math.floor(Math.random() * optionalComponents.length)
 				];
 
-			if (entity[comp] != null) {
+			if (entity[comp] !== undefined) {
 				world.removeEntityComponents(entity, comp);
 			} else {
 				world.addEntityComponents(

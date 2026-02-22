@@ -1,11 +1,6 @@
 import { World } from "miniplex";
 import { Profiler } from "../../../profiler.ts";
-import { DEFAULT_CONFIG, type Entity, type MutationConfig } from "../types.ts";
-
-export interface MutationGameOptions {
-	config?: Partial<MutationConfig>;
-	duration?: number;
-}
+import { DEFAULT_CONFIG, type Entity, type MutationConfig, type MutationGameOptions } from "../types.ts";
 
 export async function runMutationGame(options: MutationGameOptions = {}) {
 	const config: MutationConfig = { ...DEFAULT_CONFIG, ...options.config };

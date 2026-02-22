@@ -1,4 +1,4 @@
-import { Archetype } from "objecs";
+import type { Archetype } from "objecs";
 import type { Entity } from "../types.ts";
 
 type MovingEntity = Entity &
