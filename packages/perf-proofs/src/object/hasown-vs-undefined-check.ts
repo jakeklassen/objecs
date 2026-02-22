@@ -83,6 +83,26 @@ summary(() => {
 	});
 });
 
+const entityMissingFirst: Record<string, unknown> = {
+	velocity: { x: 1, y: -1 },
+	health: 100,
+	sprite: "player.png",
+};
+
+summary(() => {
+	bench("Object.hasOwn — .every() early exit (1st missing)", () => {
+		return components.every((c) => Object.hasOwn(entityMissingFirst, c));
+	});
+
+	bench("!== undefined — .every() early exit (1st missing)", () => {
+		return components.every((c) => entityMissingFirst[c] !== undefined);
+	});
+
+	bench("'in' operator — .every() early exit (1st missing)", () => {
+		return components.every((c) => c in entityMissingFirst);
+	});
+});
+
 summary(() => {
 	bench("Object.hasOwn — 1000 entities × 3 components", () => {
 		let count = 0;
@@ -108,6 +128,38 @@ summary(() => {
 		let count = 0;
 		for (const e of entities) {
 			if (components.every((c) => c in e)) {
+				count++;
+			}
+		}
+		return count;
+	});
+
+	const componentsWorstCase: string[] = ["health", "position", "velocity"];
+
+	bench("Object.hasOwn — 1000 entities × 3 components (worst-case order)", () => {
+		let count = 0;
+		for (const e of entities) {
+			if (componentsWorstCase.every((c) => Object.hasOwn(e, c))) {
+				count++;
+			}
+		}
+		return count;
+	});
+
+	bench("!== undefined — 1000 entities × 3 components (worst-case order)", () => {
+		let count = 0;
+		for (const e of entities) {
+			if (componentsWorstCase.every((c) => e[c] !== undefined)) {
+				count++;
+			}
+		}
+		return count;
+	});
+
+	bench("'in' operator — 1000 entities × 3 components (worst-case order)", () => {
+		let count = 0;
+		for (const e of entities) {
+			if (componentsWorstCase.every((c) => c in e)) {
 				count++;
 			}
 		}

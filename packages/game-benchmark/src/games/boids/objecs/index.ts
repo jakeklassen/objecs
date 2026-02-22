@@ -149,36 +149,29 @@ export async function runBoidsGame(options: BoidsGameOptions = {}) {
 		boundsSystem();
 
 		if (!skipRender) {
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			/* eslint-disable @typescript-eslint/no-non-null-assertion -- guaranteed non-null when !skipRender */
+			const renderCtx = ctx!;
+			const renderCanvas = canvas!;
 			renderSystem!();
+			/* eslint-enable @typescript-eslint/no-non-null-assertion */
 
 			// Render explosion effect
 			if (explosion) {
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				ctx!.beginPath();
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				ctx!.arc(explosion.x, explosion.y, explosion.radius, 0, Math.PI * 2);
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				ctx!.strokeStyle = "rgba(255, 100, 50, 0.5)";
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				ctx!.lineWidth = 2;
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				ctx!.stroke();
+				renderCtx.beginPath();
+				renderCtx.arc(explosion.x, explosion.y, explosion.radius, 0, Math.PI * 2);
+				renderCtx.strokeStyle = "rgba(255, 100, 50, 0.5)";
+				renderCtx.lineWidth = 2;
+				renderCtx.stroke();
 
 				// Inner glow
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				ctx!.beginPath();
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				ctx!.arc(explosion.x, explosion.y, explosion.radius * 0.3, 0, Math.PI * 2);
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				ctx!.fillStyle = "rgba(255, 200, 100, 0.3)";
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				ctx!.fill();
+				renderCtx.beginPath();
+				renderCtx.arc(explosion.x, explosion.y, explosion.radius * 0.3, 0, Math.PI * 2);
+				renderCtx.fillStyle = "rgba(255, 200, 100, 0.3)";
+				renderCtx.fill();
 			}
 
 			if (window && !window.destroyed) {
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				const buffer = canvas!.toBuffer("raw");
+				const buffer = renderCanvas.toBuffer("raw");
 				window.render(
 					config.width,
 					config.height,

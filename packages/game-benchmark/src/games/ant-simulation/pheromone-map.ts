@@ -74,6 +74,7 @@ export class PheromoneMap {
 	): number {
 		const trail = this.getTrail(type);
 		const cellRadius = Math.ceil(radius / this.cellSize);
+		const cellRadiusSq = (radius / this.cellSize) ** 2;
 		const gx = Math.floor(centerX / this.cellSize);
 		const gy = Math.floor(centerY / this.cellSize);
 
@@ -89,9 +90,8 @@ export class PheromoneMap {
 					continue;
 				}
 
-				// Check if within circular radius
-				const dist = Math.sqrt(dx * dx + dy * dy) * this.cellSize;
-				if (dist <= radius) {
+				// Check if within circular radius (squared comparison avoids sqrt)
+				if (dx * dx + dy * dy <= cellRadiusSq) {
 					sum += trail[ny * this.gridWidth + nx];
 					count++;
 				}

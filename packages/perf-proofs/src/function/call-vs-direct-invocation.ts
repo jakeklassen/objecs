@@ -40,6 +40,12 @@ for (const size of [100, 1000, 10_000]) {
 			}
 		});
 
+		bench(`.call(undefined, ...) (1 arg) — ${size}`, () => {
+			for (const e of entities) {
+				callback.call(undefined, e);
+			}
+		});
+
 		bench(`.call(undefined, ...) — ${size}`, () => {
 			for (const e of entities) {
 				callbackWithArgs.call(undefined, e, e, null);

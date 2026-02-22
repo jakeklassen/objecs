@@ -55,7 +55,7 @@ function matchesEverySome(
 	return matchesArchetype && !matchesExcluding;
 }
 
-// Fused manual loop: single pass with early exit
+// Fused manual loop: sequential loops with early exit
 function matchesFused(
 	e: Record<string, unknown>,
 	include: string[],

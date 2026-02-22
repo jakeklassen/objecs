@@ -14,7 +14,6 @@
 		"allowImportingTsExtensions": true,
 		"rewriteRelativeImportExtensions": true,
 		"rootDir": "src",
-		"declaration": true,
 		"resolveJsonModule": true,
 		"erasableSyntaxOnly": true
 	},

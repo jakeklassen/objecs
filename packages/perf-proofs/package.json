@@ -4,7 +4,7 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"start": "for f in src/**/*.ts; do echo \"\\n--- $f ---\"; node --expose-gc \"$f\"; done",
+		"start": "for f in $(find src -name '*.ts' | sort); do echo \"\\n--- $f ---\"; node --expose-gc \"$f\"; done",
 		"start:object": "for f in src/object/*.ts; do echo \"\\n--- $f ---\"; node --expose-gc \"$f\"; done",
 		"start:array": "for f in src/array/*.ts; do echo \"\\n--- $f ---\"; node --expose-gc \"$f\"; done",
 		"start:map-set": "for f in src/map-set/*.ts; do echo \"\\n--- $f ---\"; node --expose-gc \"$f\"; done",
@@ -17,7 +17,7 @@
 		"mitata": "^1.0.34"
 	},
 	"devDependencies": {
-		"@types/node": "^22.19.11",
+		"@types/node": "^24.10.13",
 		"typescript": "5.9.3"
 	}
 }

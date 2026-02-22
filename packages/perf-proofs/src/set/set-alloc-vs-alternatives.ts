@@ -2,7 +2,7 @@
  * set-alloc-vs-alternatives.ts
  *
  * Benchmarks deduplication strategies for collecting affected archetypes.
- * Maps to World.#getAffectedArchetypes() (world.ts:322-335) which allocates
+ * Maps to World.#getAffectedArchetypes() (world.ts) which allocates
  * a new Set on every addEntityComponents/removeEntityComponents call.
  *
  * Explores whether avoiding Set allocation improves hot-path performance.
@@ -148,7 +148,7 @@ for (const keys of [changedKeys1, changedKeys2, changedKeys3]) {
 			return result.length;
 		});
 
-		bench(`skip dedup (Set index) — ${label}`, () => {
+		bench(`skip dedup (no dedup) (Set index) — ${label}`, () => {
 			let count = 0;
 			withDuplicates(keys, componentIndex, () => {
 				count++;
@@ -156,7 +156,7 @@ for (const keys of [changedKeys1, changedKeys2, changedKeys3]) {
 			return count;
 		});
 
-		bench(`skip dedup (Array index) — ${label}`, () => {
+		bench(`skip dedup (no dedup) (Array index) — ${label}`, () => {
 			let count = 0;
 			withDuplicatesArr(keys, componentIndexArr, () => {
 				count++;
