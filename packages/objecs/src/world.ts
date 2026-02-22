@@ -205,7 +205,7 @@ export class World<Entity extends JsonObject> {
 
 		for (const entity of this.#entities) {
 			const matchesArchetype = components.every((component) => {
-				return Object.hasOwn(entity, component as string);
+				return entity[component as string] !== undefined;
 			});
 
 			if (matchesArchetype) {

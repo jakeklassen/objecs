@@ -60,12 +60,12 @@ export class Archetype<
 
 	public matches(entity: Entity): boolean {
 		const matchesArchetype = this.#components.every((component) => {
-			return Object.hasOwn(entity, component as string);
+			return entity[component as string] !== undefined;
 		});
 
 		const matchesExcluding =
 			this.#excluding?.some((component) => {
-				return Object.hasOwn(entity, component as string);
+				return entity[component as string] !== undefined;
 			}) ?? false;
 
 		return matchesArchetype && !matchesExcluding;
@@ -119,7 +119,7 @@ export class Archetype<
 
 		for (const entity of this.#entities) {
 			const matchesWithout = components.every((component) => {
-				return Object.hasOwn(entity, component as string);
+				return entity[component as string] !== undefined;
 			});
 
 			if (matchesWithout) {
