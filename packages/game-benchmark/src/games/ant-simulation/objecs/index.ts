@@ -203,9 +203,11 @@ export async function runAntSimulationGame(
 		foodCollected = nestDeliverySystem();
 
 		if (!skipRender) {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			renderSystem!(foodCollected);
 
 			if (window && !window.destroyed) {
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const buffer = canvas!.toBuffer("raw");
 				window.render(
 					config.width,

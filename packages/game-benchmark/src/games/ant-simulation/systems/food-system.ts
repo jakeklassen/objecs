@@ -49,7 +49,7 @@ export function createFoodPickupSystem(
 export function createNestDeliverySystem(
 	ants: Archetype<Entity, ["position", "velocity", "ant"]>,
 	nestEntity: Archetype<Entity, ["position", "nest"]>,
-	config: AntSimulationConfig,
+	_config: AntSimulationConfig,
 ) {
 	return (): number => {
 		let totalFood = 0;

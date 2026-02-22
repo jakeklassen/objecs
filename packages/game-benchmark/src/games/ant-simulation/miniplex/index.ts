@@ -480,9 +480,11 @@ export async function runAntSimulationGame(
 		nestDeliverySystem();
 
 		if (!skipRender) {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			renderSystem!();
 
 			if (window && !window.destroyed) {
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const buffer = canvas!.toBuffer("raw");
 				window.render(
 					config.width,

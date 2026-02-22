@@ -36,6 +36,20 @@ export default defineConfig(
 		},
 	},
 	{
+		files: ["packages/objecs/src/**/*.ts"],
+		rules: {
+			"no-restricted-syntax": [
+				"error",
+				{
+					selector:
+						"CallExpression[callee.object.name='Object'][callee.property.name='hasOwn']",
+					message:
+						"Use `entity[prop] !== undefined` instead of Object.hasOwn() in core library. Object.hasOwn is ~10% slower due to static method call overhead. See CLAUDE.md Performance Conventions.",
+				},
+			],
+		},
+	},
+	{
 		rules: {
 			"@typescript-eslint/array-type": "off",
 			"@typescript-eslint/restrict-template-expressions": [

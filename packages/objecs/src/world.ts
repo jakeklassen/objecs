@@ -205,6 +205,7 @@ export class World<Entity extends JsonObject> {
 
 		for (const entity of this.#entities) {
 			const matchesArchetype = components.every((component) => {
+				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- perf: ~10% faster than Object.hasOwn
 				return entity[component as string] !== undefined;
 			});
 
