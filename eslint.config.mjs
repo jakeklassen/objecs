@@ -49,6 +49,11 @@ export default defineConfig(
 						"Use `entity[prop] !== undefined` instead of Object.hasOwn() in core library. Object.hasOwn is ~10% slower due to static method call overhead. See CLAUDE.md Performance Conventions.",
 				},
 			],
+			// ECS entities use JsonObject index signature ({[Key in string]: JsonValue})
+			// so TS thinks every property access returns JsonValue, never undefined.
+			// At runtime, missing components ARE undefined — this check is the core
+			// archetype matching mechanism.
+			"@typescript-eslint/no-unnecessary-condition": "off",
 		},
 	},
 	{
