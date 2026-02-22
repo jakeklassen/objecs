@@ -61,13 +61,11 @@ export class Archetype<
 	public matches(entity: Entity): boolean {
 		// perf: fused manual loop is 18-35% faster than .every() + .some()
 		for (const component of this.#components) {
-			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- perf: ~10% faster than Object.hasOwn
 			if (entity[component as string] === undefined) return false;
 		}
 
 		if (this.#excluding !== undefined) {
 			for (const component of this.#excluding) {
-				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- perf: ~10% faster than Object.hasOwn
 				if (entity[component as string] !== undefined) return false;
 			}
 		}
@@ -125,7 +123,6 @@ export class Archetype<
 			// perf: manual loop avoids .every() callback overhead
 			let matchesWithout = true;
 			for (const component of components) {
-				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- perf: ~10% faster than Object.hasOwn
 				if (entity[component as string] === undefined) {
 					matchesWithout = false;
 					break;
