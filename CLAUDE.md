@@ -59,7 +59,7 @@ node packages/game-benchmark/src/index.ts --no-render -g boids -d 10 -t 10 -l ob
 
 **Archetype** (`packages/objecs/src/archetype.ts`): A query that groups entities sharing the same component combination. Created via `world.archetype('component1', 'component2', ...)`. Supports `without()` for exclusion filters.
 
-**Entity**: Plain JavaScript objects (must be `JsonObject` from type-fest). Components are simply properties on the entity object.
+**Entity**: Plain JavaScript objects (must extend `EntityBase` — restricts components to JSON-compatible values, no functions/symbols). Components are simply properties on the entity object.
 
 ### Usage Pattern
 
