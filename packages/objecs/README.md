@@ -9,7 +9,7 @@ A lightweight, type-safe Entity Component System (ECS) for TypeScript game devel
 
 - **Simple API** - Entities are plain JavaScript objects, components are just properties
 - **Type-safe** - Full TypeScript support with inferred types for queries
-- **Zero dependencies** (only `type-fest` for utility types)
+- **Zero dependencies**
 - **Small footprint** - ~2KB minified
 - **Archetype-based queries** - Efficient entity filtering with component matching
 - **Reactive archetypes** - Queries automatically update when entities change

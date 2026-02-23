@@ -1,10 +1,4 @@
-import { JsonObject } from "type-fest";
-import { EntityCollection, ReadonlyEntityCollection, World } from "./world.js";
-
-type SafeEntity<
-	Entity extends JsonObject,
-	Components extends keyof Entity,
-> = Entity & Required<Pick<Entity, Components>>;
+import { type EntityBase, EntityCollection, type ReadonlyEntityCollection, type SafeEntity, World } from "./world.js";
 
 /**
  * An archetype is a collection of entities that share the same components.
@@ -12,7 +6,7 @@ type SafeEntity<
  * `World` class using the `archetype` method.
  */
 export class Archetype<
-	Entity extends JsonObject,
+	Entity extends EntityBase,
 	Components extends Array<keyof Entity>,
 > {
 	#entities: EntityCollection<SafeEntity<Entity, Components[number]>>;
