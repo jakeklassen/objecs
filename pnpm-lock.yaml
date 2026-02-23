@@ -230,10 +230,6 @@ importers:
         version: 5.9.3
 
   packages/objecs:
-    dependencies:
-      type-fest:
-        specifier: 5.4.0
-        version: 5.4.0
     devDependencies:
       '@antfu/ni':
         specifier: 28.1.0

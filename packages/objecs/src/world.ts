@@ -1,8 +1,25 @@
-import { JsonObject } from "type-fest";
 import { Archetype } from "./archetype.js";
 
+/**
+ * Allowed component value types. Prevents functions, symbols, and other
+ * non-serializable values from being used as component data.
+ */
+export type ComponentValue =
+	| string
+	| number
+	| boolean
+	| null
+	| ComponentValue[]
+	| { [key: string]: ComponentValue };
+
+/**
+ * Base constraint for entity types. All entity properties must be
+ * JSON-compatible component values or undefined (for optional components).
+ */
+export type EntityBase = Record<string, ComponentValue | undefined>;
+
 export type SafeEntity<
-	Entity extends JsonObject,
+	Entity extends EntityBase,
 	Components extends keyof Entity,
 > = Entity & Required<Pick<Entity, Components>>;
 
@@ -147,7 +164,7 @@ export class EntityCollection<T> implements ReadonlyEntityCollection<T> {
 /**
  * Container for Entities
  */
-export class World<Entity extends JsonObject> {
+export class World<Entity extends EntityBase> {
 	#archetypes = new Set<Archetype<Entity, Array<keyof Entity>>>();
 	#entities = new EntityCollection<Entity>();
 	#componentIndex = new Map<keyof Entity, Set<Archetype<Entity, Array<keyof Entity>>>>();
