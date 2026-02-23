@@ -1,5 +1,5 @@
 import { describe, expect, expectTypeOf, it } from "vitest";
-import { ReadonlyEntityCollection, World } from "./world.js";
+import { type EntityBase, ReadonlyEntityCollection, World } from "./world.js";
 
 type Entity = {
 	color?: string;
@@ -318,6 +318,39 @@ describe("World", () => {
 			world.removeEntityComponents(entity, "color");
 
 			renderSystem();
+		});
+	});
+
+	describe("EntityBase type constraint", () => {
+		it("should reject entities with function components at the type level", () => {
+			type InvalidEntity = {
+				callback?: () => void;
+			};
+
+			// @ts-expect-error — functions are not assignable to ComponentValue
+			new World<InvalidEntity>();
+		});
+
+		it("should reject entities with symbol components at the type level", () => {
+			type InvalidEntity = {
+				id?: symbol;
+			};
+
+			// @ts-expect-error — symbols are not assignable to ComponentValue
+			new World<InvalidEntity>();
+		});
+
+		it("should accept entities with valid JSON-compatible components", () => {
+			type ValidEntity = {
+				name?: string;
+				health?: number;
+				active?: boolean;
+				position?: { x: number; y: number };
+				tags?: string[];
+				metadata?: null;
+			};
+
+			expectTypeOf<ValidEntity>().toExtend<EntityBase>();
 		});
 	});
 });
