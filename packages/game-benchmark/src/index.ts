@@ -138,7 +138,9 @@ const availableLibraries = getAvailableLibraries(game);
 if (values.lib && values.lib.length > 0) {
 	const invalid = values.lib.filter((l) => !availableLibraries.includes(l));
 	if (invalid.length > 0) {
-		console.error(`Unknown libraries for "${game}": ${invalid.join(", ")}. Valid: ${availableLibraries.join(", ")}`);
+		console.error(
+			`Unknown libraries for "${game}": ${invalid.join(", ")}. Valid: ${availableLibraries.join(", ")}`,
+		);
 		process.exit(1);
 	}
 	libraries = values.lib;
@@ -204,9 +206,7 @@ interface BenchmarkResult {
 	systemTimings: Map<string, { mean: number; stddev: number }>;
 }
 
-async function runSingleTrial(
-	lib: string,
-): Promise<TrialResult> {
+async function runSingleTrial(lib: string): Promise<TrialResult> {
 	switch (game) {
 		case "boids": {
 			const result = await runBoidsGame({
@@ -319,10 +319,7 @@ for (const lib of libraries) {
 		}
 	}
 
-	const systemTimings = new Map<
-		string,
-		{ mean: number; stddev: number }
-	>();
+	const systemTimings = new Map<string, { mean: number; stddev: number }>();
 	for (const name of allSystemNames) {
 		const timingValues = trialResults
 			.map((t) => t.systemTimings.get(name))
@@ -447,8 +444,7 @@ if (results.length > 1) {
 		}
 	} else {
 		const systemHeader =
-			"System".padEnd(15) +
-			results.map((r) => r.library.padStart(12)).join("");
+			"System".padEnd(15) + results.map((r) => r.library.padStart(12)).join("");
 		console.log(systemHeader);
 		console.log("-".repeat(15 + results.length * 12));
 

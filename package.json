@@ -3,23 +3,20 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"lint": "eslint \"packages/**/*.{js,jsx,ts,tsx}\" eslint.config.mjs",
-		"lint:fix": "eslint --fix \"packages/**/*.{js,jsx,ts,tsx}\" eslint.config.mjs"
+		"lint": "vp lint",
+		"lint:fix": "vp lint --fix",
+		"prepare": "vp config"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"packageManager": "pnpm@10.32.1",
 	"devDependencies": {
-		"@eslint/js": "9.39.2",
-		"@types/eslint": "^9.6.1",
-		"@typescript-eslint/utils": "8.53.0",
-		"eslint": "^9.39.4",
-		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-depend": "1.5.0",
 		"globals": "17.4.0",
+		"oxlint-tsgolint": "0.16.0",
 		"typescript": "5.9.3",
-		"typescript-eslint": "8.57.0",
-		"typeslayer": "0.1.31"
+		"typeslayer": "0.1.31",
+		"vite-plus": "catalog:"
 	}
 }

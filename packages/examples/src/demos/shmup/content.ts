@@ -17,7 +17,7 @@ import { shockwaveSystemFactory } from "./systems/shockwave-system.ts";
 export type LoadedContent = Awaited<ReturnType<typeof Content.load>>;
 type Explosion = HTMLCanvasElement | ImageBitmap | OffscreenCanvas;
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+// oxlint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Content {
 	public static async load({
 		explosionsSheetImageUrl,
@@ -548,7 +548,7 @@ export class Content {
 		for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
 			const slice = byteCharacters.slice(offset, offset + 1024);
 
-			const byteNumbers = new Array(slice.length);
+			const byteNumbers = Array.from<number>({ length: slice.length });
 			for (let i = 0; i < slice.length; i++) {
 				byteNumbers[i] = slice.charCodeAt(i);
 			}
@@ -765,7 +765,7 @@ export class Content {
 		for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
 			const slice = byteCharacters.slice(offset, offset + 1024);
 
-			const byteNumbers = new Array(slice.length);
+			const byteNumbers = Array.from<number>({ length: slice.length });
 			for (let i = 0; i < slice.length; i++) {
 				byteNumbers[i] = slice.charCodeAt(i);
 			}
@@ -831,7 +831,7 @@ export class Content {
 		for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
 			const slice = byteCharacters.slice(offset, offset + 1024);
 
-			const byteNumbers = new Array(slice.length);
+			const byteNumbers = Array.from<number>({ length: slice.length });
 			for (let i = 0; i < slice.length; i++) {
 				byteNumbers[i] = slice.charCodeAt(i);
 			}

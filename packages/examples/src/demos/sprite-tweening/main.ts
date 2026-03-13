@@ -67,7 +67,7 @@ world.createEntity({
 		tweenFactory("transform.rotation", {
 			duration: 1000,
 			easing: Easing.Linear,
-			from: (0 * Math.PI) / 180,
+			from: 0,
 			to: (360 * Math.PI) / 180,
 			yoyo: true,
 		}),

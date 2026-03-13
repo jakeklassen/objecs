@@ -49,9 +49,7 @@ function matchesEverySome(
 ): boolean {
 	const matchesArchetype = include.every((c) => e[c] !== undefined);
 	const matchesExcluding =
-		exclude.length > 0
-			? exclude.some((c) => e[c] !== undefined)
-			: false;
+		exclude.length > 0 ? exclude.some((c) => e[c] !== undefined) : false;
 	return matchesArchetype && !matchesExcluding;
 }
 
@@ -61,9 +59,11 @@ function matchesFused(
 	include: string[],
 	exclude: string[],
 ): boolean {
+	// oxlint-disable-next-line @typescript-eslint/prefer-for-of -- benchmarking indexed vs for-of
 	for (let i = 0; i < include.length; i++) {
 		if (e[include[i]] === undefined) return false;
 	}
+	// oxlint-disable-next-line @typescript-eslint/prefer-for-of -- benchmarking indexed vs for-of
 	for (let i = 0; i < exclude.length; i++) {
 		if (e[exclude[i]] !== undefined) return false;
 	}
@@ -91,6 +91,7 @@ for (const { include, exclude } of configs) {
 	const b = matchesFused(entity, include, exclude);
 	const c = matchesFusedForOf(entity, include, exclude);
 	if (a !== b || a !== c) {
+		// oxlint-disable-next-line @typescript-eslint/restrict-template-expressions -- debug output
 		throw new Error(`Mismatch: every/some=${a} fused=${b} fusedForOf=${c}`);
 	}
 }

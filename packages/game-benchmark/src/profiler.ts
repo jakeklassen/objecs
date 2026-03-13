@@ -89,8 +89,14 @@ export class Profiler {
 		return {
 			count: this.#frameTimes.length,
 			avgMs: avg,
-			minMs: this.#frameTimes.reduce((m, t) => (t < m ? t : m), this.#frameTimes[0]),
-			maxMs: this.#frameTimes.reduce((m, t) => (t > m ? t : m), this.#frameTimes[0]),
+			minMs: this.#frameTimes.reduce(
+				(m, t) => (t < m ? t : m),
+				this.#frameTimes[0],
+			),
+			maxMs: this.#frameTimes.reduce(
+				(m, t) => (t > m ? t : m),
+				this.#frameTimes[0],
+			),
 			avgFps: 1000 / avg,
 		};
 	}

@@ -13,7 +13,7 @@ const keys = Array.from({ length: 20 }, (_, i) => `component_${i}`);
 const missingKey = "nonexistent";
 
 const map = new Map<string, number>();
-const obj: Record<string, number> = {};
+const obj: Record<string, number | undefined> = {};
 
 for (let i = 0; i < keys.length; i++) {
 	map.set(keys[i], i);
@@ -46,6 +46,7 @@ summary(() => {
 	bench("Map.get — all 20 keys", () => {
 		let sum = 0;
 		for (const k of keys) {
+			// oxlint-disable-next-line @typescript-eslint/no-non-null-assertion -- keys are known present
 			sum += map.get(k)!;
 		}
 		return sum;
@@ -54,7 +55,7 @@ summary(() => {
 	bench("obj[key] — all 20 keys", () => {
 		let sum = 0;
 		for (const k of keys) {
-			sum += obj[k];
+			sum += obj[k] ?? 0;
 		}
 		return sum;
 	});
@@ -68,6 +69,7 @@ summary(() => {
 		}
 		let sum = 0;
 		for (const k of keys) {
+			// oxlint-disable-next-line @typescript-eslint/no-non-null-assertion -- keys are known present
 			sum += m.get(k)!;
 		}
 		return sum;

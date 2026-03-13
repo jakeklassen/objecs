@@ -1,4 +1,10 @@
-import { type EntityBase, EntityCollection, type ReadonlyEntityCollection, type SafeEntity, World } from "./world.js";
+import {
+	type EntityBase,
+	EntityCollection,
+	type ReadonlyEntityCollection,
+	type SafeEntity,
+	World,
+} from "./world.js";
 
 /**
  * An archetype is a collection of entities that share the same components.
@@ -32,7 +38,7 @@ export class Archetype<
 		this.#components = components;
 		this.#excluding = without;
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+		// oxlint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
 		world.registerArchetype(this as any);
 	}
 
@@ -73,7 +79,7 @@ export class Archetype<
 		}
 
 		if (this.matches(entity)) {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			// oxlint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
 			this.#entities.add(entity as any);
 		}
 
@@ -81,7 +87,7 @@ export class Archetype<
 	}
 
 	public removeEntity(entity: Entity): this {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+		// oxlint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
 		this.#entities.remove(entity as any);
 
 		return this;
@@ -138,11 +144,11 @@ export class Archetype<
 			Array<Exclude<Components[number], (typeof components)[number]>>
 		>({
 			entities,
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			// oxlint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
 			world: this.#world as any,
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			// oxlint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
 			components: this.#components as any,
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			// oxlint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
 			without: components as any,
 		});
 

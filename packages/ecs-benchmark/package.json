@@ -4,8 +4,8 @@
 	"type": "module",
 	"scripts": {
 		"start": "node src/bench.js",
-		"lint": "prettier --check 'src/**/*.js'",
-		"lint:fix": "prettier --write 'src/**/*.js'"
+		"lint": "vp lint",
+		"lint:fix": "vp lint --fix"
 	},
 	"dependencies": {
 		"@jakeklassen/ecs": "4.0.7",
@@ -26,7 +26,6 @@
 		"wolf-ecs": "2.1.3"
 	},
 	"devDependencies": {
-		"@types/node": "^24.12.0",
-		"prettier": "^3.8.1"
+		"@types/node": "^24.12.0"
 	}
 }

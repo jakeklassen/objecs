@@ -86,7 +86,7 @@ export function spriteOutlineRenderingSystemFactory({
 					// const r = pixels[i];
 					// const g = pixels[i + 1];
 					// const b = pixels[i + 2];
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					// oxlint-disable-next-line @typescript-eslint/no-non-null-assertion
 					const a = pixels[i + 3]!;
 
 					// Check if the current pixel is non-transparent

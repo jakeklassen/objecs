@@ -2,7 +2,11 @@ import Canvas from "canvas";
 import sdl from "@kmamal/sdl";
 import { World } from "objecs";
 import { Profiler } from "../../../profiler.ts";
-import { DEFAULT_CONFIG, type Entity, type AntSimulationConfig } from "../types.ts";
+import {
+	DEFAULT_CONFIG,
+	type Entity,
+	type AntSimulationConfig,
+} from "../types.ts";
 import { PheromoneMap } from "../pheromone-map.ts";
 import { createSteeringSystem } from "../systems/steering-system.ts";
 import { createMovementSystem } from "../systems/movement-system.ts";
@@ -102,7 +106,11 @@ export async function runAntSimulationGame(
 		{ x: config.width * 0.8, y: config.height * 0.8 },
 	];
 
-	for (let c = 0; c < Math.min(config.foodClusters, clusterPositions.length); c++) {
+	for (
+		let c = 0;
+		c < Math.min(config.foodClusters, clusterPositions.length);
+		c++
+	) {
 		const cluster = clusterPositions[c];
 		const clusterRadius = 40;
 
@@ -126,7 +134,13 @@ export async function runAntSimulationGame(
 	// Create systems
 	const steeringSystem = profiler.profileSystem(
 		"steering",
-		createSteeringSystem(antArchetype, foodArchetype, nestPos, pheromoneMap, config),
+		createSteeringSystem(
+			antArchetype,
+			foodArchetype,
+			nestPos,
+			pheromoneMap,
+			config,
+		),
 	);
 
 	const movementSystem = profiler.profileSystem(
@@ -203,11 +217,11 @@ export async function runAntSimulationGame(
 		foodCollected = nestDeliverySystem();
 
 		if (!skipRender) {
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			// oxlint-disable-next-line @typescript-eslint/no-non-null-assertion
 			renderSystem!(foodCollected);
 
 			if (window && !window.destroyed) {
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				// oxlint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const buffer = canvas!.toBuffer("raw");
 				window.render(
 					config.width,

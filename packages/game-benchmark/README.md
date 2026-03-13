@@ -60,29 +60,30 @@ pnpm start -g mutation -d 5 -t 10
 
 ## Options
 
-| Option | Short | Default | Description |
-|--------|-------|---------|-------------|
-| `--game <name>` | `-g` | `boids` | Game/simulation to run |
-| `--lib <name>` | `-l` | all | ECS library to test (can specify multiple) |
-| `--duration <secs>` | `-d` | `10` | Duration in seconds per library |
-| `--count <num>` | `-c` | `500` | Entity count (500 boids, 50 ants, 1000 mutation) |
-| `--trials <num>` | `-t` | `1` | Number of trials per library |
-| `--headless` | | | Run without window |
-| `--no-headless` | | | Run with window (each lib shown sequentially) |
-| `--no-render` | | | Skip all rendering to isolate ECS performance |
-| `--help` | | | Show help |
+| Option              | Short | Default | Description                                      |
+| ------------------- | ----- | ------- | ------------------------------------------------ |
+| `--game <name>`     | `-g`  | `boids` | Game/simulation to run                           |
+| `--lib <name>`      | `-l`  | all     | ECS library to test (can specify multiple)       |
+| `--duration <secs>` | `-d`  | `10`    | Duration in seconds per library                  |
+| `--count <num>`     | `-c`  | `500`   | Entity count (500 boids, 50 ants, 1000 mutation) |
+| `--trials <num>`    | `-t`  | `1`     | Number of trials per library                     |
+| `--headless`        |       |         | Run without window                               |
+| `--no-headless`     |       |         | Run with window (each lib shown sequentially)    |
+| `--no-render`       |       |         | Skip all rendering to isolate ECS performance    |
+| `--help`            |       |         | Show help                                        |
 
 **Window defaults:**
+
 - Single library → shows window
 - Multiple libraries → headless (use `--no-headless` to show windows)
 - `--no-render` and `mutation` game → always headless
 
 ## Supported Libraries
 
-| Library | Description |
-|---------|-------------|
-| `objecs` | objecs ECS library (workspace) |
-| `miniplex` | miniplex ECS library |
+| Library    | Description                    |
+| ---------- | ------------------------------ |
+| `objecs`   | objecs ECS library (workspace) |
+| `miniplex` | miniplex ECS library           |
 
 ## Games
 

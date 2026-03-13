@@ -17,12 +17,11 @@
 		"noImplicitOverride": true,
 		"noUncheckedIndexedAccess": true,
 		"skipLibCheck": true,
-		"baseUrl": ".",
 		"types": ["@types/wicg-file-system-access"],
 		"allowImportingTsExtensions": true,
 		"paths": {
-			"#/*": ["src/*"],
-			"#/assets/*": ["assets/*"]
+			"#/*": ["./src/*"],
+			"#/assets/*": ["./assets/*"]
 		}
 	},
 	"include": ["src", "basic"]

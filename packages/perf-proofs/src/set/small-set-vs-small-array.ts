@@ -70,6 +70,7 @@ for (const size of [2, 5, 8, 15]) {
 
 		bench(`for (indexed) Array — ${size} items`, () => {
 			let sum = 0;
+			// oxlint-disable-next-line @typescript-eslint/prefer-for-of -- benchmarking indexed vs for-of
 			for (let i = 0; i < arr.length; i++) {
 				sum += arr[i].id;
 			}

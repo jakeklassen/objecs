@@ -120,6 +120,7 @@ function withDuplicatesArr(
 	for (const key of keys) {
 		const arr = index.get(key);
 		if (arr !== undefined) {
+			// oxlint-disable-next-line @typescript-eslint/prefer-for-of -- benchmarking indexed loop
 			for (let i = 0; i < arr.length; i++) {
 				callback(arr[i]);
 			}

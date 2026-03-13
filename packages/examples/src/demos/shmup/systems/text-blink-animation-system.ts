@@ -25,10 +25,10 @@ export function textBlinkAnimationSystemFactory({
 			}
 
 			const colorSequence =
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				// oxlint-disable-next-line @typescript-eslint/no-non-null-assertion
 				textBlinkAnimation.colorSequence[textBlinkAnimation.currentColorIndex]!;
 
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			// oxlint-disable-next-line @typescript-eslint/no-non-null-assertion
 			textBlinkAnimation.color = textBlinkAnimation.colors[colorSequence]!;
 
 			const textBuffer = textCache.get(entity);

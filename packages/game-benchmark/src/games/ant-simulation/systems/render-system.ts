@@ -34,7 +34,13 @@ export function createRenderSystem(
 		for (const nest of nests.entities) {
 			ctx.fillStyle = config.nestColor;
 			ctx.beginPath();
-			ctx.arc(nest.position.x, nest.position.y, nest.nest.radius, 0, Math.PI * 2);
+			ctx.arc(
+				nest.position.x,
+				nest.position.y,
+				nest.nest.radius,
+				0,
+				Math.PI * 2,
+			);
 			ctx.fill();
 
 			// Draw food count
