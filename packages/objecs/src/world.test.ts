@@ -151,7 +151,7 @@ describe("World", () => {
 
 			expect(() => {
 				world.removeEntityComponents({}, "color");
-			}).not.toThrowError();
+			}).not.toThrow();
 		});
 
 		it.skip("should throw if entity has been mark for deletion");
