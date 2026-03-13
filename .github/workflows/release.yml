@@ -28,6 +28,5 @@ jobs:
           GITHUB_TOKEN: ${{secrets.RELEASER_TOKEN}}
 
       - run: pnpm i
+      # OIDC trusted publishing — no token needed
       - run: pnpm publish --no-git-checks --access public --provenance --filter objecs
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
