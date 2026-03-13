@@ -34,7 +34,7 @@
 		"build": "pnpm run lint && vp pack",
 		"build:watch": "nodemon --exec 'pnpm run build || exit 1'",
 		"prepublishOnly": "nr build",
-		"release": "bumpp --commit --push --tag --execute 'gh release create v%s --generate-notes'",
+		"release": "bumpp --commit --push --tag && gh release create v$(node -p \"require('./package.json').version\") --generate-notes",
 		"test": "vp test",
 		"pretest:coverage": "pnpm run clean",
 		"test:coverage": "vp test run --coverage",
