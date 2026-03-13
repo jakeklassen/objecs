@@ -12,6 +12,13 @@ const config = defineConfig({
 	build: {
 		target: "chrome101",
 	},
+	pack: {
+		entry: ["src/**/*.ts", "!src/**/*.test.ts"],
+		format: ["esm", "cjs"],
+		dts: true,
+		sourcemap: true,
+		clean: true,
+	},
 });
 
 export default config;
