@@ -1,6 +1,11 @@
 import { World } from "miniplex";
 import { Profiler } from "../../../profiler.ts";
-import { DEFAULT_CONFIG, type Entity, type MutationConfig, type MutationGameOptions } from "../types.ts";
+import {
+	DEFAULT_CONFIG,
+	type Entity,
+	type MutationConfig,
+	type MutationGameOptions,
+} from "../types.ts";
 
 export async function runMutationGame(options: MutationGameOptions = {}) {
 	const config: MutationConfig = { ...DEFAULT_CONFIG, ...options.config };
@@ -83,12 +88,7 @@ export async function runMutationGame(options: MutationGameOptions = {}) {
 	const mutationCount = Math.floor(config.entityCount * config.mutationRate);
 
 	// Optional component definitions for random mutation
-	const optionalComponents = [
-		"shield",
-		"poisoned",
-		"stunned",
-		"buff",
-	] as const;
+	const optionalComponents = ["shield", "poisoned", "stunned", "buff"] as const;
 
 	type OptionalComponent = (typeof optionalComponents)[number];
 
@@ -126,8 +126,7 @@ export async function runMutationGame(options: MutationGameOptions = {}) {
 		for (const query of queries) {
 			for (const entity of query.entities) {
 				// Touch entity to verify membership — read position.x
-				sum += (entity as Entity & { position: { x: number } }).position
-					.x;
+				sum += (entity as Entity & { position: { x: number } }).position.x;
 			}
 		}
 		return sum;

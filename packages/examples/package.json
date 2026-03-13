@@ -4,24 +4,25 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
-		"build": "tsc && vite build",
-		"lint": "prettier --check 'src/**/*.ts'",
-		"lint:fix": "prettier --write 'src/**/*.ts'",
-		"preview": "vite preview"
+		"dev": "vp dev",
+		"build": "tsc && vp build",
+		"lint": "vp lint",
+		"lint:fix": "vp lint --fix",
+		"preview": "vp preview"
 	},
 	"devDependencies": {
 		"@types/color": "4.2.0",
 		"@types/file-saver": "2.0.7",
 		"@types/wicg-file-system-access": "2023.10.7",
-		"prettier": "^3.8.1",
 		"typescript": "5.9.3",
-		"vite": "^7.3.1"
+		"vite": "npm:@voidzero-dev/vite-plus-core@latest",
+		"vite-plus": "catalog:"
 	},
 	"dependencies": {
 		"@tweakpane/core": "2.0.5",
 		"color": "5.0.3",
 		"dot-path-value": "0.0.11",
+		"esbuild": "0.27.4",
 		"fast-xml-parser": "5.5.5",
 		"file-saver": "2.0.5",
 		"gameinput": "0.0.9",

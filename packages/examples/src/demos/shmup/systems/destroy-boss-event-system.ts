@@ -78,8 +78,10 @@ export function destroyBossEventSystemFactory({
 			world.removeEntityComponents(boss, "boxCollider");
 
 			// Shake the boss
-			world.addEntityComponents(boss, "tweens", [
-				...(boss.tweens ?? []).concat(
+			world.addEntityComponents(
+				boss,
+				"tweens",
+				(boss.tweens ?? []).concat(
 					tweenFactory("transform.position.x", {
 						duration: 80,
 						easing: Easing.InSine,
@@ -90,7 +92,7 @@ export function destroyBossEventSystemFactory({
 						maxIterations: Infinity,
 					}),
 				),
-			]);
+			);
 
 			world.addEntityComponents(boss, "tagDisabled", true);
 

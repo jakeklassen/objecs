@@ -2,35 +2,54 @@
 	"folders": [
 		{
 			"name": "✨ root",
-			"path": "."
+			"path": ".",
 		},
 		{
 			"name": "📦 objecs",
-			"path": "packages/objecs"
+			"path": "packages/objecs",
 		},
 		{
 			"name": "📦 benchmark",
-			"path": "packages/benchmark"
+			"path": "packages/benchmark",
 		},
 		{
 			"name": "📦 ecs-benchmark",
-			"path": "packages/ecs-benchmark"
+			"path": "packages/ecs-benchmark",
 		},
 		{
 			"name": "📦 game-benchmark",
-			"path": "packages/game-benchmark"
+			"path": "packages/game-benchmark",
 		},
 		{
 			"name": "📦 examples",
-			"path": "packages/examples"
+			"path": "packages/examples",
 		},
 		{
 			"name": "📦 perf-proofs",
-			"path": "packages/perf-proofs"
-		}
+			"path": "packages/perf-proofs",
+		},
 	],
 	"settings": {
-		"typescript.preferences.importModuleSpecifierEnding": "js",
-		"explorer.compactFolders": false
-	}
+		"js/ts.preferences.importModuleSpecifierEnding": "js",
+		"explorer.compactFolders": false,
+		"editor.defaultFormatter": "oxc.oxc-vscode",
+		"editor.formatOnSave": true,
+		"editor.formatOnSaveMode": "file",
+		"editor.codeActionsOnSave": {
+			"source.fixAll.oxc": "explicit",
+		},
+		"[typescript]": {
+			"editor.defaultFormatter": "oxc.oxc-vscode",
+		},
+		"[javascript]": {
+			"editor.defaultFormatter": "oxc.oxc-vscode",
+		},
+		"[typescriptreact]": {
+			"editor.defaultFormatter": "oxc.oxc-vscode",
+		},
+		"[javascriptreact]": {
+			"editor.defaultFormatter": "oxc.oxc-vscode",
+		},
+		"oxc.typeAware": true,
+	},
 }

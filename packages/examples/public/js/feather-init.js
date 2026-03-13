@@ -1,9 +1,9 @@
 const timer = setInterval(() => {
-  if (globalThis.feather == null) {
-    return;
-  }
+	if (globalThis.feather == null) {
+		return;
+	}
 
-  globalThis.feather.replace();
+	globalThis.feather.replace();
 
-  clearInterval(timer);
+	clearInterval(timer);
 }, 50);

@@ -29,6 +29,7 @@ for (const count of [2, 3, 5]) {
 
 		bench(`for (indexed) — ${count} components`, () => {
 			let result = true;
+			// oxlint-disable-next-line @typescript-eslint/prefer-for-of -- benchmarking indexed loop vs .every()
 			for (let i = 0; i < components.length; i++) {
 				if (entity[components[i]] === undefined) {
 					result = false;

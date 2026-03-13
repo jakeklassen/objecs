@@ -1,6 +1,7 @@
 import path from "node:path";
-import { defineConfig } from "vite";
+import { defineConfig } from "vite-plus";
 
+// oxlint-disable-next-line typescript/no-unsafe-assignment
 const config = defineConfig({
 	resolve: {
 		// https://github.com/vitejs/vite/issues/88#issuecomment-784441588

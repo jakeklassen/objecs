@@ -1,5 +1,6 @@
 export class EventEmitter<
-	T extends Record<string, (...args: any) => any>,
+	// oxlint-disable-next-line @typescript-eslint/no-explicit-any
+	T extends Record<string, (...args: any[]) => void>,
 > extends Map<keyof T, T[keyof T][]> {
 	public on<K extends keyof T>(event: K, listener: T[K]) {
 		if (!this.has(event)) {

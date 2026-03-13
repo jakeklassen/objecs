@@ -66,7 +66,7 @@ export class Scene {
 		this.textCache = props.textCache;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	// oxlint-disable-next-line @typescript-eslint/no-empty-function
 	protected initialize() {}
 
 	protected clearSystems() {

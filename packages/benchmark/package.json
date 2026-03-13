@@ -5,8 +5,8 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
-		"lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
+		"lint": "vp lint",
+		"lint:fix": "vp lint --fix",
 		"start": "tsx src/bench.ts"
 	},
 	"keywords": [],

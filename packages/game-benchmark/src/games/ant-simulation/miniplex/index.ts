@@ -162,12 +162,10 @@ export async function runAntSimulationGame(
 
 			// Wall avoidance
 			const wallMargin = 30;
-			if (pos.x < wallMargin)
-				desiredX += (wallMargin - pos.x) / wallMargin;
+			if (pos.x < wallMargin) desiredX += (wallMargin - pos.x) / wallMargin;
 			if (pos.x > config.width - wallMargin)
 				desiredX -= (pos.x - (config.width - wallMargin)) / wallMargin;
-			if (pos.y < wallMargin)
-				desiredY += (wallMargin - pos.y) / wallMargin;
+			if (pos.y < wallMargin) desiredY += (wallMargin - pos.y) / wallMargin;
 			if (pos.y > config.height - wallMargin)
 				desiredY -= (pos.y - (config.height - wallMargin)) / wallMargin;
 
@@ -479,11 +477,11 @@ export async function runAntSimulationGame(
 		nestDeliverySystem();
 
 		if (!skipRender) {
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			// oxlint-disable-next-line @typescript-eslint/no-non-null-assertion
 			renderSystem!();
 
 			if (window && !window.destroyed) {
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				// oxlint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const buffer = canvas!.toBuffer("raw");
 				window.render(
 					config.width,
@@ -543,7 +541,12 @@ function samplePheromones(
 	for (const angle of angles) {
 		const sensorX = x + Math.cos(angle) * sensorDist;
 		const sensorY = y + Math.sin(angle) * sensorDist;
-		const strength = pheromoneMap.readArea(sensorX, sensorY, sensorRadius, type);
+		const strength = pheromoneMap.readArea(
+			sensorX,
+			sensorY,
+			sensorRadius,
+			type,
+		);
 		strengths.push(strength);
 	}
 

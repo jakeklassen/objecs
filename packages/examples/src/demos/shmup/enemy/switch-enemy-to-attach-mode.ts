@@ -101,8 +101,10 @@ export function switchEnemyToAttackMode({
 		enemy.enemyType === EnemyType.RedFlameGuy ||
 		enemy.enemyType === EnemyType.YellowShip
 	) {
-		world.addEntityComponents(enemy, "tweens", [
-			...(enemy.tweens ?? []).concat(
+		world.addEntityComponents(
+			enemy,
+			"tweens",
+			(enemy.tweens ?? []).concat(
 				tweenFactory("transform.position.x", {
 					duration: 80,
 					destroyAfter: 2000,
@@ -114,7 +116,7 @@ export function switchEnemyToAttackMode({
 					maxIterations: Infinity,
 				}),
 			),
-		]);
+		);
 	}
 
 	timer.add(new TimeSpan(2000), () => {
@@ -145,9 +147,11 @@ export function switchEnemyToAttackMode({
 			enemy.enemyType === EnemyType.GreenAlien ||
 			enemy.enemyType === EnemyType.RedFlameGuy
 		) {
-			world.addEntityComponents(enemy, "tweens", [
-				...(enemy.tweens ?? []).concat(tweens),
-			]);
+			world.addEntityComponents(
+				enemy,
+				"tweens",
+				(enemy.tweens ?? []).concat(tweens),
+			);
 		}
 
 		world.addEntityComponents(enemy, "direction", direction);

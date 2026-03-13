@@ -12,7 +12,10 @@ import { run, bench, summary } from "mitata";
 
 type FakeArchetype = { id: number; components: number[] };
 
-function makeData(n: number): { set: Set<FakeArchetype>; arr: FakeArchetype[] } {
+function makeData(n: number): {
+	set: Set<FakeArchetype>;
+	arr: FakeArchetype[];
+} {
 	const arr = Array.from({ length: n }, (_, i) => ({
 		id: i,
 		components: [i, i + 1, i + 2],
@@ -44,6 +47,7 @@ for (const size of [5, 10, 50, 100]) {
 
 		bench(`for (indexed) Array — ${size} items`, () => {
 			let sum = 0;
+			// oxlint-disable-next-line @typescript-eslint/prefer-for-of -- benchmarking indexed vs for-of
 			for (let i = 0; i < arr.length; i++) {
 				sum += arr[i].id;
 			}

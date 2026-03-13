@@ -47,7 +47,8 @@ export class Renderer {
 
 	constructor(options: IRendererOptions) {
 		this.options = {
-			...{ color: "white", colorSymbols },
+			color: "white",
+			colorSymbols,
 			...options,
 		};
 

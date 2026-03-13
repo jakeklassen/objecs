@@ -33,7 +33,7 @@ export async function runBoidsGame(options: BoidsGameOptions = {}) {
 				height: config.height,
 				accelerated: true,
 				vsync: false,
-		  })
+			})
 		: null;
 
 	const canvas = skipRender
@@ -149,23 +149,35 @@ export async function runBoidsGame(options: BoidsGameOptions = {}) {
 		boundsSystem();
 
 		if (!skipRender) {
-			/* eslint-disable @typescript-eslint/no-non-null-assertion -- guaranteed non-null when !skipRender */
+			/* oxlint-disable @typescript-eslint/no-non-null-assertion -- guaranteed non-null when !skipRender */
 			const renderCtx = ctx!;
 			const renderCanvas = canvas!;
 			renderSystem!();
-			/* eslint-enable @typescript-eslint/no-non-null-assertion */
+			/* oxlint-enable @typescript-eslint/no-non-null-assertion */
 
 			// Render explosion effect
 			if (explosion) {
 				renderCtx.beginPath();
-				renderCtx.arc(explosion.x, explosion.y, explosion.radius, 0, Math.PI * 2);
+				renderCtx.arc(
+					explosion.x,
+					explosion.y,
+					explosion.radius,
+					0,
+					Math.PI * 2,
+				);
 				renderCtx.strokeStyle = "rgba(255, 100, 50, 0.5)";
 				renderCtx.lineWidth = 2;
 				renderCtx.stroke();
 
 				// Inner glow
 				renderCtx.beginPath();
-				renderCtx.arc(explosion.x, explosion.y, explosion.radius * 0.3, 0, Math.PI * 2);
+				renderCtx.arc(
+					explosion.x,
+					explosion.y,
+					explosion.radius * 0.3,
+					0,
+					Math.PI * 2,
+				);
 				renderCtx.fillStyle = "rgba(255, 200, 100, 0.3)";
 				renderCtx.fill();
 			}

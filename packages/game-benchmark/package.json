@@ -7,6 +7,8 @@
 		"start": "node src/index.ts",
 		"start:boids": "node src/index.ts --game boids",
 		"start:ants": "node src/index.ts --game ants",
+		"lint": "vp lint",
+		"lint:fix": "vp lint --fix",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {

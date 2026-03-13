@@ -48,9 +48,10 @@ canvas.addEventListener("mousemove", (e: MouseEvent) => {
 
 const world = new World<Entity>();
 
-const entityGrid: Entity[] = new Array<Entity>(
-	canvas.width * canvas.height,
-).fill(null as unknown as Entity);
+const entityGrid = Array.from(
+	{ length: canvas.width * canvas.height },
+	() => null as unknown as Entity,
+);
 
 // ! This is a hack because the ECS has no concept of
 // ! reversed iteration.

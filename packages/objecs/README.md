@@ -33,11 +33,11 @@ import { World } from "objecs";
 
 // 1. Define your entity type with all possible components
 type Entity = {
-  position?: { x: number; y: number };
-  velocity?: { x: number; y: number };
-  health?: number;
-  player?: true;
-  enemy?: true;
+	position?: { x: number; y: number };
+	velocity?: { x: number; y: number };
+	health?: number;
+	player?: true;
+	enemy?: true;
 };
 
 // 2. Create a world
@@ -45,17 +45,17 @@ const world = new World<Entity>();
 
 // 3. Create entities with components
 const player = world.createEntity({
-  position: { x: 100, y: 100 },
-  velocity: { x: 0, y: 0 },
-  health: 100,
-  player: true,
+	position: { x: 100, y: 100 },
+	velocity: { x: 0, y: 0 },
+	health: 100,
+	player: true,
 });
 
 world.createEntity({
-  position: { x: 200, y: 50 },
-  velocity: { x: -50, y: 0 },
-  health: 30,
-  enemy: true,
+	position: { x: 200, y: 50 },
+	velocity: { x: -50, y: 0 },
+	health: 30,
+	enemy: true,
 });
 
 // 4. Create archetypes (queries) to filter entities
@@ -64,11 +64,11 @@ const enemies = world.archetype("position", "health", "enemy");
 
 // 5. Use archetypes in your systems
 function movementSystem(dt: number) {
-  for (const entity of movables.entities) {
-    // TypeScript knows entity has position and velocity
-    entity.position.x += entity.velocity.x * dt;
-    entity.position.y += entity.velocity.y * dt;
-  }
+	for (const entity of movables.entities) {
+		// TypeScript knows entity has position and velocity
+		entity.position.x += entity.velocity.x * dt;
+		entity.position.y += entity.velocity.y * dt;
+	}
 }
 ```
 
@@ -88,8 +88,8 @@ Creates a new entity, optionally with initial components.
 
 ```typescript
 const entity = world.createEntity({
-  position: { x: 0, y: 0 },
-  sprite: { texture: "player.png" },
+	position: { x: 0, y: 0 },
+	sprite: { texture: "player.png" },
 });
 ```
 
@@ -109,7 +109,7 @@ Creates an archetype query that matches entities with all specified components. 
 const renderables = world.archetype("position", "sprite");
 
 for (const entity of renderables.entities) {
-  // entity.position and entity.sprite are guaranteed to exist
+	// entity.position and entity.sprite are guaranteed to exist
 }
 ```
 
@@ -144,8 +144,8 @@ Creates a new archetype that excludes entities with certain components.
 ```typescript
 // Get all enemies that are NOT invulnerable
 const vulnerableEnemies = world
-  .archetype("position", "health", "enemy")
-  .without("invulnerable");
+	.archetype("position", "health", "enemy")
+	.without("invulnerable");
 ```
 
 ## Patterns
@@ -156,22 +156,22 @@ objECS doesn't prescribe how to structure systems. A simple pattern is factory f
 
 ```typescript
 function createMovementSystem(world: World<Entity>) {
-  const movables = world.archetype("position", "velocity");
+	const movables = world.archetype("position", "velocity");
 
-  return function movementSystem(dt: number) {
-    for (const entity of movables.entities) {
-      entity.position.x += entity.velocity.x * dt;
-      entity.position.y += entity.velocity.y * dt;
-    }
-  };
+	return function movementSystem(dt: number) {
+		for (const entity of movables.entities) {
+			entity.position.x += entity.velocity.x * dt;
+			entity.position.y += entity.velocity.y * dt;
+		}
+	};
 }
 
 // Usage
 const movementSystem = createMovementSystem(world);
 
 function gameLoop(dt: number) {
-  movementSystem(dt);
-  // ... other systems
+	movementSystem(dt);
+	// ... other systems
 }
 ```
 
@@ -181,9 +181,9 @@ Use `true` as a component value for tag components:
 
 ```typescript
 type Entity = {
-  player?: true;
-  enemy?: true;
-  invulnerable?: true;
+	player?: true;
+	enemy?: true;
+	invulnerable?: true;
 };
 
 world.createEntity({ player: true, invulnerable: true });

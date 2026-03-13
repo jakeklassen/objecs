@@ -110,7 +110,8 @@ export function createSteeringSystem(
 			}
 
 			// Add random wander
-			const wanderAngle = (Math.random() - 0.5) * 2 * Math.PI * config.wanderStrength;
+			const wanderAngle =
+				(Math.random() - 0.5) * 2 * Math.PI * config.wanderStrength;
 			const cos = Math.cos(wanderAngle);
 			const sin = Math.sin(wanderAngle);
 			const wanderedX = desiredX * cos - desiredY * sin;
@@ -121,9 +122,11 @@ export function createSteeringSystem(
 			// Wall avoidance - steer away from edges
 			const wallMargin = 30;
 			if (pos.x < wallMargin) desiredX += (wallMargin - pos.x) / wallMargin;
-			if (pos.x > config.width - wallMargin) desiredX -= (pos.x - (config.width - wallMargin)) / wallMargin;
+			if (pos.x > config.width - wallMargin)
+				desiredX -= (pos.x - (config.width - wallMargin)) / wallMargin;
 			if (pos.y < wallMargin) desiredY += (wallMargin - pos.y) / wallMargin;
-			if (pos.y > config.height - wallMargin) desiredY -= (pos.y - (config.height - wallMargin)) / wallMargin;
+			if (pos.y > config.height - wallMargin)
+				desiredY -= (pos.y - (config.height - wallMargin)) / wallMargin;
 
 			// Normalize desired direction
 			const desiredMag = Math.sqrt(desiredX * desiredX + desiredY * desiredY);
@@ -173,7 +176,12 @@ function samplePheromones(
 	for (const angle of angles) {
 		const sensorX = x + Math.cos(angle) * sensorDist;
 		const sensorY = y + Math.sin(angle) * sensorDist;
-		const strength = pheromoneMap.readArea(sensorX, sensorY, sensorRadius, type);
+		const strength = pheromoneMap.readArea(
+			sensorX,
+			sensorY,
+			sensorRadius,
+			type,
+		);
 		strengths.push(strength);
 	}
 

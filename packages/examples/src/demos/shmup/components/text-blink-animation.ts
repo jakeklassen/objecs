@@ -11,7 +11,7 @@ export function textBlinkAnimationFactory({
 }): NonNullable<Entity["textBlinkAnimation"]> {
 	const delta = 0;
 	const currentColorIndex = 0;
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	// oxlint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const color = colors[colorSequence[currentColorIndex]!]!;
 	const frameRate = durationMs / 1_000 / colorSequence.length;
 

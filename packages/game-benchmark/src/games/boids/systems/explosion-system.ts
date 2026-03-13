@@ -63,7 +63,9 @@ export function createExplosionSystem(
 						forceMagnitude =
 							config.explosionForce *
 							0.5 *
-							(1 - (dist - explosion.radius) / (avoidanceRadius - explosion.radius));
+							(1 -
+								(dist - explosion.radius) /
+									(avoidanceRadius - explosion.radius));
 					}
 
 					// Normalize direction and apply force to acceleration

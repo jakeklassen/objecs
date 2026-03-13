@@ -12,7 +12,10 @@ import { run, bench, summary } from "mitata";
 
 // --- Setup ---
 
-type Entity = { position: { x: number; y: number }; velocity: { x: number; y: number } };
+type Entity = {
+	position: { x: number; y: number };
+	velocity: { x: number; y: number };
+};
 
 // Simulate EntityCollection — wraps an array, delegates iterator
 class FakeCollection<T> {
@@ -61,6 +64,7 @@ for (const size of [100, 1000, 10_000]) {
 
 		bench(`for (indexed) collection.raw — ${size}`, () => {
 			const raw = collection.raw;
+			// oxlint-disable-next-line @typescript-eslint/prefer-for-of -- benchmarking indexed vs iterator protocol
 			for (let i = 0; i < raw.length; i++) {
 				const e = raw[i];
 				e.position.x += e.velocity.x;

@@ -148,11 +148,7 @@ export class EntityCollection<T> implements ReadonlyEntityCollection<T> {
 	}
 
 	forEach(
-		callbackfn: (
-			value: T,
-			value2: T,
-			set: ReadonlyEntityCollection<T>,
-		) => void,
+		callbackfn: (value: T, value2: T, set: ReadonlyEntityCollection<T>) => void,
 		thisArg?: unknown,
 	): void {
 		for (const entity of this.#entities) {
@@ -167,7 +163,10 @@ export class EntityCollection<T> implements ReadonlyEntityCollection<T> {
 export class World<Entity extends EntityBase> {
 	#archetypes = new Set<Archetype<Entity, Array<keyof Entity>>>();
 	#entities = new EntityCollection<Entity>();
-	#componentIndex = new Map<keyof Entity, Set<Archetype<Entity, Array<keyof Entity>>>>();
+	#componentIndex = new Map<
+		keyof Entity,
+		Set<Archetype<Entity, Array<keyof Entity>>>
+	>();
 
 	public get archetypes(): Set<Archetype<Entity, Array<keyof Entity>>> {
 		return this.#archetypes;
@@ -177,8 +176,10 @@ export class World<Entity extends EntityBase> {
 	 * Register an archetype and index it by its components for fast lookup.
 	 * @remarks Used internally by Archetype constructor.
 	 */
-	public registerArchetype(archetype: Archetype<Entity, Array<keyof Entity>>): void {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+	public registerArchetype(
+		archetype: Archetype<Entity, Array<keyof Entity>>,
+	): void {
+		// oxlint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
 		this.#archetypes.add(archetype as any);
 
 		for (const component of archetype.components) {
@@ -224,7 +225,6 @@ export class World<Entity extends EntityBase> {
 			// perf: manual loop avoids .every() callback overhead
 			let matchesArchetype = true;
 			for (const component of components) {
-
 				if (entity[component as string] === undefined) {
 					matchesArchetype = false;
 					break;
@@ -313,7 +313,7 @@ export class World<Entity extends EntityBase> {
 
 		// Single component: addEntityComponents(entity, "key", value)
 		if (typeof componentOrComponents === "string" && value !== undefined) {
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// oxlint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			entity[componentOrComponents] = value;
 			changedKeys.push(componentOrComponents as keyof Entity);
@@ -321,7 +321,7 @@ export class World<Entity extends EntityBase> {
 			// Multiple components: addEntityComponents(entity, { key: value, ... })
 			const components = componentOrComponents as Record<string, unknown>;
 			for (const key in components) {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+				// oxlint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
 				(entity as any)[key] = components[key];
 				changedKeys.push(key as keyof Entity);
 			}
@@ -362,7 +362,7 @@ export class World<Entity extends EntityBase> {
 	): void {
 		if (this.#entities.has(entity)) {
 			for (const component of components) {
-				// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+				// oxlint-disable-next-line @typescript-eslint/no-dynamic-delete
 				delete entity[component];
 			}
 
@@ -378,5 +378,4 @@ export class World<Entity extends EntityBase> {
 			}
 		}
 	}
-
 }

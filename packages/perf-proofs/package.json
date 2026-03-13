@@ -11,6 +11,8 @@
 		"start:set": "for f in src/set/*.ts; do echo \"\\n--- $f ---\"; node --expose-gc \"$f\"; done",
 		"start:iteration": "for f in src/iteration/*.ts; do echo \"\\n--- $f ---\"; node --expose-gc \"$f\"; done",
 		"start:function": "for f in src/function/*.ts; do echo \"\\n--- $f ---\"; node --expose-gc \"$f\"; done",
+		"lint": "vp lint",
+		"lint:fix": "vp lint --fix",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {

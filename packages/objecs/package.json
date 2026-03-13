@@ -22,16 +22,16 @@
 	},
 	"scripts": {
 		"postdocs": "cp jekyll.config.yml docs/config.yml && touch docs/.nojekyll",
-		"lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
-		"lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
+		"lint": "vp lint",
+		"lint:fix": "vp lint --fix",
 		"prebuild": "pnpm run clean",
 		"build": "pnpm run lint && tsup",
 		"build:watch": "nodemon --exec 'pnpm run build || exit 1'",
 		"prepublishOnly": "nr build",
 		"release": "bumpp --commit --push --tag && pnpm publish",
-		"test": "vitest",
+		"test": "vp test",
 		"pretest:coverage": "pnpm run clean",
-		"test:coverage": "vitest run --coverage",
+		"test:coverage": "vp test run --coverage",
 		"clean": "rimraf dist",
 		"check-exports": "attw --pack ."
 	},
@@ -44,28 +44,19 @@
 		"typescript"
 	],
 	"devDependencies": {
-		"@antfu/ni": "28.1.0",
+		"@antfu/ni": "29.0.0",
 		"@arethetypeswrong/cli": "0.18.2",
-		"@eslint/eslintrc": "3.3.5",
-		"@eslint/js": "9.39.2",
 		"@types/benchmark": "^2.1.5",
-		"@types/eslint": "^9.6.1",
 		"@types/node": "^24.12.0",
-		"@typescript-eslint/eslint-plugin": "^8.57.0",
-		"@typescript-eslint/parser": "^8.57.0",
 		"benchmark": "^2.1.4",
 		"bumpp": "10.4.1",
-		"eslint": "^9.39.4",
-		"eslint-config-prettier": "^10.1.8",
-		"eslint-plugin-depend": "1.5.0",
-		"eslint-plugin-prettier": "5.5.5",
 		"globals": "17.4.0",
 		"nodemon": "^3.1.14",
-		"prettier": "^3.8.1",
 		"rimraf": "^6.1.3",
 		"tsup": "^8.5.1",
 		"typescript": "^5.9.3",
-		"vite": "7.3.1",
-		"vitest": "4.1.0"
+		"vite": "npm:@voidzero-dev/vite-plus-core@latest",
+		"vite-plus": "catalog:",
+		"vitest": "npm:@voidzero-dev/vite-plus-test@latest"
 	}
 }

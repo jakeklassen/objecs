@@ -1,6 +1,11 @@
 import { World } from "objecs";
 import { Profiler } from "../../../profiler.ts";
-import { DEFAULT_CONFIG, type Entity, type MutationConfig, type MutationGameOptions } from "../types.ts";
+import {
+	DEFAULT_CONFIG,
+	type Entity,
+	type MutationConfig,
+	type MutationGameOptions,
+} from "../types.ts";
 
 export async function runMutationGame(options: MutationGameOptions = {}) {
 	const config: MutationConfig = { ...DEFAULT_CONFIG, ...options.config };
@@ -21,9 +26,7 @@ export async function runMutationGame(options: MutationGameOptions = {}) {
 	const shieldedNotPoisoned = world
 		.archetype("health", "shield")
 		.without("poisoned");
-	const buffedNotStunned = world
-		.archetype("health", "buff")
-		.without("stunned");
+	const buffedNotStunned = world.archetype("health", "buff").without("stunned");
 	const poisonedAndStunned = world.archetype("poisoned", "stunned");
 	const damageEntities = world.archetype("damage");
 	const fullyCombat = world.archetype("health", "damage", "shield");
@@ -86,7 +89,10 @@ export async function runMutationGame(options: MutationGameOptions = {}) {
 
 	type OptionalComponent = (typeof optionalComponents)[number];
 
-	const componentFactories: Record<OptionalComponent, () => Entity[OptionalComponent]> = {
+	const componentFactories: Record<
+		OptionalComponent,
+		() => Entity[OptionalComponent]
+	> = {
 		shield: () => ({ strength: 10 + Math.random() * 90 }),
 		poisoned: () => ({ tickDamage: 1 + Math.random() * 5 }),
 		stunned: () => ({ duration: 0.5 + Math.random() * 2 }),
@@ -109,7 +115,7 @@ export async function runMutationGame(options: MutationGameOptions = {}) {
 				world.addEntityComponents(
 					entity,
 					comp,
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					// oxlint-disable-next-line @typescript-eslint/no-non-null-assertion
 					componentFactories[comp]()!,
 				);
 			}
