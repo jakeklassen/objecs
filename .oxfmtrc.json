@@ -5,5 +5,5 @@
 	"useTabs": true,
 	"printWidth": 80,
 	"sortPackageJson": false,
-	"ignorePatterns": ["**/package.json", "pnpm-workspace.yaml"]
+	"ignorePatterns": ["**/package.json", "pnpm-workspace.yaml", ".claude/**"]
 }
