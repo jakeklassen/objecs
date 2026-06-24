@@ -28,16 +28,16 @@
 	},
 	"scripts": {
 		"postdocs": "cp jekyll.config.yml docs/config.yml && touch docs/.nojekyll",
-		"lint": "vp lint",
-		"lint:fix": "vp lint --fix",
+		"lint": "oxlint src",
+		"lint:fix": "oxlint --fix src",
 		"prebuild": "pnpm run clean",
-		"build": "pnpm run lint && vp pack",
+		"build": "pnpm run lint && tsdown",
 		"build:watch": "nodemon --exec 'pnpm run build || exit 1'",
 		"prepublishOnly": "nr build",
 		"release": "bumpp --commit --push --tag && gh release create v$(node -p \"require('./package.json').version\") --generate-notes",
-		"test": "vp test",
+		"test": "vitest",
 		"pretest:coverage": "pnpm run clean",
-		"test:coverage": "vp test run --coverage",
+		"test:coverage": "vitest run --coverage",
 		"clean": "rimraf dist",
 		"check-exports": "attw --pack ."
 	},
@@ -50,18 +50,20 @@
 		"typescript"
 	],
 	"devDependencies": {
-		"@antfu/ni": "29.0.0",
-		"@arethetypeswrong/cli": "0.18.2",
+		"@antfu/ni": "30.1.0",
+		"@arethetypeswrong/cli": "0.18.4",
 		"@types/benchmark": "^2.1.5",
-		"@types/node": "^24.12.0",
+		"@types/node": "^26.0.0",
+		"@vitest/coverage-v8": "^4.1.9",
 		"benchmark": "^2.1.4",
-		"bumpp": "10.4.1",
-		"globals": "17.4.0",
+		"bumpp": "11.1.0",
+		"globals": "17.7.0",
 		"nodemon": "^3.1.14",
+		"oxlint": "1.70.0",
+		"oxlint-tsgolint": "0.23.0",
 		"rimraf": "^6.1.3",
-		"typescript": "^5.9.3",
-		"vite": "npm:@voidzero-dev/vite-plus-core@latest",
-		"vite-plus": "catalog:",
-		"vitest": "npm:@voidzero-dev/vite-plus-test@latest"
+		"tsdown": "0.22.3",
+		"typescript": "^6.0.3",
+		"vitest": "^4.1.9"
 	}
 }

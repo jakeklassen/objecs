@@ -15,7 +15,8 @@
 		"rewriteRelativeImportExtensions": true,
 		"rootDir": "src",
 		"resolveJsonModule": true,
-		"erasableSyntaxOnly": true
+		"erasableSyntaxOnly": true,
+		"types": ["node"]
 	},
 	"include": ["src/**/*"]
 }

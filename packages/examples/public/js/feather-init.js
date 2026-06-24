@@ -1,9 +1,17 @@
-const timer = setInterval(() => {
-	if (globalThis.feather == null) {
-		return;
-	}
+(() => {
+	/** @typedef {{ replace: () => void }} Feather */
 
-	globalThis.feather.replace();
+	const timer = setInterval(() => {
+		const feather = /** @type {Feather | undefined} */ (
+			/** @type {Record<string, unknown>} */ (globalThis).feather
+		);
 
-	clearInterval(timer);
-}, 50);
+		if (feather == null) {
+			return;
+		}
+
+		feather.replace();
+
+		clearInterval(timer);
+	}, 50);
+})();

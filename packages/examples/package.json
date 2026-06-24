@@ -4,26 +4,23 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vp dev",
-		"build": "tsc && vp build",
-		"lint": "vp lint",
-		"lint:fix": "vp lint --fix",
-		"preview": "vp preview"
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@types/color": "4.2.0",
+		"@types/color": "4.2.1",
 		"@types/file-saver": "2.0.7",
 		"@types/wicg-file-system-access": "2023.10.7",
-		"typescript": "5.9.3",
-		"vite": "npm:@voidzero-dev/vite-plus-core@latest",
-		"vite-plus": "catalog:"
+		"typescript": "6.0.3",
+		"vite": "^8.1.0"
 	},
 	"dependencies": {
 		"@tweakpane/core": "2.0.5",
 		"color": "5.0.3",
-		"dot-path-value": "0.0.11",
-		"esbuild": "0.27.4",
-		"fast-xml-parser": "5.5.5",
+		"dot-path-value": "0.0.12",
+		"esbuild": "0.28.1",
+		"fast-xml-parser": "5.9.3",
 		"file-saver": "2.0.5",
 		"gameinput": "0.0.9",
 		"jszip": "3.10.1",
@@ -34,8 +31,8 @@
 		"just-safe-set": "4.2.1",
 		"just-shuffle": "4.2.0",
 		"objecs": "workspace:*",
-		"sharp": "0.34.5",
+		"sharp": "0.35.2",
 		"tweakpane": "4.0.5",
-		"type-fest": "5.4.4"
+		"type-fest": "5.7.0"
 	}
 }

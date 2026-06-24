@@ -1,22 +1,25 @@
 {
-	"name": "objecs",
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"lint": "vp lint",
-		"lint:fix": "vp lint --fix",
-		"prepare": "vp config"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"packageManager": "pnpm@10.33.1",
-	"devDependencies": {
-		"eslint-plugin-depend": "1.5.0",
-		"globals": "17.4.0",
-		"oxlint-tsgolint": "0.16.0",
-		"typescript": "5.9.3",
-		"typeslayer": "0.1.31",
-		"vite-plus": "catalog:"
-	}
+  "name": "objecs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "oxlint --type-aware",
+    "lint:fix": "oxlint --type-aware --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "check": "oxfmt --check && oxlint --type-aware"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@11.9.0",
+  "devDependencies": {
+    "eslint-plugin-depend": "1.5.0",
+    "globals": "17.7.0",
+    "oxfmt": "0.56.0",
+    "oxlint": "1.70.0",
+    "oxlint-tsgolint": "0.23.0",
+    "typescript": "6.0.3",
+    "typeslayer": "0.1.32"
+  }
 }

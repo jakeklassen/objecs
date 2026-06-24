@@ -1,24 +1,14 @@
 packages:
   - packages/*
   - "!**/test/**"
-
-onlyBuiltDependencies:
-  - "@kmamal/sdl"
-  - canvas
-  - esbuild
-  - sharp
-  - typeslayer
-catalog:
-  vite: npm:@voidzero-dev/vite-plus-core@latest
-  vitest: npm:@voidzero-dev/vite-plus-test@latest
-  vite-plus: latest
-overrides:
-  vite: "catalog:"
-  vitest: "catalog:"
-peerDependencyRules:
-  allowAny:
-    - vite
-    - vitest
-  allowedVersions:
-    vite: "*"
-    vitest: "*"
+saveExact: true
+unsafePerm: true
+enablePrePostScripts: true
+autoInstallPeers: true
+ignoreWorkspaceRootCheck: true
+allowBuilds:
+  "@kmamal/sdl": true
+  canvas: true
+  esbuild: true
+  sharp: true
+  typeslayer: true

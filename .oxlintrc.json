@@ -11,7 +11,8 @@
 		"**/build",
 		"**/dist",
 		"**/public",
-		"packages/ecs-benchmark/**"
+		"packages/ecs-benchmark/**",
+		"packages/perf-proofs/**"
 	],
 	"rules": {
 		"constructor-super": "error",

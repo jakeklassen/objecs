@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
 import fs from "node:fs/promises";
-import { defineConfig } from "vite-plus";
+import { defineConfig } from "vite";
 
 const demoInputs = await fs
 	.readdir(resolve(__dirname, "./src/demos"))
