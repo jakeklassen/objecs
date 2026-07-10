@@ -16,18 +16,18 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node: ["22.x", "24.x"]
+        node: ["22.x", "24.x", "26.x"]
         os: [ubuntu-24.04]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Use Node ${{ matrix.node }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
 
-      - uses: pnpm/action-setup@v4.2.0
+      - uses: pnpm/action-setup@v6
 
       - name: Install
         run: pnpm i
