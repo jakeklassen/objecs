@@ -158,6 +158,13 @@ export class EntityCollection<T> implements ReadonlyEntityCollection<T> {
 }
 
 /**
+ * Shared empty result for the single-key fast path in
+ * `World.#getAffectedArchetypes` when a component is referenced by no archetype.
+ * Avoids allocating an empty Set on that path.
+ */
+const NO_AFFECTED_ARCHETYPES: readonly never[] = [];
+
+/**
  * Container for Entities
  */
 export class World<Entity extends EntityBase> {
@@ -308,28 +315,48 @@ export class World<Entity extends EntityBase> {
 			throw new Error(`Entity does not exist`);
 		}
 
-		// Collect changed keys for index lookup
-		const changedKeys: Array<keyof Entity> = [];
-
-		// Single component: addEntityComponents(entity, "key", value)
+		// Single component: addEntityComponents(entity, "key", value). The common,
+		// hot path — process the one component's archetype set directly, with no
+		// changedKeys array and no union Set to allocate.
 		if (typeof componentOrComponents === "string" && value !== undefined) {
-			// oxlint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			entity[componentOrComponents] = value;
-			changedKeys.push(componentOrComponents as keyof Entity);
-		} else {
-			// Multiple components: addEntityComponents(entity, { key: value, ... })
-			const components = componentOrComponents as Record<string, unknown>;
-			for (const key in components) {
-				// oxlint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
-				(entity as any)[key] = components[key];
-				changedKeys.push(key as keyof Entity);
+			(entity as EntityBase)[componentOrComponents] = value as ComponentValue;
+
+			const affected = this.#componentIndex.get(
+				componentOrComponents as keyof Entity,
+			);
+
+			if (affected !== undefined) {
+				this.#updateArchetypeMembership(entity, affected);
 			}
+
+			return entity;
 		}
 
-		// Only check archetypes that reference the changed components
-		const affectedArchetypes = this.#getAffectedArchetypes(changedKeys);
+		// Multiple components: addEntityComponents(entity, { key: value, ... })
+		const components = componentOrComponents as Record<string, unknown>;
+		const changedKeys: Array<keyof Entity> = [];
 
+		for (const key in components) {
+			(entity as EntityBase)[key] = components[key] as ComponentValue;
+			changedKeys.push(key as keyof Entity);
+		}
+
+		this.#updateArchetypeMembership(
+			entity,
+			this.#getAffectedArchetypes(changedKeys),
+		);
+
+		return entity;
+	}
+
+	/**
+	 * For each affected archetype, add or remove the entity based on whether it
+	 * now matches. Shared by add/removeEntityComponents.
+	 */
+	#updateArchetypeMembership(
+		entity: Entity,
+		affectedArchetypes: Iterable<Archetype<Entity, Array<keyof Entity>>>,
+	): void {
 		for (const archetype of affectedArchetypes) {
 			if (archetype.matches(entity)) {
 				archetype.addEntity(entity);
@@ -337,13 +364,19 @@ export class World<Entity extends EntityBase> {
 				archetype.removeEntity(entity);
 			}
 		}
-
-		return entity;
 	}
 
 	#getAffectedArchetypes(
 		keys: Array<keyof Entity>,
-	): Set<Archetype<Entity, Array<keyof Entity>>> {
+	): Iterable<Archetype<Entity, Array<keyof Entity>>> {
+		// Fast path: a single changed component is the common case (e.g.
+		// addEntityComponents(entity, "x", value)). The union is then just that
+		// component's archetype set, so reuse it directly instead of allocating a
+		// new Set. The caller only iterates the result, never mutates it.
+		if (keys.length === 1) {
+			return this.#componentIndex.get(keys[0]) ?? NO_AFFECTED_ARCHETYPES;
+		}
+
 		const result = new Set<Archetype<Entity, Array<keyof Entity>>>();
 		for (const key of keys) {
 			const archetypes = this.#componentIndex.get(key);
@@ -353,6 +386,7 @@ export class World<Entity extends EntityBase> {
 				}
 			}
 		}
+
 		return result;
 	}
 
@@ -362,20 +396,23 @@ export class World<Entity extends EntityBase> {
 	): void {
 		if (this.#entities.has(entity)) {
 			for (const component of components) {
-				// oxlint-disable-next-line @typescript-eslint/no-dynamic-delete
-				delete entity[component];
+				// Assign `undefined` rather than `delete`: component presence is
+				// defined as `entity[c] !== undefined` (see Archetype.matches), so
+				// this is equivalent for queries while keeping the entity's V8 hidden
+				// class stable. `delete` deopts the object into dictionary mode, which
+				// makes all subsequent iteration/access dramatically slower.
+				// See docs/adr/0001-assign-undefined-instead-of-delete.md — do NOT
+				// change this back to `delete`.
+				// Cast via EntityBase to widen the indexed write (TS cannot prove the
+				// write is sound for an arbitrary `keyof Entity`), without using `any`.
+				(entity as EntityBase)[component as string] = undefined;
 			}
 
 			// Only check archetypes that reference the removed components
-			const affectedArchetypes = this.#getAffectedArchetypes(components);
-
-			for (const archetype of affectedArchetypes) {
-				if (archetype.matches(entity)) {
-					archetype.addEntity(entity);
-				} else {
-					archetype.removeEntity(entity);
-				}
-			}
+			this.#updateArchetypeMembership(
+				entity,
+				this.#getAffectedArchetypes(components),
+			);
 		}
 	}
 }

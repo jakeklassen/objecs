@@ -12,7 +12,7 @@ objECS is a TypeScript Entity Component System (ECS) library for game developmen
 - `packages/examples/` - Vite-based demo applications using the library
 - `packages/ecs-benchmark/` - Benchmarks comparing objecs against other ECS libraries
 - `packages/benchmark/` - Additional benchmarking utilities
-- `packages/game-benchmark/` - Game simulation benchmarks (boids, ants) with multi-trial support
+- `packages/game-benchmark/` - Game simulation benchmarks (boids, ants, mutation) with multi-trial support
 - `packages/perf-proofs/` - Mitata micro-benchmarks proving JavaScript performance patterns
 
 ## Common Commands
@@ -104,6 +104,8 @@ Uses [Conventional Commits](https://www.conventionalcommits.org/). For releases:
 
 ## Performance Conventions
 
+> Deep reasoning and measurements live in [`docs/adr/`](packages/objecs/docs/adr/); the rules below are the quick reference.
+
 ### Never use `Object.hasOwn()` for component presence checks
 
 In the core library (`packages/objecs/src/`), always use `entity[component] !== undefined` instead of `Object.hasOwn(entity, component)`.
@@ -116,7 +118,10 @@ Object.hasOwn(entity, component as string);
 entity[component as string] !== undefined;
 ```
 
-**Why this is safe:** objecs uses `delete entity[component]` to remove components, never sets them to `undefined`. So `!== undefined` is semantically equivalent to `hasOwn` for our use case, but V8 can inline-cache property reads while `Object.hasOwn` goes through full function call machinery.
+**Why `!== undefined` (not `hasOwn`/`in`):** two reasons, one perf and one correctness.
+
+- Perf: V8 inline-caches simple property reads, while `Object.hasOwn` goes through full function-call machinery.
+- Correctness: `removeEntityComponents` sets components to `undefined` rather than deleting them (see [ADR 0001](packages/objecs/docs/adr/0001-assign-undefined-instead-of-delete.md)), so a removed component's key **persists on the entity with an `undefined` value**. `Object.hasOwn`/`in` would therefore report a removed component as _present_ — only `!== undefined` gives the right answer. Presence in objecs means "value is not `undefined`", never "key exists".
 
 **Measured impact:** +8–12% across all benchmarks (iteration, mutation, entity lifecycle).
 
@@ -141,9 +146,9 @@ return true;
 
 **Measured impact:** +1.4% FPS in game benchmarks, +0.5–2.7% across ECS suite. The gain comes from eliminating closure allocation and function call overhead, not from the loop style itself.
 
-### Never set a component value to `undefined`
+### Removal assigns `undefined`, not `delete`
 
-Components must be removed via `world.removeEntityComponents(entity, 'component')` which uses `delete`. Setting a component to `undefined` would break archetype matching since the library uses `!== undefined` checks.
+`removeEntityComponents` sets the component to `undefined` (`entity[c] = undefined`), never `delete`s it — `delete` deopts the entity into V8 dictionary mode and slows all later access/iteration. This is safe because presence is defined as `!== undefined`, so an `undefined` value reads as absent everywhere. Do **not** reintroduce `delete` here. Full reasoning and measurements: [ADR 0001](packages/objecs/docs/adr/0001-assign-undefined-instead-of-delete.md).
 
 ### Micro-benchmark vs macro-benchmark caveat
 
@@ -154,9 +159,12 @@ Micro-benchmarks (perf-proofs) are directionally useful but can mislead. Always 
 These patterns showed micro-benchmark wins but didn't hold up or aren't worth the trade-offs:
 
 - **`#archetypes` Set → Array**: +3-4% iteration, but -12% add_remove regression
-- **`delete` is 3–30x slower than `= undefined`**: Known cost we pay for correctness (archetype matching requires `!== undefined`)
 - **`Map` vs object for lookups**: Map is faster — validates current `EntityCollection.#indices` and `#componentIndex` design
 - **`.call()` overhead**: Up to 3.2x at 10k entities — users should prefer `for...of` over `archetype.entities.forEach()`
+
+### Adopted after re-evaluation
+
+- **`= undefined` instead of `delete`**: reversed a prior "not adopted" call — the belief that matching needed deleted keys was wrong. See the "Removal assigns `undefined`" rule above and [ADR 0001](packages/objecs/docs/adr/0001-assign-undefined-instead-of-delete.md).
 
 ## Testing
 
