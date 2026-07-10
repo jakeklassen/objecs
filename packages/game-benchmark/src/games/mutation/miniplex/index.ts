@@ -76,7 +76,7 @@ export async function runMutationGame(options: MutationGameOptions = {}) {
 				y: (Math.random() - 0.5) * 4,
 			},
 			health: 100,
-		} as Entity);
+		});
 	}
 
 	console.log(`Created ${world.entities.length} entities`);

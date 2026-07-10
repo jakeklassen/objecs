@@ -186,8 +186,7 @@ export class World<Entity extends EntityBase> {
 	public registerArchetype(
 		archetype: Archetype<Entity, Array<keyof Entity>>,
 	): void {
-		// oxlint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-		this.#archetypes.add(archetype as any);
+		this.#archetypes.add(archetype);
 
 		for (const component of archetype.components) {
 			let set = this.#componentIndex.get(component);
@@ -199,10 +198,10 @@ export class World<Entity extends EntityBase> {
 		}
 
 		for (const component of archetype.excluding) {
-			let set = this.#componentIndex.get(component as keyof Entity);
+			let set = this.#componentIndex.get(component);
 			if (set === undefined) {
 				set = new Set();
-				this.#componentIndex.set(component as keyof Entity, set);
+				this.#componentIndex.set(component, set);
 			}
 			set.add(archetype);
 		}
@@ -321,9 +320,7 @@ export class World<Entity extends EntityBase> {
 		if (typeof componentOrComponents === "string" && value !== undefined) {
 			(entity as EntityBase)[componentOrComponents] = value as ComponentValue;
 
-			const affected = this.#componentIndex.get(
-				componentOrComponents as keyof Entity,
-			);
+			const affected = this.#componentIndex.get(componentOrComponents);
 
 			if (affected !== undefined) {
 				this.#updateArchetypeMembership(entity, affected);
@@ -338,7 +335,7 @@ export class World<Entity extends EntityBase> {
 
 		for (const key in components) {
 			(entity as EntityBase)[key] = components[key] as ComponentValue;
-			changedKeys.push(key as keyof Entity);
+			changedKeys.push(key);
 		}
 
 		this.#updateArchetypeMembership(

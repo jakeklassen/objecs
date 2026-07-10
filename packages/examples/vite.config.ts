@@ -23,9 +23,6 @@ export default defineConfig({
 		},
 		target: "esnext",
 	},
-	esbuild: {
-		minifyIdentifiers: false,
-	},
 	resolve: {
 		// https://github.com/vitejs/vite/issues/88#issuecomment-784441588
 		alias: {
