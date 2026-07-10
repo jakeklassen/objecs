@@ -12,8 +12,8 @@
 		"@types/color": "4.2.1",
 		"@types/file-saver": "2.0.7",
 		"@types/wicg-file-system-access": "2023.10.7",
-		"typescript": "6.0.3",
-		"vite": "^8.1.0"
+		"typescript": "7.0.2",
+		"vite": "^8.1.4"
 	},
 	"dependencies": {
 		"@tweakpane/core": "2.0.5",
@@ -31,8 +31,8 @@
 		"just-safe-set": "4.2.1",
 		"just-shuffle": "4.2.0",
 		"objecs": "workspace:*",
-		"sharp": "0.35.2",
+		"sharp": "0.35.3",
 		"tweakpane": "4.0.5",
-		"type-fest": "5.7.0"
+		"type-fest": "5.8.0"
 	}
 }

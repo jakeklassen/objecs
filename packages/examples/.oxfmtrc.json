@@ -4,5 +4,6 @@
 	"trailingComma": "all",
 	"useTabs": true,
 	"printWidth": 80,
-	"sortPackageJson": false
+	"sortPackageJson": false,
+	"ignorePatterns": ["public/**"]
 }
