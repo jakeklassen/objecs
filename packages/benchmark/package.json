@@ -13,11 +13,11 @@
 	"devDependencies": {
 		"@types/benchmark": "^2.1.5",
 		"@types/node": "^26.1.1",
-		"tsx": "^4.23.0",
+		"tsx": "^4.23.1",
 		"typescript": "7.0.2"
 	},
 	"dependencies": {
-		"@thi.ng/bench": "3.6.54",
+		"@thi.ng/bench": "3.7.0",
 		"benchmark": "^2.1.4",
 		"miniplex": "2.0.0",
 		"mitata": "1.0.34",

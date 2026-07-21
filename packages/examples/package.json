@@ -13,14 +13,14 @@
 		"@types/file-saver": "2.0.7",
 		"@types/wicg-file-system-access": "2023.10.7",
 		"typescript": "7.0.2",
-		"vite": "^8.1.4"
+		"vite": "^8.1.5"
 	},
 	"dependencies": {
 		"@tweakpane/core": "2.0.5",
 		"color": "5.0.3",
 		"dot-path-value": "0.0.12",
 		"esbuild": "0.28.1",
-		"fast-xml-parser": "5.9.3",
+		"fast-xml-parser": "5.10.1",
 		"file-saver": "2.0.5",
 		"gameinput": "0.0.9",
 		"jszip": "3.10.1",
