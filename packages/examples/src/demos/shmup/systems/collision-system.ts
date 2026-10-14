@@ -1,4 +1,3 @@
-import { intersects } from "#/lib/collision/aabb.ts";
 import { World } from "objecs";
 import { Config } from "../config.ts";
 import { EnemyType } from "../constants.ts";
@@ -31,6 +30,16 @@ export function collisionSystemFactory({
 				continue;
 			}
 
+			const { boxCollider, transform } = entity;
+			const collisionLayer = entity.collisionLayer;
+
+			// Hoist the outer entity's bounds out of the inner loop. The previous
+			// version recomputed these for every otherEntity.
+			const left = transform.position.x + boxCollider.offsetX;
+			const top = transform.position.y + boxCollider.offsetY;
+			const right = left + boxCollider.width;
+			const bottom = top + boxCollider.height;
+
 			for (const otherEntity of collidables.entities) {
 				if (entity === otherEntity) {
 					continue;
@@ -42,42 +51,28 @@ export function collisionSystemFactory({
 
 				// Make sure entityA's collision layer is a subset of entityB's
 				// collision mask
-				if (
-					(entity.collisionLayer & otherEntity.collisionMask) !==
-					entity.collisionLayer
-				) {
+				if ((collisionLayer & otherEntity.collisionMask) !== collisionLayer) {
 					continue;
 				}
 
-				const { boxCollider, transform } = entity;
+				const otherBoxCollider = otherEntity.boxCollider;
+				const otherTransform = otherEntity.transform;
 
-				const { boxCollider: otherBoxCollider, transform: otherTransform } =
-					otherEntity;
+				const otherLeft = otherTransform.position.x + otherBoxCollider.offsetX;
+				const otherTop = otherTransform.position.y + otherBoxCollider.offsetY;
 
-				const x = transform.position.x + boxCollider.offsetX;
-				const y = transform.position.y + boxCollider.offsetY;
-				const otherX = otherTransform.position.x + otherBoxCollider.offsetX;
-				const otherY = otherTransform.position.y + otherBoxCollider.offsetY;
-
-				const aabb = {
-					position: {
-						x,
-						y,
-					},
-					width: boxCollider.width,
-					height: boxCollider.height,
-				};
-
-				const otherAabb = {
-					position: {
-						x: otherX,
-						y: otherY,
-					},
-					width: otherBoxCollider.width,
-					height: otherBoxCollider.height,
-				};
-
-				if (!intersects(aabb, otherAabb)) {
+				// Inlined AABB intersection test. The previous version allocated
+				// two temp AABB literals (four objects) on every pair check; this
+				// reads the hoisted bounds directly. Same comparison as
+				// `intersects()` in lib/collision/aabb.ts.
+				if (
+					!(
+						left < otherLeft + otherBoxCollider.width &&
+						right > otherLeft &&
+						top < otherTop + otherBoxCollider.height &&
+						bottom > otherTop
+					)
+				) {
 					continue;
 				}
 
