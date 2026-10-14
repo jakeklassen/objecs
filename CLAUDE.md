@@ -150,6 +150,10 @@ return true;
 
 `removeEntityComponents` sets the component to `undefined` (`entity[c] = undefined`), never `delete`s it — `delete` deopts the entity into V8 dictionary mode and slows all later access/iteration. This is safe because presence is defined as `!== undefined`, so an `undefined` value reads as absent everywhere. Do **not** reintroduce `delete` here. Full reasoning and measurements: [ADR 0001](packages/objecs/docs/adr/0001-assign-undefined-instead-of-delete.md).
 
+### Entities should be plain objects, not null-prototype
+
+Keep entities as plain object literals. `{ __proto__: null }` and `Object.create(null)` start in V8 **dictionary mode** — the same slow mode `delete` triggers — so they are **6–15× slower** to iterate and archetype-match, not faster (measured; see `perf-proofs/src/object/null-proto-vs-plain.ts`). Null-prototype objects look appealing for dodging prototype pollution or proto-chain lookups, but the cost is real and reads never restore fast mode. If pollution-safety is ever genuinely needed, `Object.setPrototypeOf(obj, null)` keeps fast properties — but its creation cost is high, so it is only for long-lived, read-many objects, never per-frame churn.
+
 ### Micro-benchmark vs macro-benchmark caveat
 
 Micro-benchmarks (perf-proofs) are directionally useful but can mislead. Always validate with macro benchmarks (`ecs-benchmark`, `game-benchmark --no-render`) using 10+ trials before landing changes. Example: Array iteration is ~3x faster than Set iteration in isolation, but replacing `#archetypes` Set with Array caused a -12.2% regression in `add_remove` due to V8 IC/shape changes in surrounding code.
