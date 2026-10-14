@@ -54,3 +54,20 @@ node --expose-gc src/object/hasown-vs-undefined-check.ts
 ### function/
 
 - **call-vs-direct-invocation** — `Function.prototype.call()` vs direct invocation in tight loops. Maps to `EntityCollection.forEach()`.
+
+### worker/
+
+Spike category — evaluating parallel producer systems (Worker threads +
+shared read-only snapshots). Unlike the other categories, these benchmarks
+depend on the built `objecs` package and gate on correctness assertions
+before reporting timings.
+
+- **collision-serial** — three serial collision kernels (faithful shmup replica,
+  precomputed, packed SoA) establishing the baseline any Worker variant must
+  beat. Maps to `packages/examples/src/demos/shmup/systems/collision-system.ts`.
+
+See [`src/worker/README.md`](src/worker/README.md) for results and status.
+
+```bash
+pnpm --filter perf-proofs start:worker
+```
