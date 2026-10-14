@@ -26,6 +26,7 @@ node --expose-gc src/object/hasown-vs-undefined-check.ts
 
 - **hasown-vs-undefined-check** — `Object.hasOwn()` vs `!== undefined` vs `in` for property checks. Maps to archetype matching in `archetype.ts` and `world.ts`.
 - **delete-vs-set-undefined** — `delete obj.prop` vs `obj.prop = undefined` for property removal. Maps to `world.ts:removeEntityComponents()`.
+- **null-proto-vs-plain** — plain literal vs `{ __proto__: null }` vs `Object.create(null)` vs `setPrototypeOf(obj, null)` for entity objects. Proves null-prototype entities are 6–15× slower to iterate/match (V8 dictionary mode), not faster. Same dictionary-mode lesson as above, from the other direction.
 
 ### array/
 
