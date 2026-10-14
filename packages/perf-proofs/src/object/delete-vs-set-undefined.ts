@@ -2,11 +2,12 @@
  * delete-vs-set-undefined.ts
  *
  * Compares `delete obj.prop` vs `obj.prop = undefined` for property removal.
- * objecs uses `delete` in world.ts:removeEntityComponents() because the library
- * relies on `!== undefined` for archetype matching — setting to `undefined`
- * would break component presence detection.
+ * objecs uses `obj.prop = undefined` in world.ts:removeEntityComponents(): the
+ * library defines component presence as `!== undefined`, so an `undefined`
+ * value reads as absent everywhere, while `delete` deopts the entity into V8
+ * dictionary mode and slows all later access/iteration. See ADR 0001.
  *
- * This benchmark quantifies the performance trade-off of using `delete`.
+ * This benchmark quantifies the performance cost `delete` would reintroduce.
  */
 import { run, bench, summary } from "mitata";
 
